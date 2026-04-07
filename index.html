@@ -163,6 +163,7 @@ for(var i=0;i<TOTAL;i++) answered.push(null);
 var current = 0;
 var score1 = 0, score2 = 0;
 var showingTransition = false;
+var t2Started = false;
 
 document.getElementById('sub').textContent = Q1.length + ' preguntas del Texto 1 + ' + Q2.length + ' del Texto 2 \u00B7 Alternativas aleatorias en cada intento';
 
@@ -176,7 +177,7 @@ function getTxt(idx){
 
 function render(){
   // Check if we need to show transition screen
-  if(current === Q1.length && !showingTransition){
+  if(current === Q1.length && !showingTransition && !t2Started){
     showTransition();
     return;
   }
@@ -251,7 +252,7 @@ function showTransition(){
 
 function startT2(){
   showingTransition = false;
-  // current stays at Q1.length, which is first T2 question
+  t2Started = true;
   render();
 }
 
