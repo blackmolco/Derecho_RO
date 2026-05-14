@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarjetas de Estudio — Derecho Civil</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f5f4f0; min-height: 100vh; padding: 24px 16px; }
+
+  h1 { font-size: 22px; font-weight: 500; color: #1a1a1a; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 24px; }
+
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #d0cfc7; background: #fff; font-size: 13px; cursor: pointer; color: #444; transition: all 0.15s; }
+  .filter-btn:hover { border-color: #534AB7; color: #534AB7; }
+  .filter-btn.active { background: #534AB7; color: #fff; border-color: #534AB7; }
+
+  .stats { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat { background: #fff; border: 0.5px solid #ddd; border-radius: 10px; padding: 12px 16px; min-width: 100px; text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 500; }
+  .stat-label { font-size: 12px; color: #888; margin-top: 2px; }
+  .stat-num.correct { color: #0F6E56; }
+  .stat-num.wrong { color: #993C1D; }
+  .stat-num.pending { color: #534AB7; }
+
+  .card-area { max-width: 680px; margin: 0 auto; }
+
+  .card-counter { font-size: 13px; color: #888; text-align: center; margin-bottom: 12px; }
+
+  .flashcard { perspective: 1200px; height: 280px; cursor: pointer; user-select: none; margin-bottom: 20px; }
+  .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.55s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+  .card-front, .card-back { position: absolute; width: 100%; height: 100%; border-radius: 14px; border: 1px solid #e0dfd7; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 28px; text-align: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+
+  .card-front { background: #fff; }
+  .card-back { background: #EEEDFE; transform: rotateY(180deg); }
+
+  .card-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; margin-bottom: 16px; }
+  .card-front .card-tag { background: #EEEDFE; color: #534AB7; }
+  .card-back .card-tag { background: #534AB7; color: #fff; }
+
+  .card-question { font-size: 18px; font-weight: 500; color: #1a1a1a; line-height: 1.5; }
+  .card-answer { font-size: 15px; color: #26215C; line-height: 1.6; }
+
+  .flip-hint { font-size: 12px; color: #aaa; margin-top: 16px; display: flex; align-items: center; gap: 4px; }
+
+  .actions { display: flex; gap: 12px; justify-content: center; margin-bottom: 32px; }
+  .btn { padding: 12px 28px; border-radius: 10px; border: 1.5px solid; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 8px; }
+  .btn-wrong { background: #fff; border-color: #D85A30; color: #D85A30; }
+  .btn-wrong:hover { background: #FAECE7; }
+  .btn-correct { background: #fff; border-color: #1D9E75; color: #1D9E75; }
+  .btn-correct:hover { background: #E1F5EE; }
+
+  .nav-btns { display: flex; gap: 12px; justify-content: center; margin-bottom: 40px; }
+  .nav-btn { padding: 8px 20px; border-radius: 8px; border: 1px solid #d0cfc7; background: #fff; font-size: 14px; cursor: pointer; color: #444; transition: all 0.15s; }
+  .nav-btn:hover { border-color: #534AB7; color: #534AB7; }
+  .nav-btn:disabled { opacity: 0.35; cursor: default; border-color: #d0cfc7; color: #aaa; }
+
+  .progress-bar { height: 4px; background: #e0dfd7; border-radius: 2px; margin-bottom: 24px; }
+  .progress-fill { height: 100%; border-radius: 2px; background: #534AB7; transition: width 0.3s ease; }
+
+  .done-screen { text-align: center; background: #fff; border-radius: 14px; border: 1px solid #e0dfd7; padding: 40px 28px; }
+  .done-screen h2 { font-size: 20px; font-weight: 500; margin-bottom: 8px; }
+  .done-screen p { color: #666; margin-bottom: 24px; font-size: 15px; }
+  .done-stats { display: flex; gap: 20px; justify-content: center; margin-bottom: 28px; }
+  .done-stat { font-size: 32px; font-weight: 500; }
+  .reset-btn { padding: 12px 32px; border-radius: 10px; border: 1.5px solid #534AB7; background: #534AB7; color: #fff; font-size: 15px; cursor: pointer; font-weight: 500; }
+  .reset-btn:hover { background: #3C3489; }
+
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div class="card-area">
+  <h1>Tarjetas de Estudio — Derecho Civil</h1>
+  <p class="subtitle">Haz clic en la tarjeta para ver la respuesta, luego indica si la sabías</p>
+
+  <div class="filters" id="filters"></div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num pending" id="stat-total">0</div><div class="stat-label">Total</div></div>
+    <div class="stat"><div class="stat-num correct" id="stat-correct">0</div><div class="stat-label">Correctas</div></div>
+    <div class="stat"><div class="stat-num wrong" id="stat-wrong">0</div><div class="stat-label">Incorrectas</div></div>
+    <div class="stat"><div class="stat-num pending" id="stat-pending">0</div><div class="stat-label">Pendientes</div></div>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+  <div class="card-counter" id="card-counter"></div>
+
+  <div id="game-area">
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="flashcard-inner">
+        <div class="card-front">
+          <div class="card-tag" id="front-tag"></div>
+          <div class="card-question" id="card-question"></div>
+          <div class="flip-hint">↕ Haz clic para ver la respuesta</div>
+        </div>
+        <div class="card-back">
+          <div class="card-tag">Respuesta</div>
+          <div class="card-answer" id="card-answer"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions" id="actions" style="display:none;">
+      <button class="btn btn-wrong" onclick="markAnswer(false)">✗ No lo sabía</button>
+      <button class="btn btn-correct" onclick="markAnswer(true)">✓ Lo sabía</button>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>← Anterior</button>
+      <button class="nav-btn" id="btn-next" onclick="navigate(1)">Siguiente →</button>
+    </div>
+  </div>
+
+  <div id="done-screen" class="done-screen hidden">
+    <h2>¡Sesión completada!</h2>
+    <p>Has respondido todas las tarjetas del grupo seleccionado.</p>
+    <div class="done-stats">
+      <div><div class="done-stat" style="color:#0F6E56" id="done-correct">0</div><div style="font-size:13px;color:#888">Correctas</div></div>
+      <div><div class="done-stat" style="color:#D85A30" id="done-wrong">0</div><div style="font-size:13px;color:#888">Incorrectas</div></div>
+    </div>
+    <button class="reset-btn" onclick="resetSession()">Reiniciar sesión</button>
+  </div>
+</div>
+
+<script>
+const ALL_CARDS = [
+  {tema:"Relaciones Jurídicas", q:"¿Cómo define Jaime Williams la relación jurídica?", a:"Es el vínculo entre dos sujetos de derecho, nacido de un hecho condicionante previsto en el derecho, en cuya virtud uno debe cumplir una prestación para con el otro, quien tiene la facultad de exigirlo."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué es el hecho condicionante en una relación jurídica?", a:"El hecho jurídico que da origen a la relación jurídica; consiste en la realización concreta del supuesto normativo previsto en la norma."},
+  {tema:"Relaciones Jurídicas", q:"¿Cuál es la diferencia entre un hecho condicionante simple y uno complejo?", a:"El simple consiste en un solo hecho (ej. matar a otro). El complejo está compuesto de dos o más hechos que deben concurrir todos juntos (ej. funcionario público que malverse fondos)."},
+  {tema:"Relaciones Jurídicas", q:"¿Cómo se clasifican los hechos condicionantes según su origen?", a:"En hechos de la Naturaleza (muerte, nacimiento, paso del tiempo) y hechos del Hombre, que a su vez se dividen en involuntarios y voluntarios (con o sin intención)."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué son los hechos voluntarios sin intención lícitos? ¿Ejemplo?", a:"Son hechos permitidos por el derecho cuyos resultados no corresponden a los efectos queridos por el autor. Ejemplo: los cuasicontratos."},
+  {tema:"Relaciones Jurídicas", q:"¿Quiénes son los sujetos de derecho en el ordenamiento jurídico chileno?", a:"Las personas naturales (art. 55 CC: todos los individuos de la especie humana) y las personas jurídicas o colectivas."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué señala el art. 55 del Código Civil sobre las personas?", a:"Son personas todos los individuos de la especie humana, cualquiera que sea su edad, sexo, estirpe o condición. Se dividen en chilenos y extranjeros."},
+  {tema:"Relaciones Jurídicas", q:"¿Cuál es la perspectiva jurídica de persona y qué debate plantea?", a:"Se analiza a la persona en cuanto titular de derechos y obligaciones. Plantea el debate sobre la juridicidad natural del hombre: una postura la afirma; la otra la niega (positivistas, estamentalistas y colectivistas)."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué establece el art. 76 CC sobre la concepción?", a:"Se presume de derecho que la concepción ha precedido al nacimiento no menos de 180 días cabales ni más de 300, contados hacia atrás desde la medianoche en que principie el día del nacimiento."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué protege el art. 75 CC respecto del que está por nacer?", a:"La ley protege la vida del que está por nacer. El juez puede tomar de oficio todas las providencias necesarias para proteger su existencia cuando estime que peligra."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué dispone el art. 74 CC sobre la existencia legal de la persona?", a:"La existencia legal principia al nacer, es decir, al separarse completamente de la madre. La criatura que muere en el vientre o perece antes de la separación completa, o no sobrevive un momento siquiera, se reputa no haber existido jamás."},
+  {tema:"Relaciones Jurídicas", q:"¿Cuáles son los tres requisitos para que se verifique el nacimiento según el art. 74 CC?", a:"1) Que la criatura se separe completamente del vientre de la madre. 2) Que la separación sea completa. 3) Que sobreviva un momento siquiera."},
+  {tema:"Relaciones Jurídicas", q:"¿En qué consiste la teoría de la vitalidad versus la teoría de la viabilidad en el nacimiento?", a:"Vitalidad: el simple nacimiento con vida determina la condición de persona (Derecho Romano). Viabilidad: además exige talla, peso, forma humana y período mínimo de gestación (Derecho Feudal/español)."},
+  {tema:"Relaciones Jurídicas", q:"¿Cuáles son las causales del fin de la existencia de la persona natural según el CC?", a:"Solo la muerte natural (art. 78 CC). Puede ser real (ocurrencia constatable) o presunta (declarada por el juez respecto de quien desapareció y de quien se ignora si vive)."},
+  {tema:"Relaciones Jurídicas", q:"¿Cuáles son los requisitos de la muerte presunta?", a:"Que el individuo haya desaparecido, que haya transcurrido un lapso de tiempo, que no se tenga noticia de su existencia, que sea declarada por sentencia judicial conforme a las normas legales."},
+  {tema:"Relaciones Jurídicas", q:"Menciona cuatro efectos jurídicos de la muerte.", a:"1) Extingue la personalidad. 2) Abre la sucesión. 3) Termina los contratos intuito personae. 4) Disuelve el matrimonio. También se extinguen ciertos derechos y se emancipan los hijos."},
+
+  {tema:"Personas Jurídicas", q:"¿Cómo define el art. 545 CC a la persona jurídica?", a:"Es una persona ficticia, capaz de ejercer derechos y contraer obligaciones civiles, y de ser representada judicial y extrajudicialmente."},
+  {tema:"Personas Jurídicas", q:"¿En qué consiste la Teoría de la Ficción Legal sobre la personalidad jurídica?", a:"Las únicas personas que actúan en el derecho son las naturales. Las personas jurídicas son creaciones artificiales de la ley, capaces de tener un patrimonio (Savigny). Doctrina aceptada en Chile por el art. 545 CC."},
+  {tema:"Personas Jurídicas", q:"¿En qué consiste la Teoría de la Realidad sobre la personalidad jurídica?", a:"Las personas jurídicas son realidades que existen en el mundo social. El Estado, al reconocer esa realidad, les otorga la calidad de sujetos de derecho."},
+  {tema:"Personas Jurídicas", q:"Menciona los cinco elementos de la persona jurídica.", a:"1) Pluralidad de personas. 2) Existencia de un fin lícito. 3) Patrimonio propio. 4) Organización determinada. 5) Autorización de la autoridad pública para existir."},
+  {tema:"Personas Jurídicas", q:"¿Cuáles son los criterios para calificar a una persona jurídica como de Derecho Público?", a:"Origen legal (creada por ley), finalidad colectiva o de utilidad pública, potestad de imperio (puede dictar normas obligatorias) y carácter de servicio público (pertenece orgánicamente a la administración del Estado)."},
+  {tema:"Personas Jurídicas", q:"¿Qué diferencia a una corporación de una fundación?", a:"La corporación es una colectividad de personas asociadas para conseguir un fin no lucrativo y común. La fundación es un establecimiento u obra creado por una persona, dotada de un patrimonio destinado a un objeto determinado."},
+  {tema:"Personas Jurídicas", q:"¿Cómo se define la sociedad según el art. 2053 CC?", a:"Es un contrato en que dos o más personas se obligan a poner algo en común con la mira de repartir entre sí los beneficios que de ello provengan."},
+  {tema:"Personas Jurídicas", q:"¿Cuál es la diferencia entre sociedad colectiva y sociedad de responsabilidad limitada?", a:"En la colectiva, los socios responden ilimitadamente con todos sus bienes. En la de responsabilidad limitada, los socios responden solo hasta el monto de sus aportes o la cantidad estipulada en el contrato social."},
+  {tema:"Personas Jurídicas", q:"¿Qué es una Empresa Individual de Responsabilidad Limitada (EIRL)?", a:"Persona jurídica formada exclusivamente por una persona natural, con patrimonio propio y distinto del titular, destinada a actividades de carácter netamente comercial."},
+  {tema:"Personas Jurídicas", q:"¿Cuándo nace y cuándo termina una persona jurídica de Derecho Privado sin fines de lucro?", a:"Nace por decreto supremo de concesión de la personalidad jurídica. Termina por decreto supremo de cancelación, o por causas establecidas en sus estatutos o por ley."},
+  {tema:"Personas Jurídicas", q:"¿Cuándo nace y cuándo termina una persona jurídica de Derecho Público?", a:"Nace por ley y termina por ley."},
+  {tema:"Personas Jurídicas", q:"¿Cuándo nace y cuándo termina una persona jurídica de Derecho Privado con fines de lucro?", a:"Nace por un contrato o pacto social contenido en escritura pública. Termina por causales previstas en los estatutos sociales o por causa legal."},
+
+  {tema:"Atributos de la Personalidad", q:"¿Qué son los atributos de la personalidad?", a:"Son las propiedades o características inherentes a toda persona. Implican ventajas y prerrogativas, pero también deberes y obligaciones. Son: capacidad de goce, nacionalidad, nombre, domicilio, estado civil, patrimonio y (para personas naturales) derechos de la personalidad."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es la capacidad de goce?", a:"Es la aptitud de una persona para adquirir derechos y contraer obligaciones. Su concepto se confunde con el de personalidad: ser persona es tener capacidad de goce. En Chile solo existen incapacidades de goce especiales, nunca absolutas."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué establece el art. 1446 CC sobre la capacidad?", a:"Toda persona es legalmente capaz, excepto aquellas que la ley declara incapaces. La regla general es la capacidad; la incapacidad es la excepción y debe ser declarada expresamente."},
+  {tema:"Atributos de la Personalidad", q:"¿Quiénes son absolutamente incapaces según el art. 1447 CC?", a:"Los dementes, los impúberes (hombres menores de 14 y mujeres menores de 12 años) y los sordos o sordomudos que no pueden darse a entender claramente. Solo pueden actuar a través de sus representantes legales."},
+  {tema:"Atributos de la Personalidad", q:"¿Quiénes son relativamente incapaces según el CC?", a:"Los menores adultos (entre la pubertad y los 18 años) y los disipadores declarados en interdicción. Pueden actuar representados o personalmente con autorización de su representante legal."},
+  {tema:"Atributos de la Personalidad", q:"¿Cómo se define la nacionalidad como atributo de la personalidad?", a:"Es el vínculo jurídico que une a una persona con el Estado y que origina derechos y obligaciones recíprocos. El Estado otorga amparo legal y el particular debe respetar la institucionalidad y legalidad vigentes."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es el ius soli y cuáles son sus excepciones en Chile?", a:"Es el criterio que otorga la nacionalidad por el lugar de nacimiento. En Chile se excluyen los hijos de extranjeros en servicio de su gobierno y los hijos de extranjeros transeúntes, aunque ambos pueden optar a la nacionalidad chilena."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es el ius sanguinis como fuente de nacionalidad chilena?", a:"Es el criterio que atribuye la nacionalidad por filiación. Se aplica a hijos de padre o madre chilenos nacidos en el extranjero, siempre que algún ascendiente en línea recta de 1° o 2° grado haya adquirido la nacionalidad chilena por ius soli, carta o gracia."},
+  {tema:"Atributos de la Personalidad", q:"¿Por cuáles causales se pierde la nacionalidad chilena según el art. 11 CPR?", a:"Por renuncia voluntaria ante autoridad chilena competente; por prestar servicios durante guerra exterior a enemigos de Chile o sus aliados; por cancelación de la carta de nacionalización; por ley que revoque la nacionalización concedida por gracia."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es el nombre como atributo de la personalidad y de qué elementos consta?", a:"Es la designación que individualiza a la persona en la vida social y jurídica. Consta de: nombre propio o de pila (individualiza dentro de la familia) y apellido (señala la familia de origen)."},
+  {tema:"Atributos de la Personalidad", q:"Menciona cuatro características del nombre civil.", a:"No es comerciable ni cedible entre vivos ni transmisible por causa de muerte. Es inembargable, imprescriptible, irrenunciable, permanente, uno e indivisible."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuál es la diferencia entre sobrenombre y seudónimo?", a:"El sobrenombre (apodo) carece de valor jurídico; solo es relevante para identificar delincuentes (art. 321 ACPP). El seudónimo es reconocido por la Ley de Propiedad Intelectual (art. 5 letra e, Ley 17.336) como el nombre bajo el cual el autor se oculta."},
+  {tema:"Atributos de la Personalidad", q:"¿Cómo se llama legalmente el nombre de una persona jurídica de Derecho Privado con fines de lucro?", a:"Razón Social. Se establece en la escritura social. La S.R.L. debe terminar en 'Limitada'; la S.A. debe incluir 'Sociedad Anónima' o 'S.A.'."},
+  {tema:"Atributos de la Personalidad", q:"¿Cómo define el art. 304 CC el estado civil y cuál es la crítica a esa definición?", a:"Lo define como 'la calidad de un individuo en cuanto lo habilita para ejercer ciertos derechos o contraer ciertas obligaciones civiles'. La crítica es que no explica en qué consiste dicha calidad, solo señala sus consecuencias."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuál es la definición de estado civil de la cátedra?", a:"Es la calidad o posición permanente que un individuo ocupa en la sociedad, en orden a sus relaciones de familia, en cuanto le confiere o impone determinados derechos, deberes y obligaciones civiles."},
+  {tema:"Atributos de la Personalidad", q:"Menciona cuatro fuentes del estado civil.", a:"La ley (ej. el nacimiento), hechos ajenos a la voluntad (ej. la muerte), la voluntad del hombre (ej. matrimonio, adopción) y sentencias judiciales (ej. declaración de divorcio, nulidad de matrimonio)."},
+  {tema:"Atributos de la Personalidad", q:"Menciona cuatro características del estado civil.", a:"Todo individuo tiene uno; es uno e indivisible; sus leyes son de orden público; es incomerciable, imprescriptible, intransable; es un derecho personalísimo y permanente."},
+  {tema:"Atributos de la Personalidad", q:"¿Cómo se prueba el estado civil de casado/a?", a:"Con el certificado de matrimonio."},
+  {tema:"Atributos de la Personalidad", q:"¿Cómo se prueba el estado civil de viudo/a?", a:"Con el certificado de matrimonio más el certificado de defunción del cónyuge fallecido."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es el domicilio como atributo de la personalidad?", a:"Es el asiento legal de la persona; consiste en la residencia, acompañada real o presuntivamente del ánimo de permanecer en ella. Es un concepto jurídico, no de hecho."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuáles son los tres niveles de vinculación jurídica de una persona con un lugar?", a:"La habitación o morada (lugar donde pernocta accidentalmente), la residencia (lugar donde habitualmente se encuentra) y el domicilio (asiento legal, concepto jurídico abstracto)."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuál es la importancia del domicilio en materia sucesoria?", a:"La sucesión se abre en el último domicilio del causante y se rige por la ley del domicilio en que se abre (art. 955 CC)."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es el patrimonio en sentido contemporáneo?", a:"Es la aptitud para llegar a ser el centro de relaciones jurídicas pecuniarias. Es un concepto abstracto: el deudor responde no solo con su contenido actual sino también con su eventual contenido futuro."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuáles son las consecuencias de que el patrimonio sea un atributo de la personalidad?", a:"Solo las personas pueden tener patrimonio; toda persona tiene necesariamente uno; toda persona tiene un solo patrimonio (es indivisible); el patrimonio es inseparable de la persona mientras viva."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuál es la importancia del patrimonio de las personas jurídicas?", a:"Es propio e independiente del de sus miembros: los acreedores de la PJ no pueden dirigirse a los bienes personales de los miembros, ni los acreedores personales de los miembros pueden perseguir los bienes de la PJ."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué son los derechos de la personalidad?", a:"Son derechos inherentes a la persona humana que la protegen en sus aspectos más esenciales. Su violación genera responsabilidad civil y penal. Se clasifican en: derechos de la individualidad física, de la personalidad civil y de la personalidad moral."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué protegen los derechos de la personalidad moral?", a:"El honor, la reputación, los sentimientos y la integridad síquica de la persona, incluyendo el derecho a la vida privada y a la honra."},
+];
+
+let filtered = [...ALL_CARDS];
+let current = 0;
+let flipped = false;
+let results = {};
+let activeFilter = 'Todos';
+
+const temas = ['Todos', ...new Set(ALL_CARDS.map(c => c.tema))];
+
+function buildFilters() {
+  const cont = document.getElementById('filters');
+  temas.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (t === 'Todos' ? ' active' : '');
+    btn.textContent = t;
+    btn.onclick = () => applyFilter(t);
+    cont.appendChild(btn);
+  });
+}
+
+function applyFilter(tema) {
+  activeFilter = tema;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn').forEach(b => { if(b.textContent === tema) b.classList.add('active'); });
+  filtered = tema === 'Todos' ? [...ALL_CARDS] : ALL_CARDS.filter(c => c.tema === tema);
+  current = 0;
+  flipped = false;
+  showCard();
+  updateStats();
+}
+
+function showCard() {
+  const done = document.getElementById('done-screen');
+  const game = document.getElementById('game-area');
+  const answered = filtered.filter(c => results[cardKey(c)] !== undefined).length;
+
+  if (answered === filtered.length && filtered.length > 0) {
+    done.classList.remove('hidden');
+    game.style.display = 'none';
+    const correct = filtered.filter(c => results[cardKey(c)] === true).length;
+    const wrong = filtered.filter(c => results[cardKey(c)] === false).length;
+    document.getElementById('done-correct').textContent = correct;
+    document.getElementById('done-wrong').textContent = wrong;
+    return;
+  }
+
+  done.classList.add('hidden');
+  game.style.display = '';
+
+  const card = filtered[current];
+  if (!card) return;
+
+  document.getElementById('front-tag').textContent = card.tema;
+  document.getElementById('card-question').textContent = card.q;
+  document.getElementById('card-answer').textContent = card.a;
+
+  const fc = document.getElementById('flashcard');
+  fc.classList.remove('flipped');
+  flipped = false;
+  document.getElementById('actions').style.display = 'none';
+
+  document.getElementById('card-counter').textContent = `Tarjeta ${current + 1} de ${filtered.length}`;
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === filtered.length - 1;
+
+  const progress = ((current + 1) / filtered.length) * 100;
+  document.getElementById('progress-fill').style.width = progress + '%';
+}
+
+function cardKey(card) { return card.tema + '||' + card.q; }
+
+function flipCard() {
+  if (!flipped) {
+    document.getElementById('flashcard').classList.add('flipped');
+    flipped = true;
+    if (results[cardKey(filtered[current])] === undefined) {
+      document.getElementById('actions').style.display = 'flex';
+    }
+  }
+}
+
+function markAnswer(correct) {
+  const key = cardKey(filtered[current]);
+  results[key] = correct;
+  document.getElementById('actions').style.display = 'none';
+  updateStats();
+
+  const unanswered = filtered.findIndex((c, i) => i > current && results[cardKey(c)] === undefined);
+  if (unanswered !== -1) {
+    setTimeout(() => { current = unanswered; flipped = false; showCard(); }, 400);
+  } else {
+    const any = filtered.findIndex(c => results[cardKey(c)] === undefined);
+    if (any !== -1) {
+      setTimeout(() => { current = any; flipped = false; showCard(); }, 400);
+    } else {
+      setTimeout(showCard, 400);
+    }
+  }
+}
+
+function navigate(dir) {
+  current = Math.max(0, Math.min(filtered.length - 1, current + dir));
+  flipped = false;
+  document.getElementById('actions').style.display = 'none';
+  showCard();
+}
+
+function updateStats() {
+  const total = filtered.length;
+  const correct = filtered.filter(c => results[cardKey(c)] === true).length;
+  const wrong = filtered.filter(c => results[cardKey(c)] === false).length;
+  const pending = total - correct - wrong;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('stat-pending').textContent = pending;
+}
+
+function resetSession() {
+  results = {};
+  current = 0;
+  flipped = false;
+  document.getElementById('done-screen').classList.add('hidden');
+  document.getElementById('game-area').style.display = '';
+  updateStats();
+  showCard();
+}
+
+buildFilters();
+showCard();
+updateStats();
+</script>
+</body>
+</html>
