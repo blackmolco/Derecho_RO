@@ -3,297 +3,322 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prueba — Introducción al Derecho y Teoría de las Normas</title>
+<title>Tarjetas de Estudio — Derecho Civil</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; padding: 1rem; }
-  #quiz { max-width: 720px; margin: 0 auto; padding: 1.5rem 0; }
-  .main-title { font-size: 20px; font-weight: 600; margin-bottom: 2px; }
-  .subtitle { font-size: 13px; color: #666; margin-bottom: 1.5rem; }
-  .progress-bar-wrap { background: #e0e0e0; border-radius: 99px; height: 7px; margin-bottom: 1.5rem; }
-  .progress-bar-fill { height: 7px; border-radius: 99px; transition: width 0.4s ease; }
-  .fill-t1 { background: #185FA5; }
-  .fill-t2 { background: #1D9E75; }
-  .section-header { border-radius: 10px; padding: 14px 18px; margin-bottom: 1rem; }
-  .sec1 { background: #e6f1fb; border-left: 4px solid #185FA5; }
-  .sec2 { background: #EAF3DE; border-left: 4px solid #1D9E75; }
-  .sec-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
-  .sec1 .sec-label { color: #185FA5; }
-  .sec2 .sec-label { color: #0F6E56; }
-  .sec-title { font-size: 16px; font-weight: 600; }
-  .sec1 .sec-title { color: #0C447C; }
-  .sec2 .sec-title { color: #0F6E56; }
-  .sec-sub { font-size: 12px; margin-top: 3px; }
-  .sec1 .sec-sub { color: #185FA5; }
-  .sec2 .sec-sub { color: #1D9E75; }
-  .question-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
-  .q-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
-  .topic-badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 99px; font-weight: 500; }
-  .badge-t1 { background: #e6f1fb; color: #185FA5; }
-  .badge-t2 { background: #EAF3DE; color: #0F6E56; }
-  .counter { font-size: 13px; color: #888; }
-  .q-text { font-size: 15px; font-weight: 600; color: #1a1a1a; line-height: 1.6; margin: 10px 0 1rem; }
-  .option { display: block; width: 100%; text-align: left; background: #f8f8f6; border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; font-size: 14px; color: #1a1a1a; cursor: pointer; transition: background 0.15s, border-color 0.15s; line-height: 1.5; font-family: inherit; }
-  .option:hover:not(:disabled) { background: #efefeb; border-color: #bbb; }
-  .option.correct { background: #EAF3DE; border-color: #639922; color: #3B6D11; font-weight: 500; }
-  .option.wrong { background: #FCEBEB; border-color: #A32D2D; color: #791F1F; }
-  .option:disabled { cursor: default; }
-  .feedback { border-radius: 8px; padding: 10px 14px; font-size: 13px; line-height: 1.6; margin-top: 6px; display: none; }
-  .feedback.show { display: block; }
-  .feedback.ok { background: #EAF3DE; color: #3B6D11; border: 1px solid #639922; }
-  .feedback.ko { background: #FCEBEB; color: #791F1F; border: 1px solid #A32D2D; }
-  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; gap: 12px; flex-wrap: wrap; }
-  .btn { background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 9px 20px; font-size: 14px; color: #1a1a1a; cursor: pointer; transition: background 0.15s; font-family: inherit; }
-  .btn:hover:not(:disabled) { background: #f0f0ec; }
-  .btn:disabled { opacity: 0.4; cursor: default; }
-  .btn-t1 { background: #185FA5; border-color: #185FA5; color: #fff; font-weight: 600; }
-  .btn-t1:hover { background: #0C447C; }
-  .btn-t2 { background: #1D9E75; border-color: #1D9E75; color: #fff; font-weight: 600; }
-  .btn-t2:hover { background: #0F6E56; }
-  .score-card { text-align: center; padding: 2rem 1rem; }
-  .score-num { font-size: 56px; font-weight: 700; }
-  .score-t1 { color: #185FA5; }
-  .score-t2 { color: #1D9E75; }
-  .score-label { font-size: 15px; color: #555; margin-top: 6px; }
-  .dots { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-top: 1.2rem; }
-  .dot { width: 22px; height: 22px; border-radius: 50%; }
-  .section-score { display: flex; gap: 12px; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
-  .sscore-box { padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; }
-  .sscore-t1 { background: #e6f1fb; color: #0C447C; }
-  .sscore-t2 { background: #EAF3DE; color: #0F6E56; }
-  .transition-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; text-align: center; }
-  .transition-card h2 { font-size: 17px; font-weight: 600; color: #0F6E56; margin-bottom: 8px; }
-  .transition-card p { font-size: 14px; color: #555; margin-bottom: 1rem; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f5f4f0; min-height: 100vh; padding: 24px 16px; }
+
+  h1 { font-size: 22px; font-weight: 500; color: #1a1a1a; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 24px; }
+
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #d0cfc7; background: #fff; font-size: 13px; cursor: pointer; color: #444; transition: all 0.15s; }
+  .filter-btn:hover { border-color: #534AB7; color: #534AB7; }
+  .filter-btn.active { background: #534AB7; color: #fff; border-color: #534AB7; }
+
+  .stats { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat { background: #fff; border: 0.5px solid #ddd; border-radius: 10px; padding: 12px 16px; min-width: 100px; text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 500; }
+  .stat-label { font-size: 12px; color: #888; margin-top: 2px; }
+  .stat-num.correct { color: #0F6E56; }
+  .stat-num.wrong { color: #993C1D; }
+  .stat-num.pending { color: #534AB7; }
+
+  .card-area { max-width: 680px; margin: 0 auto; }
+
+  .card-counter { font-size: 13px; color: #888; text-align: center; margin-bottom: 12px; }
+
+  .flashcard { perspective: 1200px; height: 280px; cursor: pointer; user-select: none; margin-bottom: 20px; }
+  .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.55s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+  .card-front, .card-back { position: absolute; width: 100%; height: 100%; border-radius: 14px; border: 1px solid #e0dfd7; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 28px; text-align: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+
+  .card-front { background: #fff; }
+  .card-back { background: #EEEDFE; transform: rotateY(180deg); }
+
+  .card-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; margin-bottom: 16px; }
+  .card-front .card-tag { background: #EEEDFE; color: #534AB7; }
+  .card-back .card-tag { background: #534AB7; color: #fff; }
+
+  .card-question { font-size: 18px; font-weight: 500; color: #1a1a1a; line-height: 1.5; }
+  .card-answer { font-size: 15px; color: #26215C; line-height: 1.6; }
+
+  .flip-hint { font-size: 12px; color: #aaa; margin-top: 16px; display: flex; align-items: center; gap: 4px; }
+
+  .actions { display: flex; gap: 12px; justify-content: center; margin-bottom: 32px; }
+  .btn { padding: 12px 28px; border-radius: 10px; border: 1.5px solid; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 8px; }
+  .btn-wrong { background: #fff; border-color: #D85A30; color: #D85A30; }
+  .btn-wrong:hover { background: #FAECE7; }
+  .btn-correct { background: #fff; border-color: #1D9E75; color: #1D9E75; }
+  .btn-correct:hover { background: #E1F5EE; }
+
+  .nav-btns { display: flex; gap: 12px; justify-content: center; margin-bottom: 40px; }
+  .nav-btn { padding: 8px 20px; border-radius: 8px; border: 1px solid #d0cfc7; background: #fff; font-size: 14px; cursor: pointer; color: #444; transition: all 0.15s; }
+  .nav-btn:hover { border-color: #534AB7; color: #534AB7; }
+  .nav-btn:disabled { opacity: 0.35; cursor: default; border-color: #d0cfc7; color: #aaa; }
+
+  .progress-bar { height: 4px; background: #e0dfd7; border-radius: 2px; margin-bottom: 24px; }
+  .progress-fill { height: 100%; border-radius: 2px; background: #534AB7; transition: width 0.3s ease; }
+
+  .done-screen { text-align: center; background: #fff; border-radius: 14px; border: 1px solid #e0dfd7; padding: 40px 28px; }
+  .done-screen h2 { font-size: 20px; font-weight: 500; margin-bottom: 8px; }
+  .done-screen p { color: #666; margin-bottom: 24px; font-size: 15px; }
+  .done-stats { display: flex; gap: 20px; justify-content: center; margin-bottom: 28px; }
+  .done-stat { font-size: 32px; font-weight: 500; }
+  .reset-btn { padding: 12px 32px; border-radius: 10px; border: 1.5px solid #534AB7; background: #534AB7; color: #fff; font-size: 15px; cursor: pointer; font-weight: 500; }
+  .reset-btn:hover { background: #3C3489; }
+
+  .hidden { display: none; }
 </style>
 </head>
 <body>
-<div id="quiz">
-  <p class="main-title">Introducción al Derecho &amp; Teoría de las Normas</p>
-  <p class="subtitle" id="sub">Cargando preguntas...</p>
-  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pbar" style="width:0%"></div></div>
-  <div id="content"></div>
+
+<div class="card-area">
+  <h1>Tarjetas de Estudio — Derecho Civil</h1>
+  <p class="subtitle">Haz clic en la tarjeta para ver la respuesta, luego indica si la sabías</p>
+
+  <div class="filters" id="filters"></div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num pending" id="stat-total">0</div><div class="stat-label">Total</div></div>
+    <div class="stat"><div class="stat-num correct" id="stat-correct">0</div><div class="stat-label">Correctas</div></div>
+    <div class="stat"><div class="stat-num wrong" id="stat-wrong">0</div><div class="stat-label">Incorrectas</div></div>
+    <div class="stat"><div class="stat-num pending" id="stat-pending">0</div><div class="stat-label">Pendientes</div></div>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+  <div class="card-counter" id="card-counter"></div>
+
+  <div id="game-area">
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="flashcard-inner">
+        <div class="card-front">
+          <div class="card-tag" id="front-tag"></div>
+          <div class="card-question" id="card-question"></div>
+          <div class="flip-hint">↕ Haz clic para ver la respuesta</div>
+        </div>
+        <div class="card-back">
+          <div class="card-tag">Respuesta</div>
+          <div class="card-answer" id="card-answer"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions" id="actions" style="display:none;">
+      <button class="btn btn-wrong" onclick="markAnswer(false)">✗ No lo sabía</button>
+      <button class="btn btn-correct" onclick="markAnswer(true)">✓ Lo sabía</button>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>← Anterior</button>
+      <button class="nav-btn" id="btn-next" onclick="navigate(1)">Siguiente →</button>
+    </div>
+  </div>
+
+  <div id="done-screen" class="done-screen hidden">
+    <h2>¡Sesión completada!</h2>
+    <p>Has respondido todas las tarjetas del grupo seleccionado.</p>
+    <div class="done-stats">
+      <div><div class="done-stat" style="color:#0F6E56" id="done-correct">0</div><div style="font-size:13px;color:#888">Correctas</div></div>
+      <div><div class="done-stat" style="color:#D85A30" id="done-wrong">0</div><div style="font-size:13px;color:#888">Incorrectas</div></div>
+    </div>
+    <button class="reset-btn" onclick="resetSession()">Reiniciar sesión</button>
+  </div>
 </div>
+
 <script>
-var T1 = [
-  // ── LENGUAJE JURÍDICO ──
-  {topic:"Lenguaje Jur\u00EDdico",q:"Un estudiante sostiene que ambig\u00FCedad y vaguedad son sin\u00F3nimos porque ambas reflejan lenguaje impreciso. \u00BFCu\u00E1l es el error?",correct:"La palabra ambigua tiene m\u00E1s de un significado definido; la vaga tiene un significado conocido pero no claramente delimitado",wrong:["La ambig\u00FCedad es exclusiva del lenguaje jur\u00EDdico; la vaguedad es propia del lenguaje coloquial","La vaguedad implica m\u00FAltiples significados; la ambig\u00FCedad implica que el significado es desconocido","Ambas son equivalentes: solo se diferencian por el contexto en que se usan"],why:"Un t\u00E9rmino ambiguo tiene m\u00E1s de un significado (como 'banco': instituci\u00F3n financiera o asiento). Un t\u00E9rmino vago tiene un significado conocido pero imprecisamente delimitado (como 'viejo': se sabe que refiere a mucha edad, pero no cu\u00E1nta exactamente)."},
-  {topic:"Lenguaje Jur\u00EDdico",q:"La palabra 'banco' puede referirse a una instituci\u00F3n financiera o a un asiento. \u00BFQu\u00E9 tipo de problema ling\u00FC\u00EDstico ilustra este ejemplo?",correct:"Ambig\u00FCedad por uso de palabras polis\u00E9micas: la misma palabra tiene varios significados definidos y distintos",wrong:["Vaguedad, pues el significado de 'banco' no est\u00E1 claramente delimitado en su extensi\u00F3n","Ambig\u00FCedad por falta de contenido, pues 'banco' carece de referencia concreta","Error de prohibici\u00F3n, pues el hablante desconoce el significado correcto en contexto"],why:"La polisemia (varios significados definidos de una misma palabra) es la causa de ambig\u00FCedad. 'Banco' es un t\u00E9rmino ambiguo porque posee dos significados distintos y precisos (no un significado impreciso, que ser\u00EDa vaguedad)."},
-  {topic:"Lenguaje Jur\u00EDdico",q:"Kant afirm\u00F3: 'todav\u00EDa buscan los juristas dar un concepto acerca de lo que es el Derecho'. \u00BFQu\u00E9 problema conceptual ilustra esta cita?",correct:"Que la palabra Derecho adolece de vaguedad: se sabe a qu\u00E9 se refiere en general, pero su significado no est\u00E1 delimitado con exactitud porque cada autor lo define desde su propio punto de vista",wrong:["Que el Derecho carece completamente de significado y es, por tanto, indefinible","Que Kant rechazaba la existencia del Derecho como disciplina cient\u00EDfica independiente","Que solo los fil\u00F3sofos y no los juristas son competentes para definir el Derecho"],why:"La cita ilustra la vaguedad del t\u00E9rmino Derecho: aunque todos saben aproximadamente a qu\u00E9 se refiere, su significado no est\u00E1 delimitado con exactitud, porque cada autor lo define desde su propio punto de vista (social, l\u00F3gico, \u00E9tico, religioso)."},
-  {topic:"Lenguaje Jur\u00EDdico",q:"Los t\u00E9rminos un\u00EDvocos se distinguen de los ambiguos porque:",correct:"Los un\u00EDvocos tienen un solo campo de referencia; los ambiguos (mult\u00EDvocos o equ\u00EDvocos) tienen varios campos de referencia",wrong:["Los un\u00EDvocos son propios del lenguaje jur\u00EDdico; los ambiguos solo existen en el lenguaje cotidiano","Los un\u00EDvocos pueden ser verdaderos o falsos; los ambiguos no admiten esta calificaci\u00F3n","Los un\u00EDvocos son siempre m\u00E1s precisos moralmente que los ambiguos"],why:"La distinci\u00F3n es sem\u00E1ntica: un t\u00E9rmino un\u00EDvoco tiene un solo significado (un campo de referencia), mientras que un t\u00E9rmino ambiguo (equ\u00EDvoco o mult\u00EDvoco) tiene varios significados posibles, como ocurre con la palabra 'Derecho'."},
-  // ── ORIGEN DEL TÉRMINO DERECHO ──
-  {topic:"Origen del T\u00E9rmino Derecho",q:"\u00BFDe qu\u00E9 voz latina proviene la palabra Derecho y cu\u00E1l es su significado etimol\u00F3gico original?",correct:"De Ius, Iuris, con el que los romanos designaban al derecho, significando unir, vincular; de ah\u00ED provienen justicia, jur\u00EDdico, jurisprudencia",wrong:["De Directum, que los romanos usaron siempre para designar lo recto y encausado","De Iustitia, de la que posteriormente deriv\u00F3 Ius seg\u00FAn los historiadores romanos","De Directus, vocablo que en la Edad Media sustituy\u00F3 al t\u00E9rmino Ius en toda Europa"],why:"Ius, Iuris es el origen latino del que derivan justicia, jur\u00EDdico, jurisprudencia, juridicidad. La discusi\u00F3n hist\u00F3rica es si Ius proviene de Iustitia o viceversa: Ulpiano consideraba que Ius deriva de Iustitia, pero los gram\u00E1ticos vieron en Ius la fuente de justicia."},
-  {topic:"Origen del T\u00E9rmino Derecho",q:"La palabra 'directum' sustituy\u00F3 a Ius en la Edad Media. \u00BFCu\u00E1l es su origen y significado?",correct:"Es el participio pasivo del verbo 'dirigere' (dirigir, encausar) y significaba lo que est\u00E1 conforme a la regla o norma, lo que no se desv\u00EDa; gener\u00F3 las palabras romances: diritto, direito, droit, right, recht",wrong:["Es una palabra \u00E1rabe introducida en Europa durante la Edad Media que significa mandato","Es el plural del t\u00E9rmino directus y significaba el conjunto de normas positivas de un territorio","Es una contracci\u00F3n del lat\u00EDn directione rectum que se refer\u00EDa exclusivamente al derecho can\u00F3nico"],why:"'Directum' es el participio pasivo de 'dirigere' (dirigir, encausar): significaba lo dirigido, lo encausado, lo que est\u00E1 conforme a la regla. La sustituci\u00F3n de Ius por directum se atribuye a la influencia judeo-cristiana y gener\u00F3 las palabras romances actuales."},
-  {topic:"Origen del T\u00E9rmino Derecho",q:"Ulpiano sostenia que Ius deriva de Iustitia. Los historiadores, en cambio, argumentaban lo opuesto. \u00BFCu\u00E1l era el argumento de los historiadores?",correct:"Tomando en cuenta la simplicidad del t\u00E9rmino Ius, vieron en \u00E9l la fuente de Iustitia; adem\u00E1s, la vinculaci\u00F3n entre derecho y justicia en Roma solo ocurri\u00F3 en la \u00E9poca de los decenviros",wrong:["Los historiadores argumentaban que Iustitia es una palabra m\u00E1s antigua que Ius en los textos jur\u00EDdicos romanos","Los historiadores sostenizan que el t\u00E9rmino Ius nunca tuvo relaci\u00F3n con la justicia en Roma","Los historiadores afirmaban que ambos t\u00E9rminos tienen ra\u00EDces griegas distintas y no se relacionan"],why:"Los historiadores, por la simplicidad de Ius, vieron en \u00E9l la fuente de Iustitia. Adem\u00E1s, la vinculaci\u00F3n ideol\u00F3gica entre derecho y justicia tuvo lugar en Roma solo en la \u00E9poca de los decenviros; antes, Ius significaba algo as\u00ED como 'mandato del m\u00E1s fuerte'."},
-  // ── SIGNIFICADOS DEL DERECHO ──
-  {topic:"Significados del Derecho",q:"\u00BFCu\u00E1l es la diferencia precisa entre el Derecho como Derecho objetivo y el Derecho como Derecho subjetivo?",correct:"El objetivo es el conjunto de normas jur\u00EDdicas que regulan la convivencia; el subjetivo es la facultad que tiene una persona para exigir de otra el cumplimiento de un deber jur\u00EDdico u obligaci\u00F3n",wrong:["El objetivo regula solo las relaciones entre el Estado y los particulares; el subjetivo regula las relaciones entre privados","El objetivo es el Derecho escrito en los c\u00F3digos; el subjetivo es el que no est\u00E1 codificado","El objetivo es el Derecho Natural; el subjetivo es el Derecho Positivo creado por el legislador"],why:"El Derecho objetivo es el conjunto de normas jur\u00EDdicas (Constituci\u00F3n, leyes, decretos, contratos, etc.), formando un ordenamiento jerarquizado. El Derecho subjetivo es la facultad de una persona para exigir de otra el cumplimiento de un deber jur\u00EDdico (ej: el acreedor puede exigir el pago al deudor)."},
-  {topic:"Significados del Derecho",q:"Cuando se dice que 'el Derecho chileno consagra la igualdad ante la ley', \u00BFen qu\u00E9 sentido se usa la palabra Derecho?",correct:"Como sin\u00F3nimo de ordenamiento jur\u00EDdico: el conjunto de leyes y normas vigentes en un Estado determinado",wrong:["Como Derecho subjetivo: la facultad de cada chileno para exigir trato igualitario","Como Derecho Natural: los principios de justicia inherentes a la sociedad chilena","Como ciencia del Derecho: la disciplina que estudia las normas del ordenamiento chileno"],why:"Cuando se habla del 'Derecho chileno' se usa el t\u00E9rmino como sin\u00F3nimo de ordenamiento jur\u00EDdico: el conjunto de leyes y normas vigentes en Chile. Esta acepci\u00F3n es distinta del Derecho como norma individual, como facultad subjetiva o como ciencia."},
-  {topic:"Significados del Derecho",q:"La 'dogm\u00E1tica jur\u00EDdica' o 'ciencia del Derecho en sentido estricto' se distingue de la historia o sociolog\u00EDa del Derecho porque:",correct:"Estudia las normas jur\u00EDdicas vigentes en un pa\u00EDs y en un tiempo determinados desde un punto de vista exclusivamente jur\u00EDdico y normativo, no hist\u00F3rico ni sociol\u00F3gico",wrong:["Estudia el Derecho Natural y los principios morales que deben orientar al legislador positivo","Estudia el Derecho desde una perspectiva filos\u00F3fica para determinar cu\u00E1l debe ser el contenido de las normas","Estudia el Derecho Comparado entre distintos ordenamientos jur\u00EDdicos de diferentes pa\u00EDses"],why:"La dogm\u00E1tica jur\u00EDdica estudia las normas jur\u00EDdicas vigentes en un pa\u00EDs y en un tiempo determinados desde un punto de vista exclusivamente jur\u00EDdico y normativo. Se distingue de la historia del Derecho (perspectiva hist\u00F3rica) y de la sociolog\u00EDa del Derecho (perspectiva sociol\u00F3gica)."},
-  {topic:"Significados del Derecho",q:"Cuando la ley se emplea como sin\u00F3nimo de impuesto (ej: 'el derecho de internaci\u00F3n de tal mercanc\u00EDa asciende a cien mil pesos'), \u00BFen qu\u00E9 sentido se usa la palabra Derecho?",correct:"En una acepci\u00F3n adicional dentro del campo jur\u00EDdico: se usa para designar un tributo o pago exigido por el Estado, distinta de los significados principales",wrong:["En el sentido de Derecho subjetivo: la facultad del Estado para cobrar al importador","En el sentido de Derecho objetivo: el conjunto de normas aduaneras que regulan la importaci\u00F3n","En el sentido de justicia: que el cobro de ese monto es lo correcto para el comercio exterior"],why:"El uso de 'derecho' como sin\u00F3nimo de impuesto es una acepci\u00F3n adicional que no coincide con los significados principales. Ilustra la polisemia del t\u00E9rmino Derecho incluso dentro del lenguaje jur\u00EDdico especializado."},
-  // ── DEFINICIONES DE DERECHO ──
-  {topic:"Definiciones de Derecho",q:"Celso defini\u00F3 el Derecho como 'Ius Est Ars Boni Et Aequi'. \u00BFQu\u00E9 implica esta definici\u00F3n respecto de la naturaleza del Derecho?",correct:"Que el Derecho es el arte de lo bueno y lo justo, unificando los valores morales y sociales que lo jur\u00EDdico implica tanto para quien redacta las leyes como para los jueces que las interpretan",wrong:["Que el Derecho es una t\u00E9cnica neutral de organizaci\u00F3n social, sin contenido \u00E9tico ni moral","Que el Derecho es exclusivamente una ciencia formal de normas positivas, independiente de la justicia","Que el Derecho solo puede ser creado por los juristas y no por el legislador pol\u00EDtico"],why:"La definici\u00F3n de Celso ('el Derecho es el arte de lo bueno y de lo justo') unifica los valores morales y sociales que lo jur\u00EDdico implica para el ser humano, el jurista que redacta las leyes y los jueces que las interpretan y aplican. Tiene una carga valorativa que supera la mera t\u00E9cnica normativa."},
-  {topic:"Definiciones de Derecho",q:"Arist\u00F3teles distinguia entre justicia general y justicia particular. \u00BFCu\u00E1l es la diferencia y qu\u00E9 conexi\u00F3n tiene con el Derecho?",correct:"La justicia general procura hacer del hombre un ser virtuoso (campo de la moral); la justicia particular asigna a cada uno lo suyo sin tomar de m\u00E1s ni de menos (campo del Derecho), donde act\u00FAan los juristas con su actividad espec\u00EDfica",wrong:["La justicia general es la que aplican los jueces; la particular es la que aplica el legislador al crear las normas","La justicia general corresponde al Derecho Internacional; la particular al Derecho interno de cada Estado","La justicia general es la distributiva; la particular es la conmutativa, siendo ambas propias del Derecho"],why:"Para Arist\u00F3teles, la justicia general nos pone en el campo de la moral (hace al hombre virtuoso, honesto, valiente). La justicia particular nos pone en el campo del Derecho: que el ciudadano no tome ni m\u00E1s ni menos de lo que le corresponde, que a cada uno se le asigne lo suyo."},
-  {topic:"Definiciones de Derecho",q:"La justicia distributiva de Arist\u00F3teles se rige por una proporci\u00F3n geom\u00E9trica y la conmutativa por una aritm\u00E9tica. \u00BFQu\u00E9 significa exactamente esa distinci\u00F3n?",correct:"La distributiva reparte seg\u00FAn el m\u00E9rito de las personas (A/B=C/D): lo que cada uno recibe es proporcional a sus aportes. La conmutativa busca equivalencia exacta entre prestaciones sin considerar el valor de las personas",wrong:["La distributiva se aplica en juicios civiles; la conmutativa en juicios penales, independientemente del m\u00E9rito","La distributiva regula impuestos proporcionales al ingreso; la conmutativa regula contratos de compraventa \u00FAnicamente","La distributiva solo aplica al Estado al repartir bienes p\u00FAblicos; la conmutativa solo entre particulares"],why:"La justicia distributiva usa proporcionalidad geom\u00E9trica (A/B=C/D): si las personas no son iguales, no se les asignan cosas iguales sino proporcionales a sus m\u00E9ritos. La conmutativa busca equivalencia exacta (aritm\u00E9tica) entre la cosa recibida y la contraprestaci\u00F3n, sin importar el valor de las personas."},
-  {topic:"Definiciones de Derecho",q:"Santo Tom\u00E1s de Aquino acept\u00F3 la divisi\u00F3n de Arist\u00F3teles sobre la justicia, pero a\u00F1adi\u00F3 un tipo que Arist\u00F3teles no contemplaba. \u00BFCu\u00E1l es ese aporte original?",correct:"La justicia legal, que regula lo que los individuos deben a la comunidad de que forman parte (direcci\u00F3n inversa a la distributiva, que regula lo que la comunidad debe a los individuos)",wrong:["La justicia penal, que regula las sanciones que el Estado impone a quienes violan las normas","La justicia natural, que regula los derechos inherentes al hombre por su sola naturaleza racional","La justicia social, que regula la redistribuci\u00F3n de la riqueza entre los distintos grupos de la sociedad"],why:"El aporte original de Santo Tom\u00E1s es la justicia legal: lo que los individuos deben a la comunidad de que forman parte. Arist\u00F3teles ya habia contemplado la conmutativa (cambios entre individuos) y la distributiva (lo que la comunidad debe a los individuos), pero no esta tercera direcci\u00F3n."},
-  // ── SEGURIDAD JURÍDICA ──
-  {topic:"Seguridad Jur\u00EDdica",q:"Max Mayer defini\u00F3 la seguridad jur\u00EDdica como la garant\u00EDa de que la persona, sus bienes y derechos no ser\u00E1n objeto de ataques violentos. \u00BFPor qu\u00E9 se critic\u00F3 esta definici\u00F3n?",correct:"Porque se se\u00F1ala que estar\u00EDa haciendo alusi\u00F3n a otros valores distintos de la seguridad jur\u00EDdica propiamente tal, como la justicia, la libertad y la igualdad",wrong:["Porque Mayer omiti\u00F3 la dimensi\u00F3n procesal de la seguridad jur\u00EDdica, olvidando el rol de los tribunales","Porque Mayer solo consider\u00F3 la seguridad de los bienes materiales, excluyendo los derechos fundamentales","Porque Mayer confundi\u00F3 seguridad jur\u00EDdica con seguridad p\u00FAblica, que es una funci\u00F3n policial"],why:"La cr\u00EDtica a Max Mayer es que al referirse a la garant\u00EDa de protecci\u00F3n y reparaci\u00F3n frente a ataques violentos, estar\u00EDa aludiendo a otros valores como la justicia, la libertad y la igualdad, m\u00E1s que a la seguridad jur\u00EDdica en sentido estricto (certeza del Derecho)."},
-  {topic:"Seguridad Jur\u00EDdica",q:"Radbruch exige cuatro requisitos para que el Derecho positivo cumpla con la seguridad jur\u00EDdica. \u00BFCu\u00E1l de los siguientes NO es uno de esos requisitos?",correct:"Que el Derecho sea justo, es decir, que su contenido coincida con los principios del Derecho Natural",wrong:["Que el Derecho sea positivo, concretado en normas vigentes","Que el Derecho tenga un m\u00EDnimo de estabilidad y no est\u00E9 sometido a cambios permanentes abruptos","Que el Derecho sea conocido por los sujetos que deben cumplirlo"],why:"Los cuatro requisitos de Radbruch son: (1) que el Derecho sea positivo (vigente), (2) que se base en hechos establecidos con el menor margen de error, (3) que tenga un m\u00EDnimo de estabilidad, y (4) que sea conocido. La justicia del contenido no es requisito de la seguridad jur\u00EDdica seg\u00FAn Radbruch."},
-  {topic:"Seguridad Jur\u00EDdica",q:"El principio de irretroactividad (Art. 9 CC) es obligatorio para el juez pero no para el legislador. \u00BFCu\u00E1les son las dos limitaciones constitucionales que el legislador s\u00ED debe respetar?",correct:"No puede dictar leyes retroactivas m\u00E1s desfavorables en materia penal, y no puede dictar leyes retroactivas en materia de derecho de propiedad (Art. 19 N\u00B024 CPR)",wrong:["No puede dictar leyes retroactivas en ning\u00FAn caso en materia civil ni penal, pues la CPR lo proh\u00EDbe absolutamente","No puede dictar leyes retroactivas en materia tributaria ni de familia, aunque s\u00ED en materia penal","Solo est\u00E1 limitado en materia de derecho de propiedad; en materia penal puede legislar retroactivamente sin restricciones"],why:"El legislador puede dictar leyes retroactivas, con dos l\u00EDmites constitucionales: (1) en materia penal, no puede dictar leyes m\u00E1s desfavorables para el inculpado (s\u00ED puede si lo favorece); (2) en materia de derecho de propiedad, el Art. 19 N\u00B024 CPR proh\u00EDbe las leyes retroactivas."},
-  {topic:"Seguridad Jur\u00EDdica",q:"El principio de reserva de legalidad penal (Art. 19 N\u00B03 CPR) postula que 'no hay delito ni pena sin ley previa'. \u00BFQu\u00E9 exige exactamente?",correct:"Que exista una ley previa que incrimine la conducta, que establezca la clase de castigo, y que la conducta sancionada est\u00E9 expresamente descrita en la ley",wrong:["Que solo el Poder Judicial pueda definir qu\u00E9 conductas constituyen delitos, excluyendo al legislador","Que las penas solo puedan aplicarse si el imputado conoc\u00EDa la norma al momento de cometer el delito","Que el juez pueda crear tipos penales por analog\u00EDa cuando la ley no contemple expresamente la conducta"],why:"El principio exige: (1) ley previa que incrimine el hecho; (2) que establezca la clase de castigo; (3) que la conducta est\u00E9 expresamente descrita. 'Ning\u00FAn delito se castigar\u00E1 con otra pena que la que se\u00F1ale una ley promulgada con anterioridad a su perpetraci\u00F3n.'"},
-  {topic:"Seguridad Jur\u00EDdica",q:"La cosa juzgada requiere triple identidad. \u00BFCu\u00E1l es la diferencia entre identidad de cosa pedida e identidad de causa de pedir?",correct:"La cosa pedida es el beneficio jur\u00EDdico inmediato que se reclama; la causa de pedir es el fundamento inmediato del derecho deducido en juicio (el hecho jur\u00EDdico que sirve de base a la pretensi\u00F3n)",wrong:["La cosa pedida es el objeto material en disputa; la causa de pedir es la acci\u00F3n procesal ejercida","La cosa pedida es la pretensi\u00F3n procesal; la causa de pedir es la norma legal que la ampara","La cosa pedida y la causa de pedir son sin\u00F3nimos: ambas refieren al fundamento jur\u00EDdico de la demanda"],why:"Distinci\u00F3n precisa: la cosa pedida es el beneficio jur\u00EDdico inmediato reclamado. La causa de pedir es el fundamento inmediato del derecho deducido. Ej: pedir dominio por compra vs. pedir dominio por herencia tiene distinta causa de pedir aunque el objeto sea el mismo."},
-  {topic:"Seguridad Jur\u00EDdica",q:"\u00BFPor qu\u00E9 la presunci\u00F3n del Art. 8 CC (nadie puede alegar ignorancia de la ley) es en rigor una presunci\u00F3n de conocimiento del Derecho y no solo de la ley?",correct:"Porque su fundamento es la seguridad jur\u00EDdica: si se permitiera alegar ignorancia, los individuos podr\u00EDan desconocer deberes jur\u00EDdicos impuestos por normas vigentes, afectando la certeza del Derecho en su conjunto",wrong:["Porque en Chile el Derecho incluye la costumbre y los actos jur\u00EDdicos, que no son estrictamente 'ley'","Porque la expresi\u00F3n 'ley' en el Art. 8 CC se refiere solo al C\u00F3digo Civil y no a otras normas","Porque la presunci\u00F3n fue creada por los decenviros romanos que usaban el t\u00E9rmino Ius para el Derecho en general"],why:"La presunci\u00F3n del Art. 8 CC funciona como presunci\u00F3n de conocimiento del Derecho porque si los individuos pudieran alegar ignorancia, podr\u00EDan desconocer deberes jur\u00EDdicos impuestos por normas vigentes, haciendo imposible el orden social. Su fundamento es la seguridad jur\u00EDdica."},
-  {topic:"Seguridad Jur\u00EDdica",q:"La prescripci\u00F3n (Art. 2492 CC) refleja la seguridad jur\u00EDdica. \u00BFPor qu\u00E9 tanto la adquisitiva como la extintiva expresan ese valor?",correct:"Porque consolidan situaciones jur\u00EDdicas estables en el tiempo: la adquisitiva permite adquirir derechos por la posesi\u00F3n prolongada y la extintiva extingue acciones no ejercidas, dando certeza al ordenamiento",wrong:["Porque garantizan siempre la justicia: el poseedor que prescribe adquiere lo que moralmente le correspond\u00EDa","Porque permiten al Estado recuperar bienes acumulados injustamente durante mucho tiempo","Porque son la herramienta principal de los tribunales para resolver conflictos de propiedad"],why:"La prescripci\u00F3n expresa la seguridad jur\u00EDdica porque consolida situaciones estables en el tiempo. La adquisitiva permite que quien ha pose\u00EDdo durante cierto lapso adquiera el dominio; la extintiva elimina acciones no ejercidas. Ambas dan certeza al ordenamiento, aunque no siempre coincidan con la justicia."},
-  {topic:"Seguridad Jur\u00EDdica",q:"El 'error de prohibici\u00F3n' en materia penal ilustra una atenuaci\u00F3n al principio de conocimiento de la ley. \u00BFEn qu\u00E9 consiste ese error?",correct:"Es el que recae sobre la licitud de la actividad desarrollada: el autor ignora que obra en forma contraria a Derecho, no sabe que est\u00E1 contraviniendo el ordenamiento jur\u00EDdico",wrong:["Es el error sobre los hechos que constituyen el delito: el autor no sabe que est\u00E1 realizando el tipo penal","Es el error sobre la pena aplicable: el autor conoce que su conducta es il\u00EDcita pero desconoce la sanci\u00F3n concreta","Es el error sobre la competencia del tribunal: el autor desconoce qu\u00E9 juez es competente para juzgarlo"],why:"El error de prohibici\u00F3n recae sobre la licitud de la actividad: el autor no sabe que est\u00E1 obrando en forma contraria a Derecho. Puede presentarse como desconocimiento del mandato jur\u00EDdico general (directo), error sobre la inaplicabilidad de una causal de justificaci\u00F3n (indirecto), o representaci\u00F3n equivocada de la fuerza determinante de la norma."}
+const ALL_CARDS = [
+  {tema:"Relaciones Jurídicas", q:"¿Cómo define Jaime Williams la relación jurídica?", a:"Es el vínculo entre dos sujetos de derecho, nacido de un hecho condicionante previsto en el derecho, en cuya virtud uno debe cumplir una prestación para con el otro, quien tiene la facultad de exigirlo."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué es el hecho condicionante en una relación jurídica?", a:"El hecho jurídico que da origen a la relación jurídica; consiste en la realización concreta del supuesto normativo previsto en la norma."},
+  {tema:"Relaciones Jurídicas", q:"¿Cuál es la diferencia entre un hecho condicionante simple y uno complejo?", a:"El simple consiste en un solo hecho (ej. matar a otro). El complejo está compuesto de dos o más hechos que deben concurrir todos juntos (ej. funcionario público que malverse fondos)."},
+  {tema:"Relaciones Jurídicas", q:"¿Cómo se clasifican los hechos condicionantes según su origen?", a:"En hechos de la Naturaleza (muerte, nacimiento, paso del tiempo) y hechos del Hombre, que a su vez se dividen en involuntarios y voluntarios (con o sin intención)."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué son los hechos voluntarios sin intención lícitos? ¿Ejemplo?", a:"Son hechos permitidos por el derecho cuyos resultados no corresponden a los efectos queridos por el autor. Ejemplo: los cuasicontratos."},
+  {tema:"Relaciones Jurídicas", q:"¿Quiénes son los sujetos de derecho en el ordenamiento jurídico chileno?", a:"Las personas naturales (art. 55 CC: todos los individuos de la especie humana) y las personas jurídicas o colectivas."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué señala el art. 55 del Código Civil sobre las personas?", a:"Son personas todos los individuos de la especie humana, cualquiera que sea su edad, sexo, estirpe o condición. Se dividen en chilenos y extranjeros."},
+  {tema:"Relaciones Jurídicas", q:"¿Cuál es la perspectiva jurídica de persona y qué debate plantea?", a:"Se analiza a la persona en cuanto titular de derechos y obligaciones. Plantea el debate sobre la juridicidad natural del hombre: una postura la afirma; la otra la niega (positivistas, estamentalistas y colectivistas)."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué establece el art. 76 CC sobre la concepción?", a:"Se presume de derecho que la concepción ha precedido al nacimiento no menos de 180 días cabales ni más de 300, contados hacia atrás desde la medianoche en que principie el día del nacimiento."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué protege el art. 75 CC respecto del que está por nacer?", a:"La ley protege la vida del que está por nacer. El juez puede tomar de oficio todas las providencias necesarias para proteger su existencia cuando estime que peligra."},
+  {tema:"Relaciones Jurídicas", q:"¿Qué dispone el art. 74 CC sobre la existencia legal de la persona?", a:"La existencia legal principia al nacer, es decir, al separarse completamente de la madre. La criatura que muere en el vientre o perece antes de la separación completa, o no sobrevive un momento siquiera, se reputa no haber existido jamás."},
+  {tema:"Relaciones Jurídicas", q:"¿Cuáles son los tres requisitos para que se verifique el nacimiento según el art. 74 CC?", a:"1) Que la criatura se separe completamente del vientre de la madre. 2) Que la separación sea completa. 3) Que sobreviva un momento siquiera."},
+  {tema:"Relaciones Jurídicas", q:"¿En qué consiste la teoría de la vitalidad versus la teoría de la viabilidad en el nacimiento?", a:"Vitalidad: el simple nacimiento con vida determina la condición de persona (Derecho Romano). Viabilidad: además exige talla, peso, forma humana y período mínimo de gestación (Derecho Feudal/español)."},
+  {tema:"Relaciones Jurídicas", q:"¿Cuáles son las causales del fin de la existencia de la persona natural según el CC?", a:"Solo la muerte natural (art. 78 CC). Puede ser real (ocurrencia constatable) o presunta (declarada por el juez respecto de quien desapareció y de quien se ignora si vive)."},
+  {tema:"Relaciones Jurídicas", q:"¿Cuáles son los requisitos de la muerte presunta?", a:"Que el individuo haya desaparecido, que haya transcurrido un lapso de tiempo, que no se tenga noticia de su existencia, que sea declarada por sentencia judicial conforme a las normas legales."},
+  {tema:"Relaciones Jurídicas", q:"Menciona cuatro efectos jurídicos de la muerte.", a:"1) Extingue la personalidad. 2) Abre la sucesión. 3) Termina los contratos intuito personae. 4) Disuelve el matrimonio. También se extinguen ciertos derechos y se emancipan los hijos."},
+
+  {tema:"Personas Jurídicas", q:"¿Cómo define el art. 545 CC a la persona jurídica?", a:"Es una persona ficticia, capaz de ejercer derechos y contraer obligaciones civiles, y de ser representada judicial y extrajudicialmente."},
+  {tema:"Personas Jurídicas", q:"¿En qué consiste la Teoría de la Ficción Legal sobre la personalidad jurídica?", a:"Las únicas personas que actúan en el derecho son las naturales. Las personas jurídicas son creaciones artificiales de la ley, capaces de tener un patrimonio (Savigny). Doctrina aceptada en Chile por el art. 545 CC."},
+  {tema:"Personas Jurídicas", q:"¿En qué consiste la Teoría de la Realidad sobre la personalidad jurídica?", a:"Las personas jurídicas son realidades que existen en el mundo social. El Estado, al reconocer esa realidad, les otorga la calidad de sujetos de derecho."},
+  {tema:"Personas Jurídicas", q:"Menciona los cinco elementos de la persona jurídica.", a:"1) Pluralidad de personas. 2) Existencia de un fin lícito. 3) Patrimonio propio. 4) Organización determinada. 5) Autorización de la autoridad pública para existir."},
+  {tema:"Personas Jurídicas", q:"¿Cuáles son los criterios para calificar a una persona jurídica como de Derecho Público?", a:"Origen legal (creada por ley), finalidad colectiva o de utilidad pública, potestad de imperio (puede dictar normas obligatorias) y carácter de servicio público (pertenece orgánicamente a la administración del Estado)."},
+  {tema:"Personas Jurídicas", q:"¿Qué diferencia a una corporación de una fundación?", a:"La corporación es una colectividad de personas asociadas para conseguir un fin no lucrativo y común. La fundación es un establecimiento u obra creado por una persona, dotada de un patrimonio destinado a un objeto determinado."},
+  {tema:"Personas Jurídicas", q:"¿Cómo se define la sociedad según el art. 2053 CC?", a:"Es un contrato en que dos o más personas se obligan a poner algo en común con la mira de repartir entre sí los beneficios que de ello provengan."},
+  {tema:"Personas Jurídicas", q:"¿Cuál es la diferencia entre sociedad colectiva y sociedad de responsabilidad limitada?", a:"En la colectiva, los socios responden ilimitadamente con todos sus bienes. En la de responsabilidad limitada, los socios responden solo hasta el monto de sus aportes o la cantidad estipulada en el contrato social."},
+  {tema:"Personas Jurídicas", q:"¿Qué es una Empresa Individual de Responsabilidad Limitada (EIRL)?", a:"Persona jurídica formada exclusivamente por una persona natural, con patrimonio propio y distinto del titular, destinada a actividades de carácter netamente comercial."},
+  {tema:"Personas Jurídicas", q:"¿Cuándo nace y cuándo termina una persona jurídica de Derecho Privado sin fines de lucro?", a:"Nace por decreto supremo de concesión de la personalidad jurídica. Termina por decreto supremo de cancelación, o por causas establecidas en sus estatutos o por ley."},
+  {tema:"Personas Jurídicas", q:"¿Cuándo nace y cuándo termina una persona jurídica de Derecho Público?", a:"Nace por ley y termina por ley."},
+  {tema:"Personas Jurídicas", q:"¿Cuándo nace y cuándo termina una persona jurídica de Derecho Privado con fines de lucro?", a:"Nace por un contrato o pacto social contenido en escritura pública. Termina por causales previstas en los estatutos sociales o por causa legal."},
+
+  {tema:"Atributos de la Personalidad", q:"¿Qué son los atributos de la personalidad?", a:"Son las propiedades o características inherentes a toda persona. Implican ventajas y prerrogativas, pero también deberes y obligaciones. Son: capacidad de goce, nacionalidad, nombre, domicilio, estado civil, patrimonio y (para personas naturales) derechos de la personalidad."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es la capacidad de goce?", a:"Es la aptitud de una persona para adquirir derechos y contraer obligaciones. Su concepto se confunde con el de personalidad: ser persona es tener capacidad de goce. En Chile solo existen incapacidades de goce especiales, nunca absolutas."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué establece el art. 1446 CC sobre la capacidad?", a:"Toda persona es legalmente capaz, excepto aquellas que la ley declara incapaces. La regla general es la capacidad; la incapacidad es la excepción y debe ser declarada expresamente."},
+  {tema:"Atributos de la Personalidad", q:"¿Quiénes son absolutamente incapaces según el art. 1447 CC?", a:"Los dementes, los impúberes (hombres menores de 14 y mujeres menores de 12 años) y los sordos o sordomudos que no pueden darse a entender claramente. Solo pueden actuar a través de sus representantes legales."},
+  {tema:"Atributos de la Personalidad", q:"¿Quiénes son relativamente incapaces según el CC?", a:"Los menores adultos (entre la pubertad y los 18 años) y los disipadores declarados en interdicción. Pueden actuar representados o personalmente con autorización de su representante legal."},
+  {tema:"Atributos de la Personalidad", q:"¿Cómo se define la nacionalidad como atributo de la personalidad?", a:"Es el vínculo jurídico que une a una persona con el Estado y que origina derechos y obligaciones recíprocos. El Estado otorga amparo legal y el particular debe respetar la institucionalidad y legalidad vigentes."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es el ius soli y cuáles son sus excepciones en Chile?", a:"Es el criterio que otorga la nacionalidad por el lugar de nacimiento. En Chile se excluyen los hijos de extranjeros en servicio de su gobierno y los hijos de extranjeros transeúntes, aunque ambos pueden optar a la nacionalidad chilena."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es el ius sanguinis como fuente de nacionalidad chilena?", a:"Es el criterio que atribuye la nacionalidad por filiación. Se aplica a hijos de padre o madre chilenos nacidos en el extranjero, siempre que algún ascendiente en línea recta de 1° o 2° grado haya adquirido la nacionalidad chilena por ius soli, carta o gracia."},
+  {tema:"Atributos de la Personalidad", q:"¿Por cuáles causales se pierde la nacionalidad chilena según el art. 11 CPR?", a:"Por renuncia voluntaria ante autoridad chilena competente; por prestar servicios durante guerra exterior a enemigos de Chile o sus aliados; por cancelación de la carta de nacionalización; por ley que revoque la nacionalización concedida por gracia."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es el nombre como atributo de la personalidad y de qué elementos consta?", a:"Es la designación que individualiza a la persona en la vida social y jurídica. Consta de: nombre propio o de pila (individualiza dentro de la familia) y apellido (señala la familia de origen)."},
+  {tema:"Atributos de la Personalidad", q:"Menciona cuatro características del nombre civil.", a:"No es comerciable ni cedible entre vivos ni transmisible por causa de muerte. Es inembargable, imprescriptible, irrenunciable, permanente, uno e indivisible."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuál es la diferencia entre sobrenombre y seudónimo?", a:"El sobrenombre (apodo) carece de valor jurídico; solo es relevante para identificar delincuentes (art. 321 ACPP). El seudónimo es reconocido por la Ley de Propiedad Intelectual (art. 5 letra e, Ley 17.336) como el nombre bajo el cual el autor se oculta."},
+  {tema:"Atributos de la Personalidad", q:"¿Cómo se llama legalmente el nombre de una persona jurídica de Derecho Privado con fines de lucro?", a:"Razón Social. Se establece en la escritura social. La S.R.L. debe terminar en 'Limitada'; la S.A. debe incluir 'Sociedad Anónima' o 'S.A.'."},
+  {tema:"Atributos de la Personalidad", q:"¿Cómo define el art. 304 CC el estado civil y cuál es la crítica a esa definición?", a:"Lo define como 'la calidad de un individuo en cuanto lo habilita para ejercer ciertos derechos o contraer ciertas obligaciones civiles'. La crítica es que no explica en qué consiste dicha calidad, solo señala sus consecuencias."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuál es la definición de estado civil de la cátedra?", a:"Es la calidad o posición permanente que un individuo ocupa en la sociedad, en orden a sus relaciones de familia, en cuanto le confiere o impone determinados derechos, deberes y obligaciones civiles."},
+  {tema:"Atributos de la Personalidad", q:"Menciona cuatro fuentes del estado civil.", a:"La ley (ej. el nacimiento), hechos ajenos a la voluntad (ej. la muerte), la voluntad del hombre (ej. matrimonio, adopción) y sentencias judiciales (ej. declaración de divorcio, nulidad de matrimonio)."},
+  {tema:"Atributos de la Personalidad", q:"Menciona cuatro características del estado civil.", a:"Todo individuo tiene uno; es uno e indivisible; sus leyes son de orden público; es incomerciable, imprescriptible, intransable; es un derecho personalísimo y permanente."},
+  {tema:"Atributos de la Personalidad", q:"¿Cómo se prueba el estado civil de casado/a?", a:"Con el certificado de matrimonio."},
+  {tema:"Atributos de la Personalidad", q:"¿Cómo se prueba el estado civil de viudo/a?", a:"Con el certificado de matrimonio más el certificado de defunción del cónyuge fallecido."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es el domicilio como atributo de la personalidad?", a:"Es el asiento legal de la persona; consiste en la residencia, acompañada real o presuntivamente del ánimo de permanecer en ella. Es un concepto jurídico, no de hecho."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuáles son los tres niveles de vinculación jurídica de una persona con un lugar?", a:"La habitación o morada (lugar donde pernocta accidentalmente), la residencia (lugar donde habitualmente se encuentra) y el domicilio (asiento legal, concepto jurídico abstracto)."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuál es la importancia del domicilio en materia sucesoria?", a:"La sucesión se abre en el último domicilio del causante y se rige por la ley del domicilio en que se abre (art. 955 CC)."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué es el patrimonio en sentido contemporáneo?", a:"Es la aptitud para llegar a ser el centro de relaciones jurídicas pecuniarias. Es un concepto abstracto: el deudor responde no solo con su contenido actual sino también con su eventual contenido futuro."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuáles son las consecuencias de que el patrimonio sea un atributo de la personalidad?", a:"Solo las personas pueden tener patrimonio; toda persona tiene necesariamente uno; toda persona tiene un solo patrimonio (es indivisible); el patrimonio es inseparable de la persona mientras viva."},
+  {tema:"Atributos de la Personalidad", q:"¿Cuál es la importancia del patrimonio de las personas jurídicas?", a:"Es propio e independiente del de sus miembros: los acreedores de la PJ no pueden dirigirse a los bienes personales de los miembros, ni los acreedores personales de los miembros pueden perseguir los bienes de la PJ."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué son los derechos de la personalidad?", a:"Son derechos inherentes a la persona humana que la protegen en sus aspectos más esenciales. Su violación genera responsabilidad civil y penal. Se clasifican en: derechos de la individualidad física, de la personalidad civil y de la personalidad moral."},
+  {tema:"Atributos de la Personalidad", q:"¿Qué protegen los derechos de la personalidad moral?", a:"El honor, la reputación, los sentimientos y la integridad síquica de la persona, incluyendo el derecho a la vida privada y a la honra."},
 ];
 
-var T2 = [
-  // ── PERSONA HUMANA ──
-  {topic:"Persona Humana",q:"\u00BFCu\u00E1l es la diferencia entre individualidad y personalidad como caracter\u00EDsticas del ser humano?",correct:"La individualidad es el elemento diferenciador que distingue un individuo de otro dentro de una misma especie; la personalidad se refiere al ser espiritual y su subsistencia, no a la materia",wrong:["La individualidad pertenece al \u00E1mbito jur\u00EDdico (persona jur\u00EDdica); la personalidad al \u00E1mbito filos\u00F3fico (persona natural)","La individualidad es exclusiva del ser humano; la personalidad es compartida con los animales superiores","La individualidad refiere a los derechos inherentes; la personalidad refiere a los deberes que el Derecho impone"],why:"La individualidad es el elemento diferenciador dentro de una especie: cada hombre es un individuo, al igual que una planta o un animal. La personalidad no dice relaci\u00F3n con la materia sino con el ser espiritual y su subsistencia: la energ\u00EDa metaf\u00EDsica (esp\u00EDritu) que junto con la potencia material forma una unidad sustancial. Por eso todo hombre es persona, pero no todo individuo vegetal o animal es persona."},
-  {topic:"Persona Humana",q:"Santo Tom\u00E1s de Aquino expres\u00F3: 'persona significa lo m\u00E1s perfecto que hay en toda la naturaleza, o sea el ser subsistente en la naturaleza racional'. \u00BFQu\u00E9 implica esto para la relaci\u00F3n entre hombre y persona?",correct:"Que todo hombre es persona porque el hombre, dotado de esp\u00EDritu y raz\u00F3n, es un ser subsistente en una naturaleza racional; a diferencia de los animales que, siendo individuos, no son personas por carecer de personalidad espiritual",wrong:["Que solo algunos hombres son personas: los que poseen mayor desarrollo intelectual y racional","Que la persona es una categor\u00EDa jur\u00EDdica, no ontol\u00F3gica, que el Estado otorga al ser humano","Que el concepto de persona en Santo Tom\u00E1s equivale al de ciudadano en el Derecho Romano"],why:"Para Santo Tom\u00E1s, persona es el ser subsistente en la naturaleza racional. Todo hombre posee esp\u00EDritu, por lo que todo hombre es persona. Un animal, aunque es individuo, no es persona porque carece del principio espiritual que lo har\u00EDa capaz de elevarse sobre los fen\u00F3menos sensibles."},
-  {topic:"Persona Humana",q:"La diferencia entre libertad f\u00EDsica y libertad moral consiste en que:",correct:"La libertad f\u00EDsica se extiende tanto a lo bueno como a lo malo, a lo l\u00EDcito como a lo il\u00EDcito; la libertad moral se contiene dentro del orden racional y consiste en escoger el medio m\u00E1s adecuado para alcanzar el bien del hombre",wrong:["La libertad f\u00EDsica es la que el Estado garantiza mediante normas jur\u00EDdicas; la moral es la que regula la Iglesia","La libertad f\u00EDsica pertenece solo al \u00E1mbito del Derecho Penal; la moral solo al \u00E1mbito del Derecho Civil","La libertad f\u00EDsica y la moral son equivalentes: ambas refieren a la autonom\u00EDa del individuo frente al Estado"],why:"La libertad f\u00EDsica se extiende a lo bueno y a lo malo, a lo l\u00EDcito e il\u00EDcito. La libertad moral se contiene dentro del orden racional: es la facultad de escoger el medio m\u00E1s adecuado para alcanzar el bien del hombre. De ambas, la esencial al hombre es la libertad moral."},
-  {topic:"Persona Humana",q:"El entendimiento humano puede conocer la esencia de las cosas, pero \u00BFcui\u00E1l es la distinci\u00F3n entre su capacidad y su virtud operativa?",correct:"La capacidad es que puede comprender toda clase de seres y fen\u00F3menos haciendo abstracci\u00F3n de lo particular; pero su virtud operativa tiene l\u00EDmites: ning\u00FAn entendimiento creado abarca todo lo existente",wrong:["El entendimiento humano es omnisciente en potencia, pudiendo conocer todo si se le da suficiente tiempo","Solo puede conocer objetos materiales; los espirituales le son inaccesibles por naturaleza","El entendimiento humano y los sentidos son equivalentes: tienen el mismo alcance en el conocimiento"],why:"Los apuntes distinguen capacidad y virtud operativa: la capacidad es que puede comprender toda clase de seres (hace abstracci\u00F3n de lo particular y conoce la esencia). Pero ning\u00FAn entendimiento creado abarca todo lo existente, por lo que no est\u00E1 a nuestro alcance entender todo cuanto hay."},
-  // ── HOMBRE Y SOCIEDAD ──
-  {topic:"Hombre y Sociedad",q:"Hobbes y Locke difieren radicalmente en su concepci\u00F3n del estado de naturaleza. \u00BFCu\u00E1l es la diferencia fundamental?",correct:"Para Hobbes el estado de naturaleza es una guerra permanente ('homo homini lupus'); para Locke es un estado de perfecta libertad limitada por la ley de la naturaleza y la raz\u00F3n, no equivalente a un estado de guerra",wrong:["Para Hobbes el estado de naturaleza es positivo; para Locke es negativo porque el hombre es naturalmente ego\u00EDsta","Para Hobbes conduce a la democracia; para Locke conduce al absolutismo mon\u00E1rquico","Para ambos el estado de naturaleza es id\u00E9ntico: un conflicto que se resuelve mediante el contrato social"],why:"Para Hobbes el estado de naturaleza es una guerra de todos contra todos (homo homini lupus), negativo por definici\u00F3n. Para Locke es un estado de perfecta libertad (el hombre no depende de nadie), aunque limitada por la ley de la naturaleza y la raz\u00F3n; no es un estado de guerra sino de libertad."},
-  {topic:"Hombre y Sociedad",q:"Rousseau sostiene que 'el hombre es bueno de naturaleza'. \u00BFC\u00F3mo explica entonces el origen de los conflictos sociales que llevan al contrato?",correct:"El contrato social aparece a ra\u00EDz de los conflictos generados por la propiedad privada en el estado de naturaleza, no por maldad innata del hombre",wrong:["Los conflictos nacen de la debilidad biol\u00F3gica del hombre que lo obliga a asociarse para sobrevivir","Los conflictos son causados por la religi\u00F3n, que impone normas contrarias a la voluntad general","Los conflictos son resultado de las diferencias intelectuales entre los hombres en el estado natural"],why:"Rousseau eleva el estado de naturaleza a un estado hist\u00F3rico ejemplar donde el hombre es bueno por naturaleza. El contrato social surge de los conflictos generados en ese estado por causa de la propiedad privada."},
-  {topic:"Hombre y Sociedad",q:"Kant se diferencia de Hobbes, Locke y Rousseau en un aspecto clave respecto al contrato social. \u00BFCu\u00E1l es?",correct:"Para Kant salir del estado de naturaleza y someterse a las leyes del estado civil no es meramente conveniente sino una obligaci\u00F3n, un deber moral; el concepto clave es la autonom\u00EDa de los seres humanos",wrong:["Para Kant el estado de naturaleza es pac\u00EDfico, por eso el contrato es opcional y no obligatorio","Para Kant el contrato social es innecesario porque la naturaleza racional del hombre basta para regular la convivencia","Para Kant el Estado debe garantizar solo la libertad econ\u00F3mica de los individuos, no sus derechos pol\u00EDticos"],why:"La diferencia kantiana es que someterse a las leyes del estado civil es un deber moral, no solo una conveniencia. El concepto clave de Kant es la autonom\u00EDa: el soberano debe legislar seg\u00FAn la voluntad unida del pueblo, y el Estado garantiza la colibertad (compatibilidad de libertades de todos)."},
-  {topic:"Hombre y Sociedad",q:"\u00BFCu\u00E1l es la diferencia entre la conciliaci\u00F3n y el avenimiento como formas de autocomposici\u00F3n?",correct:"La conciliaci\u00F3n ocurre durante el litigio con intervenci\u00F3n del juez como amigable componedor (acto procesal); el avenimiento tambi\u00E9n pone fin al juicio por acuerdo de las partes, pero sin intervenci\u00F3n del juez como amigable componedor",wrong:["La conciliaci\u00F3n se produce antes del juicio; el avenimiento se produce despu\u00E9s de la sentencia definitiva","La conciliaci\u00F3n requiere acuerdo un\u00E1nime; el avenimiento puede ser decidido por mayor\u00EDa de las partes","La conciliaci\u00F3n es un acto administrativo del juez; el avenimiento es una sentencia interlocutoria"],why:"Ambas son formas de autocomposici\u00F3n, pero la conciliaci\u00F3n ocurre con el juez como amigable componedor (es acto procesal). El avenimiento tambi\u00E9n termina el juicio por acuerdo de partes, pero sin que el juez tenga ese rol; debe presentarse ante el juez para que lo d\u00E9 por finalizado."},
-  {topic:"Hombre y Sociedad",q:"La transacci\u00F3n (Art. 2446 CC) es una forma de autocomposici\u00F3n. \u00BFC\u00F3mo la define el C\u00F3digo Civil y cu\u00E1l es su rasgo definitorio?",correct:"Es un contrato en que las partes terminan extrajudicialmente un litigio pendiente o precaven uno eventual; su rasgo definitorio es que las propias partes resuelven el conflicto mediante acuerdo, sin que un tercero imponga la decisi\u00F3n",wrong:["Es una resoluci\u00F3n judicial en que el juez propone una soluci\u00F3n y las partes la aceptan libremente","Es un acuerdo en que una parte reconoce su responsabilidad y paga una indemnizaci\u00F3n fijada por el tribunal","Es una forma de proceso simplificado donde las partes someten el conflicto a un \u00E1rbitro p\u00FAblico"],why:"El Art. 2446 CC define la transacci\u00F3n como un contrato en que las partes terminan extrajudicialmente un litigio pendiente o precaven uno eventual. Como autocomposici\u00F3n, las propias partes resuelven el conflicto sin que un tercero imponga la decisi\u00F3n."},
-  // ── NORMAS DE CONDUCTA ──
-  {topic:"Normas de Conducta",q:"La distinci\u00F3n entre ser y deber ser es fundamental para la teor\u00EDa de las normas. \u00BFQui\u00E9n la emple\u00F3 primero con el sentido que hoy se le atribuye y en qu\u00E9 obra?",correct:"David Hume, en su obra 'Tratado de la Naturaleza Humana', sostuvo que el ser y el deber ser se encuentran radicalmente separados y que l\u00F3gicamente no se puede transitar del uno al otro",wrong:["Hans Kelsen, en su obra 'Teor\u00EDa Pura del Derecho', formul\u00F3 por primera vez esta distinci\u00F3n como principio de imputaci\u00F3n","Immanuel Kant, en su obra 'Cr\u00EDtica de la Raz\u00F3n Pura', introdujo la separaci\u00F3n entre el ser y el deber ser","Arist\u00F3teles, en su '\u00C9tica a Nic\u00F3maco', distingui\u00F3 entre las leyes de la naturaleza (ser) y las normas morales (deber ser)"],why:"Fue David Hume quien emple\u00F3 primero la distinci\u00F3n ser/deber ser en el 'Tratado de la Naturaleza Humana'. Luego fue recogida por Kant en la 'Cr\u00EDtica de la Raz\u00F3n Pr\u00E1ctica', y posteriormente por Kelsen en la 'Teor\u00EDa Pura del Derecho' mediante el principio de imputaci\u00F3n."},
-  {topic:"Normas de Conducta",q:"Kelsen distingue entre el principio de causalidad y el de imputaci\u00F3n. \u00BFCu\u00E1l es la diferencia esencial entre ambos?",correct:"La causalidad vincula fen\u00F3menos de manera necesaria (la causa produce necesariamente el efecto); la imputaci\u00F3n vincula una conducta antecedente con una consecuencia que debe atribu\u00EDrsele, pero sin necesidad: puede no ocurrir en los hechos",wrong:["La causalidad opera solo en el Derecho Natural; la imputaci\u00F3n opera solo en el Derecho Positivo","La causalidad es el principio de las normas morales; la imputaci\u00F3n es el principio de las leyes naturales","Causalidad e imputaci\u00F3n son id\u00E9nticos: ambos vinculan hechos de manera necesaria en el mundo jur\u00EDdico"],why:"En el \u00E1mbito del ser, la causalidad vincula fen\u00F3menos de manera necesaria (dado A, necesariamente sigue B). En el \u00E1mbito del deber ser, la imputaci\u00F3n vincula conducta antecedente con consecuencia que debe atribu\u00EDrsele, pero sin necesidad: si alguien comete homicidio 'debe' ser sancionado, pero puede que en los hechos no lo sea."},
-  {topic:"Normas de Conducta",q:"Desde una perspectiva ling\u00FC\u00EDstica, las normas pertenecen al lenguaje prescriptivo. \u00BFCu\u00E1l es la diferencia entre el lenguaje directivo y el prescriptivo?",correct:"El directivo busca influir en la conducta de otro mediante ruegos, sugerencias, peticiones o mandatos; el prescriptivo es una subclase del directivo que imparte \u00F3rdenes o mandatos con mayor fuerza, donde el emisor se coloca en posici\u00F3n de superioridad",wrong:["El directivo es propio de las normas morales; el prescriptivo es exclusivo de las normas jur\u00EDdicas","El directivo puede ser verdadero o falso; el prescriptivo solo puede ser justo o injusto","El prescriptivo es m\u00E1s amplio que el directivo: el directivo es solo una clase de prescripciones"],why:"El lenguaje directivo busca influir en la conducta de otro y admite diversas subclases: ruegos, sugerencias, recomendaciones, peticiones, reclamaciones, \u00F3rdenes. El prescriptivo es una subclase que se distingue por impartir \u00F3rdenes o mandatos, donde quien los formula se coloca en posici\u00F3n de superioridad y no supedita el cumplimiento a la voluntad del destinatario."},
-  {topic:"Normas de Conducta",q:"Una norma puede ser v\u00E1lida pero ineficaz. \u00BFCu\u00E1l es la diferencia entre validez y eficacia de una norma jur\u00EDdica?",correct:"La validez refiere a la existencia de la norma: es v\u00E1lida si fue creada por autoridad competente mediante el procedimiento establecido. La eficacia refiere a si es obedecida por los sujetos y aplicada por los \u00F3rganos jurisdiccionales",wrong:["La validez refiere a si la norma es justa; la eficacia refiere a si ha sido publicada en el Diario Oficial","La validez es el reconocimiento internacional de la norma; la eficacia es su aplicaci\u00F3n interna","Validez y eficacia son sin\u00F3nimos: una norma v\u00E1lida siempre es eficaz porque cuenta con el respaldo del Estado"],why:"La validez refiere a la existencia en el ordenamiento: creada por autoridad competente, mediante el procedimiento establecido y dentro de los l\u00EDmites de contenido. La eficacia refiere al comportamiento real: si es obedecida por los sujetos y aplicada por los tribunales. Ejemplo: el adulterio era delito v\u00E1lido pero ineficaz porque nadie fue condenado por \u00E9l."},
-  {topic:"Normas de Conducta",q:"\u00BFCu\u00E1l es la diferencia fundamental entre una norma de conducta y una regla t\u00E9cnica seg\u00FAn Squella?",correct:"La norma presupone un juicio de valor y ordena una conducta mirando al valor de los fines; la regla t\u00E9cnica presupone un juicio de realidad y prescribe el modo de obrar para alcanzar un fin pr\u00E1ctico, mirando a la eficacia de los resultados",wrong:["La norma de conducta es creada por el Estado; la regla t\u00E9cnica es creada por organismos t\u00E9cnicos privados","La norma es coercible; la regla t\u00E9cnica es siempre incoercible por su naturaleza t\u00E9cnica","La norma regula relaciones entre personas; la regla t\u00E9cnica solo regula relaciones entre cosas"],why:"Squella se\u00F1ala que las reglas t\u00E9cnicas se refieren no a un deber de los sujetos sino a necesidades que deben observar para lograr un fin determinado; menos que un deber ser, indican un tener que. La norma ordena una conducta con base en un valor; la regla indica c\u00F3mo hacer algo eficazmente. La regla puede subordinarse a la norma, pero nunca la norma a la regla."},
-  // ── LEYES NATURALES VS NORMAS ──
-  {topic:"Leyes Naturales vs Normas",q:"\u00BFPor qu\u00E9 las leyes naturales son 'v\u00E1lidas cuando son verdaderas' mientras que las normas de conducta no se califican de verdaderas o falsas?",correct:"Porque las leyes naturales pertenecen al lenguaje descriptivo: describen relaciones constantes entre fen\u00F3menos y pueden ser verdaderas o falsas. Las normas son lenguaje prescriptivo: prescriben conductas y se califican de justas/injustas o v\u00E1lidas/inv\u00E1lidas",wrong:["Porque las leyes naturales son creadas por Dios, cuya verdad es absoluta; las normas humanas son relativas","Porque las leyes naturales son universales; las normas son particulares a cada sociedad y por eso no pueden ser verdaderas","Porque las leyes naturales se verifican por inducci\u00F3n; las normas solo pueden verificarse por deducci\u00F3n l\u00F3gica"],why:"Las leyes naturales pertenecen al lenguaje descriptivo (afirman relaciones constantes entre fen\u00F3menos) y por eso pueden ser verdaderas o falsas. Las normas pertenecen al lenguaje prescriptivo (prescriben, ordenan conductas) y por eso se califican de justas/injustas, v\u00E1lidas/inv\u00E1lidas, eficaces/ineficaces."},
-  {topic:"Leyes Naturales vs Normas",q:"Las leyes naturales 'no son causas de los fen\u00F3menos a que aluden'. \u00BFQu\u00E9 significa esta afirmaci\u00F3n?",correct:"Las leyes naturales no producen los fen\u00F3menos, sino que simplemente revelan sus antecedentes y consecuencias: son f\u00F3rmulas destinadas a explicarlos, no a causarlos",wrong:["Las leyes naturales son meras descripciones estad\u00EDsticas sin valor explicativo causal","Las leyes naturales son creadas por los hombres para describir la naturaleza y por eso no tienen causalidad real","Las leyes naturales son normas de conducta de segunda categor\u00EDa que regulan el comportamiento de los seres vivos"],why:"Las leyes naturales establecen relaciones de causalidad pero no las crean: revelan antecedentes y consecuencias de los fen\u00F3menos pero no producen esos fen\u00F3menos. Es un error creer que 'la ley de la gravedad hace caer los objetos': la ley simplemente describe la relaci\u00F3n. Son f\u00F3rmulas explicativas, no causas."},
-  // ── CRITERIOS DE DIFERENCIACIÓN ──
-  {topic:"Criterios de Diferenciaci\u00F3n",q:"Squella distingue entre 'heteronomia de origen' y 'heteronomia de imperio'. \u00BFCu\u00E1l es la diferencia?",correct:"La heteronomia de origen significa que la norma es producida por un sujeto diverso del que debe cumplirla; la de imperio significa que debe acatarse aunque el sujeto no haya participado en su creaci\u00F3n y aunque no est\u00E9 de acuerdo con su contenido",wrong:["La heteronomia de origen refiere a la fuente hist\u00F3rica de la norma; la de imperio a su aplicaci\u00F3n territorial","La heteronomia de origen es propia de las normas consuetudinarias; la de imperio de las normas legales","La heteronomia de origen y la de imperio son sin\u00F3nimos que Squella usa indistintamente"],why:"La heteronomia de origen refiere a qui\u00E9n produce la norma: una persona o autoridad distinta del sujeto que debe cumplirla. La de imperio refiere a la obligatoriedad: la norma debe acatarse aunque el sujeto no haya participado en su g\u00E9nesis y aunque no est\u00E9 de acuerdo, sin posibilidad de eximirse por razones pol\u00EDticas o \u00E9ticas."},
-  {topic:"Criterios de Diferenciaci\u00F3n",q:"\u00BFEn qu\u00E9 sentido las normas jur\u00EDdicas son 'preferentemente heteronomas' y no absolutamente heteronomas?",correct:"Porque existen excepciones donde el sujeto obligado participa en su elaboraci\u00F3n: en el \u00E1mbito pol\u00EDtico (democracia), jur\u00EDdico (costumbre y actos jur\u00EDdicos), social (normas ineficaces) y moral (objeci\u00F3n de conciencia)",wrong:["Porque las normas jur\u00EDdicas siempre permiten que el sujeto se oponga mediante recursos administrativos","Porque las normas son aut\u00F3nomas en la mayor\u00EDa de los casos y solo excepcionalmente heteronomas","Porque la autonom\u00EDa es la caracter\u00EDstica dominante de las normas jur\u00EDdicas en los sistemas democr\u00E1ticos"],why:"Las normas jur\u00EDdicas son preferentemente heteronomas porque reconocen excepciones: democracia (participaci\u00F3n en la elecci\u00F3n de quienes dictan normas), costumbre y actos jur\u00EDdicos (fuentes con grado de autonom\u00EDa), normas v\u00E1lidas pero ineficaces (influencia del comportamiento social) y objeci\u00F3n de conciencia."},
-  {topic:"Criterios de Diferenciaci\u00F3n",q:"La diferencia entre normas exteriores e interiores se ilustra con el domicilio y la posesi\u00F3n en el CC. \u00BFPor qu\u00E9 son 'salvedades al car\u00E1cter exterior' de las normas jur\u00EDdicas?",correct:"Porque para determinar el domicilio hay que indagar en el \u00E1nimo de permanencia (fuero interno) y para la posesi\u00F3n hay que verificar el \u00E1nimo de se\u00F1or o due\u00F1o; sin esos elementos internos no hay domicilio ni posesi\u00F3n sino mera residencia o tenencia",wrong:["Porque el domicilio y la posesi\u00F3n son conceptos que el Derecho toma del Derecho Natural, que es interior por naturaleza","Porque en materia civil el juez puede valorar la buena fe del sujeto, lo que convierte toda la norma civil en interior","Porque el \u00E1nimo en domicilio y posesi\u00F3n es una presunci\u00F3n legal que no requiere prueba del fuero interno"],why:"El car\u00E1cter exterior admite salvedades: para el domicilio no basta la residencia objetiva, sino que hay que indagar en el \u00E1nimo de permanencia. Para la posesi\u00F3n no basta la tenencia, sino que se requiere el \u00E1nimo de se\u00F1or o due\u00F1o. Igualmente en Derecho Penal: el dolo (intenci\u00F3n) distingue el delito del cuasidelito."},
-  {topic:"Criterios de Diferenciaci\u00F3n",q:"Las normas de trato social son unilaterales. \u00BFPor qu\u00E9 esto las distingue de las normas jur\u00EDdicas bilaterales?",correct:"Porque frente al deber que impone la norma de trato social no existe ning\u00FAn sujeto facultado para exigir su cumplimiento; en las jur\u00EDdicas bilaterales, al deber de uno corresponde la facultad de otro para exigirlo",wrong:["Porque las normas de trato social obligan a ambas partes de una relaci\u00F3n social, a diferencia de las jur\u00EDdicas que solo obligan a una","Porque las normas de trato social son bilaterales en su creaci\u00F3n pero unilaterales en su aplicaci\u00F3n","Porque la bilateralidad de las normas jur\u00EDdicas significa que requieren dos actos para su creaci\u00F3n"],why:"La unilateralidad significa que la norma solo impone deberes sin que exista otro sujeto facultado para exigir su cumplimiento. En las normas jur\u00EDdicas bilaterales, al deber del sujeto pasivo corresponde la facultad del sujeto activo de exigirlo (ej: en la compraventa el comprador tiene el derecho de exigir la entrega)."},
-  {topic:"Criterios de Diferenciaci\u00F3n",q:"\u00BFCu\u00E1l es la diferencia entre coercibilidad y coacci\u00F3n?",correct:"La coercibilidad es la posibilidad de usar la fuerza socialmente organizada (fuerza en potencia); la coacci\u00F3n es el hecho efectivo del uso de esa fuerza (fuerza en acto). Las normas son necesariamente coercibles pero solo eventualmente coactivas",wrong:["La coercibilidad es exclusiva de las normas jur\u00EDdicas; la coacci\u00F3n puede aplicarse tambi\u00E9n en normas morales","La coercibilidad implica que la fuerza ya fue ejercida; la coacci\u00F3n implica que podr\u00EDa ejercerse en el futuro","La coercibilidad y la coacci\u00F3n son sin\u00F3nimos: ambas refieren al uso efectivo de la fuerza del Estado"],why:"Coercibilidad es la posibilidad leg\u00EDtima de hacer uso de la fuerza socialmente organizada (existe siempre). La coacci\u00F3n es el ejercicio efectivo de esa fuerza (puede no llegar a existir). Ejemplo: si el homicida no es descubierto, hay coercibilidad (la norma existe con su sanci\u00F3n) pero no hay coacci\u00F3n (la fuerza no fue efectivamente ejercida)."},
-  {topic:"Criterios de Diferenciaci\u00F3n",q:"La costumbre jur\u00EDdica tiene elemento objetivo y subjetivo. \u00BFEn qu\u00E9 consiste cada uno y qu\u00E9 implican para la heteronomia?",correct:"El objetivo es la repetici\u00F3n constante y uniforme de la conducta por la comunidad; el subjetivo es la convicci\u00F3n de que esa conducta es jur\u00EDdicamente obligatoria (opinio iuris). Al ser creada por los propios sujetos obligados, la costumbre tiene menor grado de heteronomia",wrong:["El objetivo es la aprobaci\u00F3n por el legislador; el subjetivo es la aceptaci\u00F3n del ciudadano; por eso la costumbre es completamente aut\u00F3noma","El objetivo es la existencia de un texto escrito que la recoja; el subjetivo es la opini\u00F3n del juez sobre su obligatoriedad","El objetivo es el tiempo de vigencia (al menos 10 a\u00F1os); el subjetivo es la uniformidad de su aplicaci\u00F3n en el territorio"],why:"La costumbre tiene elemento objetivo (repetici\u00F3n constante y uniforme de la conducta) y subjetivo (convicci\u00F3n de que es jur\u00EDdicamente obligatoria: opinio iuris). Al ser creada por los propios sujetos que deben obedecerla, pierde grados de heteronomia y asume grados de autonom\u00EDa, a diferencia de la ley dictada por autoridad externa."},
-  // ── TIPOS DE NORMAS ──
-  {topic:"Tipos de Normas",q:"Las normas religiosas son 'preferentemente heteronomas' pero reconocen un grado de autonom\u00EDa. \u00BFC\u00F3mo concilia Squella esta aparente contradicci\u00F3n?",correct:"Las normas religiosas no son aut\u00F3nomas en cuanto a su origen (vienen impuestas por la divinidad), pero s\u00ED desde el punto de vista del imperio, pues cada sujeto decide libremente si adopta o no una religi\u00F3n determinada y sus normas",wrong:["Son aut\u00F3nomas porque cada creyente puede reinterpretar las normas divinas seg\u00FAn su propia conciencia","Son aut\u00F3nomas porque su creaci\u00F3n es producto de la acci\u00F3n colectiva de los fieles de una comunidad","Son aut\u00F3nomas porque el Estado no interviene en su creaci\u00F3n ni en su aplicaci\u00F3n"],why:"Las normas religiosas no son aut\u00F3nomas en cuanto a su origen porque vienen impuestas por la divinidad o sus representantes. Pero son aut\u00F3nomas desde el punto de vista del imperio: cada sujeto decidir\u00E1 si adopta o no una determinada religi\u00F3n y sus normas. Una vez que adhiere libremente, acepta y hace suyas sus normas."},
-  {topic:"Tipos de Normas",q:"Las normas morales son interiores 'principalmente'. \u00BFPor qu\u00E9 la palabra 'principalmente' es importante?",correct:"Porque aunque las normas morales consideran la dimensi\u00F3n interna de la conducta para calificarla como moral o inmoral, tambi\u00E9n les interesa la dimensi\u00F3n externa: se espera que se reflejen en buenas acciones y obras",wrong:["Porque algunas normas morales regulan solo conductas externas cuando afectan a terceros, siendo equivalentes a las jur\u00EDdicas","Porque la moralidad es principalmente un asunto del fuero externo que el grupo social eval\u00FAa, y solo secundariamente del interno","Porque el legislador puede convertir normas morales en jur\u00EDdicas, cambiando su car\u00E1cter de interior a exterior"],why:"Las normas morales son interiores principalmente porque parten del aspecto interno de la conducta para calificarla de moral o inmoral. Sin embargo, tambi\u00E9n les interesa el aspecto externo porque de estas normas se espera que se reflejen en buenas acciones y obras hacia los dem\u00E1s."},
-  {topic:"Tipos de Normas",q:"\u00BFCu\u00E1l es la principal diferencia entre normas morales y normas jur\u00EDdicas en t\u00E9rminos de autonom\u00EDa/heteronomia y unilateralidad/bilateralidad?",correct:"Las morales son aut\u00F3nomas y unilaterales (nacen de la propia voluntad del sujeto y nadie puede exigir externamente su cumplimiento); las jur\u00EDdicas son heteronomas y bilaterales (provienen de autoridad externa y dan facultad de exigir cumplimiento)",wrong:["Las morales son heteronomas y bilaterales; las jur\u00EDdicas son aut\u00F3nomas y unilaterales","Las morales y jur\u00EDdicas son igualmente heteronomas, distingui\u00E9ndose solo por la sanci\u00F3n que aplica cada una","Las morales son aut\u00F3nomas y bilaterales; las jur\u00EDdicas son heteronomas y unilaterales"],why:"Las normas morales son aut\u00F3nomas (nacen de la voluntad del propio sujeto que las reconoce como v\u00E1lidas en su conciencia) y unilaterales (nadie puede exigir externamente su cumplimiento; la sanci\u00F3n es el remordimiento). Las normas jur\u00EDdicas son heteronomas (la autoridad normativa es distinta del sujeto obligado) y bilaterales (al deber de uno corresponde la facultad de otro para exigirlo)."},
-  {topic:"Tipos de Normas",q:"\u00BFQu\u00E9 caracter\u00EDstica de las normas jur\u00EDdicas las distingue fundamentalmente de todos los dem\u00E1s tipos de normas?",correct:"La coercibilidad: ante su incumplimiento existe la leg\u00EDtima posibilidad de hacer uso de la fuerza socialmente organizada para obtener el cumplimiento o aplicar una sanci\u00F3n, lo que no ocurre con las dem\u00E1s normas",wrong:["La heteronomia: son las \u00FAnicas producidas por una autoridad externa al sujeto obligado","La bilateralidad: son las \u00FAnicas que imponen deberes correlativos a facultades de exigirlos","La exterioridad: son las \u00FAnicas que regulan conductas externas sin importar el fuero interno"],why:"La coercibilidad es el rasgo definitorio que distingue a las normas jur\u00EDdicas de todas las dem\u00E1s: ante su incumplimiento existe la leg\u00EDtima posibilidad de hacer uso de la fuerza socialmente organizada (ordenada por los tribunales, ejecutada por la fuerza p\u00FAblica). Las normas morales, religiosas y de trato social son incoercibles."},
-  {topic:"Tipos de Normas",q:"Las normas de trato social son extremadamente variables en el tiempo y en el espacio. \u00BFCu\u00E1l es la causa principal de esa variabilidad?",correct:"Que est\u00E1n estrechamente ligadas a las costumbres sociales, que cambian seg\u00FAn el tiempo y la cultura; lo que antes era cortes\u00EDa puede ya no serlo hoy, y lo adecuado en una cultura puede no serlo en otra",wrong:["Son creadas por el Estado, que las modifica seg\u00FAn las necesidades pol\u00EDticas del momento","Su sanci\u00F3n (el rechazo social) es muy d\u00E9bil, lo que hace que las personas las incumplan frecuentemente cambiando la norma","Son normas bilaterales: al cambiar las relaciones entre partes, cambian tambi\u00E9n las normas que las regulan"],why:"Las normas de trato social est\u00E1n muy ligadas a las costumbres sociales, variables en el tiempo y en el espacio. Ej: antes exist\u00EDa la norma de pintar fachadas para el 18 de septiembre; hoy ya no se mira como incorrecto no hacerlo. Lo adecuado en una cultura puede no serlo en otra."},
-  // ── ESTRUCTURA LÓGICA ──
-  {topic:"Estructura L\u00F3gica de Normas",q:"\u00BFPor qu\u00E9 la teor\u00EDa tradicional que postula que las normas jur\u00EDdicas son juicios categ\u00F3ricos fue rechazada?",correct:"Porque las normas no son juicios en el sentido l\u00F3gico (no pertenecen al lenguaje descriptivo que puede ser verdadero o falso, sino al prescriptivo) y porque la f\u00F3rmula categ\u00F3rica no permite distinguir entre norma jur\u00EDdica y norma moral",wrong:["Porque los juicios categ\u00F3ricos son propios de las matem\u00E1ticas y no pueden aplicarse a fen\u00F3menos sociales","Porque la f\u00F3rmula categ\u00F3rica es demasiado compleja para aplicarse a normas jur\u00EDdicas cotidianas","Porque el juicio categ\u00F3rico no puede expresarse en t\u00E9rminos de deber ser, siendo incompatible con el Derecho"],why:"La teor\u00EDa tradicional fue rechazada porque: (1) las normas no son juicios l\u00F3gicos (no pertenecen al lenguaje descriptivo sino al prescriptivo; no pueden ser verdaderas o falsas sino justas/injustas); (2) la f\u00F3rmula 'S debe ser P' no permite distinguir entre norma jur\u00EDdica y moral, pues ambas tendr\u00EDan id\u00E9ntica estructura."},
-  {topic:"Estructura L\u00F3gica de Normas",q:"Kelsen distingue entre 'reglas de Derecho' y 'normas jur\u00EDdicas'. \u00BFEn qu\u00E9 consiste esa distinci\u00F3n?",correct:"Las reglas de Derecho (proposiciones normativas) son descripciones o estudios que los juristas hacen sobre el Derecho vigente (como un manual): no son obligatorias. Las normas jur\u00EDdicas emanan de autoridad, regulan la convivencia y est\u00E1n sancionadas por la fuerza: son obligatorias",wrong:["Las reglas de Derecho son normas constitucionales; las normas jur\u00EDdicas son las de rango legal ordinario","Las reglas de Derecho son las que crean los particulares mediante contratos; las normas jur\u00EDdicas las que crea el Estado","Las reglas de Derecho y las normas jur\u00EDdicas son sin\u00F3nimos que Kelsen usa en distintos momentos de su obra"],why:"Las reglas de Derecho (proposiciones normativas) son lo que los juristas escriben sobre el Derecho vigente en manuales: no son obligatorias, solo explican cu\u00E1l es el Derecho. Las normas jur\u00EDdicas est\u00E1n en los c\u00F3digos, leyes y sentencias: emanan de autoridad con facultad para dictarlas y est\u00E1n respaldadas por la sanci\u00F3n coactiva."},
-  {topic:"Estructura L\u00F3gica de Normas",q:"Kelsen propone la estructura bif\u00E1sica de la norma: norma primaria y secundaria. \u00BFQu\u00E9 describe cada una y cu\u00E1l tiene mayor importancia para Kelsen?",correct:"La norma primaria describe en su antecedente una conducta il\u00EDcita y establece la consecuencia coactiva (sanci\u00F3n); la secundaria describe la conducta l\u00EDcita y el efecto jur\u00EDdico sin sanci\u00F3n. Kelsen da m\u00E1s importancia a la primaria porque la secundaria est\u00E1 impl\u00EDcita en ella",wrong:["La norma primaria es la Constituci\u00F3n; la secundaria es la ley ordinaria; ambas tienen la misma importancia","La primaria establece derechos; la secundaria establece obligaciones; Kelsen prioriza la secundaria","La primaria es la que crea el Estado; la secundaria la que crean los particulares en sus actos jur\u00EDdicos"],why:"Para Kelsen, la norma primaria tiene en su antecedente la conducta il\u00EDcita y en su consecuente la sanci\u00F3n coactiva (ej: dado el homicidio, debe ser la reclusi\u00F3n). La secundaria tiene la conducta l\u00EDcita y el efecto jur\u00EDdico sin sanci\u00F3n (ej: dado el contrato de pr\u00E9stamo, debe ser la devoluci\u00F3n). Kelsen prioriza la primaria porque la secundaria est\u00E1 impl\u00EDcita en ella y es superflua."},
-  {topic:"Estructura L\u00F3gica de Normas",q:"Coss\u00EDo critica a Kelsen por subestimar las normas secundarias. \u00BFCu\u00E1l es el argumento de Coss\u00EDo y c\u00F3mo reformula la estructura?",correct:"Coss\u00EDo sostiene que la endonorma (=norma secundaria de Kelsen) tiene mayor importancia porque describe conductas l\u00EDcitas, que son lo normal en la vida social; la perinorma (=primaria) describe conductas il\u00EDcitas, que son la excepci\u00F3n. La estructura es un juicio disyuntivo: dado A debe ser P, O dado No-P debe ser S",wrong:["Coss\u00EDo rechaza la distinci\u00F3n de Kelsen porque considera que todas las normas son igualmente primarias","Coss\u00EDo sostiene que la perinorma es la m\u00E1s importante porque sin sanci\u00F3n no hay norma jur\u00EDdica, siguiendo a Kelsen","Coss\u00EDo propone que la norma jur\u00EDdica es un juicio categ\u00F3rico, reviviendo la teor\u00EDa tradicional"],why:"Coss\u00EDo critica a Kelsen por no valorar las normas secundarias. La endonorma describe conductas l\u00EDcitas, que es lo normal: la gran mayor\u00EDa de las personas ajusta su conducta al Derecho. La perinorma describe conductas il\u00EDcitas, que son la excepci\u00F3n. La estructura es disyuntiva: dado A debe ser P (endonorma), O dado No-P debe ser S (perinorma)."},
-  {topic:"Estructura L\u00F3gica de Normas",q:"Hart propone una distinci\u00F3n entre reglas primarias y secundarias diferente a la de Kelsen. \u00BFCu\u00E1l es la diferencia conceptual?",correct:"Para Hart, las reglas primarias imponen obligaciones a los individuos; las secundarias no se ocupan directamente de lo que los individuos deben hacer, sino que confieren potestades (para crear, modificar o aplicar las reglas primarias)",wrong:["Para Hart, las reglas primarias son las constitucionales; las secundarias son las leyes ordinarias","Para Hart, las reglas primarias son las normas morales que el Derecho recoge; las secundarias son las puramente t\u00E9cnicas","Para Hart, las reglas primarias y secundarias coinciden exactamente con la distinci\u00F3n de Kelsen"],why:"La diferencia con Kelsen es relevante: para Kelsen, la norma primaria es la que establece la sanci\u00F3n coactiva. Para Hart, las reglas primarias imponen obligaciones; las secundarias (reconocimiento, cambio y adjudicaci\u00F3n) confieren potestades para identificar, crear y aplicar las reglas primarias."},
-  {topic:"Estructura L\u00F3gica de Normas",q:"Las tres reglas secundarias de Hart tienen funciones distintas. \u00BFQu\u00E9 funci\u00F3n espec\u00EDfica cumple la regla de reconocimiento?",correct:"Sirve para identificar qu\u00E9 normas forman parte de un determinado ordenamiento jur\u00EDdico y cu\u00E1les no; en Chile, el Art. 7 del CC (publicaci\u00F3n en el Diario Oficial) es una regla de reconocimiento",wrong:["Sirve para determinar cu\u00E1ndo una norma puede ser modificada y cu\u00E1l es el procedimiento para hacerlo","Sirve para establecer qu\u00E9 jueces son competentes para aplicar las normas primarias del ordenamiento","Sirve para reconocer los derechos fundamentales que no pueden ser vulnerados por el Estado"],why:"La regla de reconocimiento identifica qu\u00E9 normas pertenecen a un ordenamiento jur\u00EDdico. El Art. 7 del CC chileno (leyes deben publicarse en el Diario Oficial) es un ejemplo: sirve para identificar qu\u00E9 normas son leyes chilenas. Sin ella, habr\u00EDa inseguridad sobre cu\u00E1les normas son Derecho."},
-  {topic:"Estructura L\u00F3gica de Normas",q:"\u00BFCu\u00E1l es la caracter\u00EDstica exclusiva del lenguaje descriptivo que lo distingue de todas las dem\u00E1s funciones del lenguaje?",correct:"Las expresiones del lenguaje descriptivo son las \u00FAnicas que pueden ser calificadas de verdaderas o falsas; las dem\u00E1s funciones admiten otros calificativos (justas/injustas, apropiadas/inapropiadas, etc.)",wrong:["El lenguaje descriptivo es el \u00FAnico que puede influir en la conducta de otros de manera efectiva","Es el \u00FAnico propio de la ciencia; las dem\u00E1s funciones pertenecen solo al lenguaje coloquial","Es el \u00FAnico que puede expresar emociones del hablante de manera objetiva y verificable"],why:"La caracter\u00EDstica exclusiva del lenguaje descriptivo es que sus expresiones pueden ser verdaderas o falsas. Las dem\u00E1s funciones no admiten esta calificaci\u00F3n: una orden puede ser justa o injusta, pero no 'verdadera o falsa' en el sentido l\u00F3gico. La ciencia est\u00E1 formulada en lenguaje descriptivo, pero tambi\u00E9n se usa en la vida cotidiana."}
-];
+let filtered = [...ALL_CARDS];
+let current = 0;
+let flipped = false;
+let results = {};
+let activeFilter = 'Todos';
 
-function shuffle(arr){for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t;}return arr;}
+const temas = ['Todos', ...new Set(ALL_CARDS.map(c => c.tema))];
 
-// Shuffle answers for each question, shuffle question order within each text
-var Q1 = shuffle(T1.map(function(b){var o=shuffle([b.correct,b.wrong[0],b.wrong[1],b.wrong[2]]);return{topic:b.topic,q:b.q,opts:o,ans:o.indexOf(b.correct),why:b.why,txt:1};}));
-var Q2 = shuffle(T2.map(function(b){var o=shuffle([b.correct,b.wrong[0],b.wrong[1],b.wrong[2]]);return{topic:b.topic,q:b.q,opts:o,ans:o.indexOf(b.correct),why:b.why,txt:2};}));
-
-// Build combined list: all T1 questions, then transition, then T2
-// We track: indices 0..Q1.length-1 are T1, then Q1.length is transition marker, then the rest are T2
-var TOTAL = Q1.length + Q2.length;
-var answered = [];
-for(var i=0;i<TOTAL;i++) answered.push(null);
-var current = 0;
-var score1 = 0, score2 = 0;
-var showingTransition = false;
-var t2Started = false;
-
-document.getElementById('sub').textContent = Q1.length + ' preguntas del Texto 1 + ' + Q2.length + ' del Texto 2 \u00B7 Alternativas aleatorias en cada intento';
-
-function getQ(idx){
-  if(idx < Q1.length) return Q1[idx];
-  return Q2[idx - Q1.length];
-}
-function getTxt(idx){
-  return idx < Q1.length ? 1 : 2;
+function buildFilters() {
+  const cont = document.getElementById('filters');
+  temas.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (t === 'Todos' ? ' active' : '');
+    btn.textContent = t;
+    btn.onclick = () => applyFilter(t);
+    cont.appendChild(btn);
+  });
 }
 
-function render(){
-  // Check if we need to show transition screen
-  if(current === Q1.length && !showingTransition && !t2Started){
-    showTransition();
+function applyFilter(tema) {
+  activeFilter = tema;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn').forEach(b => { if(b.textContent === tema) b.classList.add('active'); });
+  filtered = tema === 'Todos' ? [...ALL_CARDS] : ALL_CARDS.filter(c => c.tema === tema);
+  current = 0;
+  flipped = false;
+  showCard();
+  updateStats();
+}
+
+function showCard() {
+  const done = document.getElementById('done-screen');
+  const game = document.getElementById('game-area');
+  const answered = filtered.filter(c => results[cardKey(c)] !== undefined).length;
+
+  if (answered === filtered.length && filtered.length > 0) {
+    done.classList.remove('hidden');
+    game.style.display = 'none';
+    const correct = filtered.filter(c => results[cardKey(c)] === true).length;
+    const wrong = filtered.filter(c => results[cardKey(c)] === false).length;
+    document.getElementById('done-correct').textContent = correct;
+    document.getElementById('done-wrong').textContent = wrong;
     return;
   }
-  if(current >= TOTAL){ showResult(); return; }
 
-  var txt = getTxt(current);
-  var q = getQ(current);
-  var isT1 = txt === 1;
-  var fillClass = isT1 ? 'fill-t1' : 'fill-t2';
-  var badgeClass = isT1 ? 'badge-t1' : 'badge-t2';
-  var btnClass = isT1 ? 'btn-t1' : 'btn-t2';
+  done.classList.add('hidden');
+  game.style.display = '';
 
-  var pct = Math.round((current / TOTAL) * 100);
-  document.getElementById('pbar').className = 'progress-bar-fill ' + fillClass;
-  document.getElementById('pbar').style.width = pct + '%';
+  const card = filtered[current];
+  if (!card) return;
 
-  var isAns = answered[current] !== null;
-  var secHTML = '';
-  if(current === 0){
-    secHTML = '<div class="section-header sec1"><div class="sec-label">Texto 1 de 2</div><div class="sec-title">Introducci\u00F3n al Derecho \u2014 Apunte 1</div><div class="sec-sub">Preguntas 1 a ' + Q1.length + '</div></div>';
-  } else if(current === Q1.length + 1 && !isT1){
-    secHTML = '<div class="section-header sec2"><div class="sec-label">Texto 2 de 2</div><div class="sec-title">Teor\u00EDa de las Normas \u2014 Apunte 2</div><div class="sec-sub">Preguntas ' + (Q1.length+1) + ' a ' + TOTAL + '</div></div>';
+  document.getElementById('front-tag').textContent = card.tema;
+  document.getElementById('card-question').textContent = card.q;
+  document.getElementById('card-answer').textContent = card.a;
+
+  const fc = document.getElementById('flashcard');
+  fc.classList.remove('flipped');
+  flipped = false;
+  document.getElementById('actions').style.display = 'none';
+
+  document.getElementById('card-counter').textContent = `Tarjeta ${current + 1} de ${filtered.length}`;
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === filtered.length - 1;
+
+  const progress = ((current + 1) / filtered.length) * 100;
+  document.getElementById('progress-fill').style.width = progress + '%';
+}
+
+function cardKey(card) { return card.tema + '||' + card.q; }
+
+function flipCard() {
+  if (!flipped) {
+    document.getElementById('flashcard').classList.add('flipped');
+    flipped = true;
+    if (results[cardKey(filtered[current])] === undefined) {
+      document.getElementById('actions').style.display = 'flex';
+    }
   }
-  // Show section header at start of each section
-  var showHeader = (current === 0) || (current === Q1.length + 1);
-  // But if we just passed transition, always show header for first T2 question
-  if(current === Q1.length && showingTransition){ showingTransition = false; }
+}
 
-  var localNum = isT1 ? (current + 1) : (current - Q1.length + 1);
-  var localTotal = isT1 ? Q1.length : Q2.length;
+function markAnswer(correct) {
+  const key = cardKey(filtered[current]);
+  results[key] = correct;
+  document.getElementById('actions').style.display = 'none';
+  updateStats();
 
-  var html = '';
-  if(current === 0){
-    html += '<div class="section-header sec1"><div class="sec-label">Texto 1 de 2</div><div class="sec-title">Introducci\u00F3n al Derecho \u2014 Apunte 1</div><div class="sec-sub">Preguntas 1 a ' + Q1.length + '</div></div>';
-  }
-  if(current === Q1.length){
-    html += '<div class="section-header sec2"><div class="sec-label">Texto 2 de 2</div><div class="sec-title">Teor\u00EDa de las Normas \u2014 Apunte 2</div><div class="sec-sub">Preguntas 1 a ' + Q2.length + '</div></div>';
-  }
-
-  html += '<div class="question-card"><div class="q-meta"><span class="topic-badge ' + badgeClass + '">' + q.topic + '</span><span class="counter">Pregunta ' + localNum + ' de ' + localTotal + '</span></div><p class="q-text">' + q.q + '</p>';
-  for(var i=0;i<q.opts.length;i++){
-    var cls='';
-    if(isAns){ if(i===q.ans) cls='correct'; else if(i===answered[current]&&i!==q.ans) cls='wrong'; }
-    html += '<button class="option ' + cls + '" ' + (isAns?'disabled':'') + ' onclick="choose(' + i + ')">' + String.fromCharCode(65+i) + ') ' + q.opts[i] + '</button>';
-  }
-  var fbcls = isAns ? (answered[current]===q.ans?'ok':'ko') : '';
-  var fbshow = isAns ? 'show' : '';
-  var fbtext = isAns ? ((answered[current]===q.ans?'\u2713 Correcto. ':'\u2717 Incorrecto. ') + q.why) : '';
-  html += '<div class="feedback ' + fbshow + ' ' + fbcls + '">' + fbtext + '</div></div>';
-
-  var resp=0; for(var j=0;j<answered.length;j++){if(answered[j]!==null)resp++;}
-  var totalScore = score1 + score2;
-  html += '<div class="nav-row"><button class="btn" onclick="go(-1)" ' + (current===0?'disabled':'') + '>&#8592; Anterior</button>';
-  html += '<span class="counter">' + totalScore + ' correctas de ' + resp + '</span>';
-  if(isT1){
-    if(current < Q1.length - 1) html += '<button class="' + btnClass + ' btn" onclick="go(1)">Siguiente &#8594;</button>';
-    else html += '<button class="' + btnClass + ' btn" onclick="goTransition()">Siguiente texto &#8594;</button>';
+  const unanswered = filtered.findIndex((c, i) => i > current && results[cardKey(c)] === undefined);
+  if (unanswered !== -1) {
+    setTimeout(() => { current = unanswered; flipped = false; showCard(); }, 400);
   } else {
-    if(current < TOTAL - 1) html += '<button class="' + btnClass + ' btn" onclick="go(1)">Siguiente &#8594;</button>';
-    else html += '<button class="' + btnClass + ' btn" onclick="current=TOTAL;render()">Ver resultado</button>';
+    const any = filtered.findIndex(c => results[cardKey(c)] === undefined);
+    if (any !== -1) {
+      setTimeout(() => { current = any; flipped = false; showCard(); }, 400);
+    } else {
+      setTimeout(showCard, 400);
+    }
   }
-  html += '</div>';
-  document.getElementById('content').innerHTML = html;
 }
 
-function showTransition(){
-  showingTransition = true;
-  document.getElementById('pbar').className = 'progress-bar-fill fill-t2';
-  document.getElementById('pbar').style.width = Math.round((Q1.length/TOTAL)*100) + '%';
-  document.getElementById('content').innerHTML = '<div class="transition-card"><h2>&#10003; Texto 1 completado</h2><p>Has respondido las ' + Q1.length + ' preguntas del Apunte 1.<br>Puntaje: <strong>' + score1 + '/' + Q1.length + '</strong></p><div class="section-header sec2" style="text-align:left;margin-bottom:1rem;"><div class="sec-label">A continuaci\u00F3n \u2014 Texto 2 de 2</div><div class="sec-title">Teor\u00EDa de las Normas \u2014 Apunte 2</div><div class="sec-sub">' + Q2.length + ' preguntas</div></div><button class="btn btn-t2" onclick="startT2()">Comenzar Texto 2 &#8594;</button></div>';
+function navigate(dir) {
+  current = Math.max(0, Math.min(filtered.length - 1, current + dir));
+  flipped = false;
+  document.getElementById('actions').style.display = 'none';
+  showCard();
 }
 
-function startT2(){
-  showingTransition = false;
-  t2Started = true;
-  render();
+function updateStats() {
+  const total = filtered.length;
+  const correct = filtered.filter(c => results[cardKey(c)] === true).length;
+  const wrong = filtered.filter(c => results[cardKey(c)] === false).length;
+  const pending = total - correct - wrong;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('stat-pending').textContent = pending;
 }
 
-function goTransition(){
-  current = Q1.length;
-  showTransition();
+function resetSession() {
+  results = {};
+  current = 0;
+  flipped = false;
+  document.getElementById('done-screen').classList.add('hidden');
+  document.getElementById('game-area').style.display = '';
+  updateStats();
+  showCard();
 }
 
-function choose(i){
-  if(answered[current]!==null) return;
-  answered[current] = i;
-  if(i === getQ(current).ans){
-    if(getTxt(current)===1) score1++; else score2++;
-  }
-  render();
-}
-
-function go(dir){
-  if(dir === -1 && current === Q1.length){ current = Q1.length - 1; render(); return; }
-  current += dir;
-  render();
-}
-
-function showResult(){
-  document.getElementById('pbar').className = 'progress-bar-fill fill-t2';
-  document.getElementById('pbar').style.width = '100%';
-  var total = score1 + score2;
-  var pct = Math.round((total/TOTAL)*100);
-  var msg = pct>=90?'Excelente dominio del material':pct>=70?'Buen resultado, sigue repasando':pct>=50?'Vas bien, pero hay temas por reforzar':'Conviene repasar los apuntes con detalle';
-  var dots1='', dots2='';
-  for(var i=0;i<Q1.length;i++) dots1+='<div class="dot" title="T1 P.'+(i+1)+': '+(answered[i]===Q1[i].ans?'Correcta':'Incorrecta')+'" style="background:'+(answered[i]===Q1[i].ans?'#185FA5':'#A32D2D')+'"></div>';
-  for(var i=0;i<Q2.length;i++) dots2+='<div class="dot" title="T2 P.'+(i+1)+': '+(answered[Q1.length+i]===Q2[i].ans?'Correcta':'Incorrecta')+'" style="background:'+(answered[Q1.length+i]===Q2[i].ans?'#1D9E75':'#A32D2D')+'"></div>';
-  document.getElementById('content').innerHTML =
-    '<div class="question-card score-card"><div class="score-num score-t2">'+total+'/'+TOTAL+'</div><div class="score-label">'+pct+'% \u2014 '+msg+'</div>'+
-    '<div class="section-score"><div class="sscore-box sscore-t1">Texto 1: '+score1+'/'+Q1.length+'</div><div class="sscore-box sscore-t2">Texto 2: '+score2+'/'+Q2.length+'</div></div>'+
-    '<p style="font-size:12px;color:#999;margin-top:12px;margin-bottom:6px;">Texto 1 (azul) \u00B7 Texto 2 (verde) \u00B7 Rojo = incorrecta</p>'+
-    '<div class="dots">'+dots1+'</div><div class="dots" style="margin-top:6px">'+dots2+'</div></div>'+
-    '<div class="nav-row" style="justify-content:center;"><button class="btn btn-t2" onclick="location.reload()">Reiniciar con nuevo orden aleatorio</button></div>';
-}
-
-render();
+buildFilters();
+showCard();
+updateStats();
 </script>
 </body>
 </html>
