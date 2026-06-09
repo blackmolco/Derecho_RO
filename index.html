@@ -3,322 +3,964 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tarjetas de Estudio — Derecho Civil</title>
+<title>Prueba de Alternativas — Introducción al Derecho & Principios del Derecho Civil</title>
 <style>
+  :root {
+    --dark: #1A2F5A;
+    --med: #2B5EA7;
+    --light: #D9E8F7;
+    --green: #1B6B3A;
+    --greenl: #D4EDDA;
+    --red: #8B1A1A;
+    --redl: #FDECEA;
+    --gold: #92640A;
+    --goldl: #FFF8E1;
+    --gray: #F4F4F4;
+    --white: #FFFFFF;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: system-ui, -apple-system, sans-serif; background: #f5f4f0; min-height: 100vh; padding: 24px 16px; }
+  body {
+    font-family: Arial, sans-serif;
+    background: #EEF2F8;
+    color: #1A1A1A;
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--med) 100%);
+    color: white;
+    padding: 28px 32px 20px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+  }
+  header h1 { font-size: 1.5em; letter-spacing: .5px; margin-bottom: 6px; }
+  header p  { font-size: .88em; opacity: .85; }
+  #meta-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--dark); color: white;
+    padding: 10px 32px; font-size: .82em;
+  }
+  #meta-bar span { opacity: .9; }
+  #progress-wrap { background: #dde4ef; border-radius: 4px; height: 6px; width: 200px; }
+  #progress-fill { background: #5BA8FF; height: 6px; border-radius: 4px; transition: width .4s; }
 
-  h1 { font-size: 22px; font-weight: 500; color: #1a1a1a; margin-bottom: 4px; }
-  .subtitle { font-size: 14px; color: #666; margin-bottom: 24px; }
+  main { max-width: 820px; margin: 30px auto; padding: 0 16px 60px; }
 
-  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
-  .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #d0cfc7; background: #fff; font-size: 13px; cursor: pointer; color: #444; transition: all 0.15s; }
-  .filter-btn:hover { border-color: #534AB7; color: #534AB7; }
-  .filter-btn.active { background: #534AB7; color: #fff; border-color: #534AB7; }
+  /* ── PANTALLA INICIAL ── */
+  #screen-start { text-align: center; padding: 40px 20px; }
+  #screen-start h2 { color: var(--dark); font-size: 1.6em; margin-bottom: 12px; }
+  #screen-start p  { color: #444; margin-bottom: 8px; font-size: .95em; }
+  .config-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin: 24px 0; }
+  .config-box {
+    background: white; border: 2px solid var(--light);
+    border-radius: 10px; padding: 18px 24px; min-width: 160px;
+    cursor: pointer; transition: all .2s; text-align: center;
+    font-size: .9em; color: var(--dark);
+  }
+  .config-box:hover, .config-box.selected {
+    border-color: var(--med); background: var(--light); font-weight: bold;
+  }
+  .config-box strong { display: block; font-size: 1.6em; margin-bottom: 4px; color: var(--dark); }
+  .badge {
+    display: inline-block; background: var(--light); color: var(--dark);
+    border: 1px solid var(--med); border-radius: 20px;
+    padding: 4px 14px; font-size: .8em; margin: 4px;
+  }
 
-  .stats { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
-  .stat { background: #fff; border: 0.5px solid #ddd; border-radius: 10px; padding: 12px 16px; min-width: 100px; text-align: center; }
-  .stat-num { font-size: 22px; font-weight: 500; }
-  .stat-label { font-size: 12px; color: #888; margin-top: 2px; }
-  .stat-num.correct { color: #0F6E56; }
-  .stat-num.wrong { color: #993C1D; }
-  .stat-num.pending { color: #534AB7; }
+  /* ── TARJETA PREGUNTA ── */
+  .q-card {
+    background: white; border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    padding: 28px 30px 22px; margin-bottom: 24px;
+    border-left: 5px solid var(--med);
+    animation: fadeIn .35s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  .q-num {
+    font-size: .78em; color: var(--med); font-weight: bold;
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .q-text {
+    font-size: 1.06em; color: var(--dark); font-weight: bold;
+    line-height: 1.5; margin-bottom: 20px;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--gray); border: 2px solid #ddd;
+    border-radius: 9px; padding: 13px 16px;
+    cursor: pointer; transition: all .18s; text-align: left;
+    font-size: .93em; color: #222; font-family: Arial, sans-serif;
+    line-height: 1.4;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--med); background: var(--light); }
+  .opt-btn:disabled { cursor: default; }
+  .opt-letter {
+    min-width: 28px; height: 28px;
+    background: white; border: 2px solid #bbb;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: bold; font-size: .85em; color: #555; flex-shrink: 0;
+  }
+  .opt-btn.correct   { background: var(--greenl); border-color: var(--green); color: var(--green); }
+  .opt-btn.correct   .opt-letter { background: var(--green); color: white; border-color: var(--green); }
+  .opt-btn.wrong     { background: var(--redl); border-color: var(--red); color: var(--red); }
+  .opt-btn.wrong     .opt-letter { background: var(--red); color: white; border-color: var(--red); }
+  .opt-btn.revealed  { background: #E8F5E9; border-color: var(--green); color: var(--green); }
+  .opt-btn.revealed  .opt-letter { background: var(--green); color: white; border-color: var(--green); }
 
-  .card-area { max-width: 680px; margin: 0 auto; }
+  .feedback-box {
+    margin-top: 14px; padding: 12px 16px;
+    border-radius: 8px; font-size: .9em; line-height: 1.5;
+    display: none;
+  }
+  .feedback-box.show { display: block; animation: fadeIn .2s; }
+  .feedback-box.ok   { background: var(--greenl); color: var(--green); border: 1px solid #b2dfdb; }
+  .feedback-box.err  { background: var(--redl);   color: var(--red);   border: 1px solid #ffcdd2; }
 
-  .card-counter { font-size: 13px; color: #888; text-align: center; margin-bottom: 12px; }
+  /* ── NAVEGACIÓN ── */
+  .nav-row { display: flex; justify-content: flex-end; margin-top: 18px; gap: 10px; }
+  .btn {
+    padding: 11px 26px; border-radius: 8px; border: none;
+    font-family: Arial, sans-serif; font-size: .92em; font-weight: bold;
+    cursor: pointer; transition: all .18s;
+  }
+  .btn-primary { background: var(--med); color: white; }
+  .btn-primary:hover { background: var(--dark); }
+  .btn-secondary { background: white; color: var(--dark); border: 2px solid var(--med); }
+  .btn-secondary:hover { background: var(--light); }
+  .btn:disabled { opacity: .45; cursor: default; }
 
-  .flashcard { perspective: 1200px; height: 280px; cursor: pointer; user-select: none; margin-bottom: 20px; }
-  .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.55s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; }
-  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  /* ── RESULTADOS ── */
+  #screen-result { text-align: center; }
+  .score-circle {
+    width: 140px; height: 140px; border-radius: 50%;
+    border: 8px solid var(--med);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    margin: 0 auto 20px; background: white;
+  }
+  .score-circle .score-num { font-size: 2.4em; font-weight: bold; color: var(--dark); }
+  .score-circle .score-den { font-size: .95em; color: #666; }
+  .result-msg { font-size: 1.3em; font-weight: bold; color: var(--dark); margin-bottom: 8px; }
+  .result-sub { color: #555; font-size: .95em; margin-bottom: 28px; }
+  .nota-badge {
+    display: inline-block; padding: 10px 28px;
+    border-radius: 30px; font-size: 1.4em; font-weight: bold;
+    margin-bottom: 24px;
+  }
+  .review-list { text-align: left; margin-top: 20px; }
+  .review-item {
+    background: white; border-radius: 10px; padding: 14px 18px;
+    margin-bottom: 12px; border-left: 4px solid #ccc;
+    font-size: .9em;
+  }
+  .review-item.ok-item  { border-color: var(--green); }
+  .review-item.err-item { border-color: var(--red); }
+  .review-item .ri-q   { font-weight: bold; color: var(--dark); margin-bottom: 6px; }
+  .review-item .ri-a   { color: #444; }
+  .review-item .ri-c   { color: var(--green); font-weight: bold; }
+  .review-item .ri-w   { color: var(--red); }
 
-  .card-front, .card-back { position: absolute; width: 100%; height: 100%; border-radius: 14px; border: 1px solid #e0dfd7; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 28px; text-align: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  /* tag temático */
+  .tag {
+    display: inline-block; background: var(--light); color: var(--dark);
+    font-size: .72em; padding: 2px 8px; border-radius: 10px;
+    margin-left: 6px; font-weight: normal; vertical-align: middle;
+  }
 
-  .card-front { background: #fff; }
-  .card-back { background: #EEEDFE; transform: rotateY(180deg); }
-
-  .card-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; margin-bottom: 16px; }
-  .card-front .card-tag { background: #EEEDFE; color: #534AB7; }
-  .card-back .card-tag { background: #534AB7; color: #fff; }
-
-  .card-question { font-size: 18px; font-weight: 500; color: #1a1a1a; line-height: 1.5; }
-  .card-answer { font-size: 15px; color: #26215C; line-height: 1.6; }
-
-  .flip-hint { font-size: 12px; color: #aaa; margin-top: 16px; display: flex; align-items: center; gap: 4px; }
-
-  .actions { display: flex; gap: 12px; justify-content: center; margin-bottom: 32px; }
-  .btn { padding: 12px 28px; border-radius: 10px; border: 1.5px solid; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 8px; }
-  .btn-wrong { background: #fff; border-color: #D85A30; color: #D85A30; }
-  .btn-wrong:hover { background: #FAECE7; }
-  .btn-correct { background: #fff; border-color: #1D9E75; color: #1D9E75; }
-  .btn-correct:hover { background: #E1F5EE; }
-
-  .nav-btns { display: flex; gap: 12px; justify-content: center; margin-bottom: 40px; }
-  .nav-btn { padding: 8px 20px; border-radius: 8px; border: 1px solid #d0cfc7; background: #fff; font-size: 14px; cursor: pointer; color: #444; transition: all 0.15s; }
-  .nav-btn:hover { border-color: #534AB7; color: #534AB7; }
-  .nav-btn:disabled { opacity: 0.35; cursor: default; border-color: #d0cfc7; color: #aaa; }
-
-  .progress-bar { height: 4px; background: #e0dfd7; border-radius: 2px; margin-bottom: 24px; }
-  .progress-fill { height: 100%; border-radius: 2px; background: #534AB7; transition: width 0.3s ease; }
-
-  .done-screen { text-align: center; background: #fff; border-radius: 14px; border: 1px solid #e0dfd7; padding: 40px 28px; }
-  .done-screen h2 { font-size: 20px; font-weight: 500; margin-bottom: 8px; }
-  .done-screen p { color: #666; margin-bottom: 24px; font-size: 15px; }
-  .done-stats { display: flex; gap: 20px; justify-content: center; margin-bottom: 28px; }
-  .done-stat { font-size: 32px; font-weight: 500; }
-  .reset-btn { padding: 12px 32px; border-radius: 10px; border: 1.5px solid #534AB7; background: #534AB7; color: #fff; font-size: 15px; cursor: pointer; font-weight: 500; }
-  .reset-btn:hover { background: #3C3489; }
-
-  .hidden { display: none; }
+  @media (max-width: 560px) {
+    header h1 { font-size: 1.15em; }
+    main { padding: 0 8px 40px; }
+    .q-card { padding: 18px 16px; }
+    .config-row { flex-direction: column; align-items: center; }
+  }
 </style>
 </head>
 <body>
 
-<div class="card-area">
-  <h1>Tarjetas de Estudio — Derecho Civil</h1>
-  <p class="subtitle">Haz clic en la tarjeta para ver la respuesta, luego indica si la sabías</p>
-
-  <div class="filters" id="filters"></div>
-
-  <div class="stats">
-    <div class="stat"><div class="stat-num pending" id="stat-total">0</div><div class="stat-label">Total</div></div>
-    <div class="stat"><div class="stat-num correct" id="stat-correct">0</div><div class="stat-label">Correctas</div></div>
-    <div class="stat"><div class="stat-num wrong" id="stat-wrong">0</div><div class="stat-label">Incorrectas</div></div>
-    <div class="stat"><div class="stat-num pending" id="stat-pending">0</div><div class="stat-label">Pendientes</div></div>
-  </div>
-
-  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-
-  <div class="card-counter" id="card-counter"></div>
-
-  <div id="game-area">
-    <div class="flashcard" id="flashcard" onclick="flipCard()">
-      <div class="flashcard-inner">
-        <div class="card-front">
-          <div class="card-tag" id="front-tag"></div>
-          <div class="card-question" id="card-question"></div>
-          <div class="flip-hint">↕ Haz clic para ver la respuesta</div>
-        </div>
-        <div class="card-back">
-          <div class="card-tag">Respuesta</div>
-          <div class="card-answer" id="card-answer"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="actions" id="actions" style="display:none;">
-      <button class="btn btn-wrong" onclick="markAnswer(false)">✗ No lo sabía</button>
-      <button class="btn btn-correct" onclick="markAnswer(true)">✓ Lo sabía</button>
-    </div>
-
-    <div class="nav-btns">
-      <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>← Anterior</button>
-      <button class="nav-btn" id="btn-next" onclick="navigate(1)">Siguiente →</button>
-    </div>
-  </div>
-
-  <div id="done-screen" class="done-screen hidden">
-    <h2>¡Sesión completada!</h2>
-    <p>Has respondido todas las tarjetas del grupo seleccionado.</p>
-    <div class="done-stats">
-      <div><div class="done-stat" style="color:#0F6E56" id="done-correct">0</div><div style="font-size:13px;color:#888">Correctas</div></div>
-      <div><div class="done-stat" style="color:#D85A30" id="done-wrong">0</div><div style="font-size:13px;color:#888">Incorrectas</div></div>
-    </div>
-    <button class="reset-btn" onclick="resetSession()">Reiniciar sesión</button>
+<header>
+  <h1>⚖️ Prueba de Alternativas — Derecho</h1>
+  <p>Introducción al Derecho &amp; Principios Fundamentales del Derecho Civil Chileno</p>
+</header>
+<div id="meta-bar">
+  <span id="meta-info">Selecciona la cantidad de preguntas</span>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span id="score-live" style="font-weight:bold;color:#7EC8FF;display:none;"></span>
+    <div id="progress-wrap"><div id="progress-fill" style="width:0%"></div></div>
   </div>
 </div>
 
+<main>
+
+<!-- ═══ PANTALLA INICIO ═══ -->
+<div id="screen-start">
+  <h2>Prueba de Conocimientos Jurídicos</h2>
+  <p>Preguntas aleatorias de las Unidades 1 y Principios del Derecho Civil.<br>Cada vez que inicies, las preguntas <strong>y</strong> las opciones cambian de orden.</p>
+  <div style="margin:20px 0;">
+    <span class="badge">📚 Norma Jurídica · Kelsen · Alexy · Hart · Dworkin · Reale</span>
+    <span class="badge">⚖️ 13 Principios Fundamentales del Derecho Civil</span>
+    <span class="badge">🇨🇱 Código Civil chileno · CPR · Leyes especiales</span>
+  </div>
+  <p style="margin-top:16px;font-size:.9em;color:#555;">¿Cuántas preguntas quieres responder?</p>
+  <div class="config-row" id="qty-row">
+    <div class="config-box" data-qty="10"><strong>10</strong>preguntas<br><small style="color:#777">~5 min</small></div>
+    <div class="config-box selected" data-qty="20"><strong>20</strong>preguntas<br><small style="color:#777">~10 min</small></div>
+    <div class="config-box" data-qty="30"><strong>30</strong>preguntas<br><small style="color:#777">~15 min</small></div>
+    <div class="config-box" data-qty="0"><strong>Todas</strong>las preguntas<br><small style="color:#777">42 preguntas</small></div>
+  </div>
+  <button class="btn btn-primary" id="btn-start" style="margin-top:10px;font-size:1em;padding:14px 44px;">
+    🚀 Comenzar prueba
+  </button>
+</div>
+
+<!-- ═══ PANTALLA QUIZ ═══ -->
+<div id="screen-quiz" style="display:none;">
+  <div id="q-container"></div>
+  <div class="nav-row">
+    <button class="btn btn-secondary" id="btn-finish" style="display:none;" onclick="finish()">Ver resultados</button>
+    <button class="btn btn-primary" id="btn-next" disabled onclick="next()">Siguiente →</button>
+  </div>
+</div>
+
+<!-- ═══ PANTALLA RESULTADO ═══ -->
+<div id="screen-result" style="display:none;">
+  <h2 style="color:var(--dark);margin-bottom:20px;">📊 Resultados</h2>
+  <div class="score-circle">
+    <span class="score-num" id="res-num">0</span>
+    <span class="score-den" id="res-den">/ 20</span>
+  </div>
+  <div class="nota-badge" id="nota-badge"></div>
+  <div class="result-msg" id="res-msg"></div>
+  <div class="result-sub" id="res-sub"></div>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;">
+    <button class="btn btn-primary" onclick="restart()">🔄 Nueva prueba aleatoria</button>
+    <button class="btn btn-secondary" onclick="toggleReview()">📋 Revisar respuestas</button>
+  </div>
+  <div id="review-panel" style="display:none;">
+    <div class="review-list" id="review-list"></div>
+  </div>
+</div>
+
+</main>
+
 <script>
-const ALL_CARDS = [
-  {tema:"Relaciones Jurídicas", q:"¿Cómo define Jaime Williams la relación jurídica?", a:"Es el vínculo entre dos sujetos de derecho, nacido de un hecho condicionante previsto en el derecho, en cuya virtud uno debe cumplir una prestación para con el otro, quien tiene la facultad de exigirlo."},
-  {tema:"Relaciones Jurídicas", q:"¿Qué es el hecho condicionante en una relación jurídica?", a:"El hecho jurídico que da origen a la relación jurídica; consiste en la realización concreta del supuesto normativo previsto en la norma."},
-  {tema:"Relaciones Jurídicas", q:"¿Cuál es la diferencia entre un hecho condicionante simple y uno complejo?", a:"El simple consiste en un solo hecho (ej. matar a otro). El complejo está compuesto de dos o más hechos que deben concurrir todos juntos (ej. funcionario público que malverse fondos)."},
-  {tema:"Relaciones Jurídicas", q:"¿Cómo se clasifican los hechos condicionantes según su origen?", a:"En hechos de la Naturaleza (muerte, nacimiento, paso del tiempo) y hechos del Hombre, que a su vez se dividen en involuntarios y voluntarios (con o sin intención)."},
-  {tema:"Relaciones Jurídicas", q:"¿Qué son los hechos voluntarios sin intención lícitos? ¿Ejemplo?", a:"Son hechos permitidos por el derecho cuyos resultados no corresponden a los efectos queridos por el autor. Ejemplo: los cuasicontratos."},
-  {tema:"Relaciones Jurídicas", q:"¿Quiénes son los sujetos de derecho en el ordenamiento jurídico chileno?", a:"Las personas naturales (art. 55 CC: todos los individuos de la especie humana) y las personas jurídicas o colectivas."},
-  {tema:"Relaciones Jurídicas", q:"¿Qué señala el art. 55 del Código Civil sobre las personas?", a:"Son personas todos los individuos de la especie humana, cualquiera que sea su edad, sexo, estirpe o condición. Se dividen en chilenos y extranjeros."},
-  {tema:"Relaciones Jurídicas", q:"¿Cuál es la perspectiva jurídica de persona y qué debate plantea?", a:"Se analiza a la persona en cuanto titular de derechos y obligaciones. Plantea el debate sobre la juridicidad natural del hombre: una postura la afirma; la otra la niega (positivistas, estamentalistas y colectivistas)."},
-  {tema:"Relaciones Jurídicas", q:"¿Qué establece el art. 76 CC sobre la concepción?", a:"Se presume de derecho que la concepción ha precedido al nacimiento no menos de 180 días cabales ni más de 300, contados hacia atrás desde la medianoche en que principie el día del nacimiento."},
-  {tema:"Relaciones Jurídicas", q:"¿Qué protege el art. 75 CC respecto del que está por nacer?", a:"La ley protege la vida del que está por nacer. El juez puede tomar de oficio todas las providencias necesarias para proteger su existencia cuando estime que peligra."},
-  {tema:"Relaciones Jurídicas", q:"¿Qué dispone el art. 74 CC sobre la existencia legal de la persona?", a:"La existencia legal principia al nacer, es decir, al separarse completamente de la madre. La criatura que muere en el vientre o perece antes de la separación completa, o no sobrevive un momento siquiera, se reputa no haber existido jamás."},
-  {tema:"Relaciones Jurídicas", q:"¿Cuáles son los tres requisitos para que se verifique el nacimiento según el art. 74 CC?", a:"1) Que la criatura se separe completamente del vientre de la madre. 2) Que la separación sea completa. 3) Que sobreviva un momento siquiera."},
-  {tema:"Relaciones Jurídicas", q:"¿En qué consiste la teoría de la vitalidad versus la teoría de la viabilidad en el nacimiento?", a:"Vitalidad: el simple nacimiento con vida determina la condición de persona (Derecho Romano). Viabilidad: además exige talla, peso, forma humana y período mínimo de gestación (Derecho Feudal/español)."},
-  {tema:"Relaciones Jurídicas", q:"¿Cuáles son las causales del fin de la existencia de la persona natural según el CC?", a:"Solo la muerte natural (art. 78 CC). Puede ser real (ocurrencia constatable) o presunta (declarada por el juez respecto de quien desapareció y de quien se ignora si vive)."},
-  {tema:"Relaciones Jurídicas", q:"¿Cuáles son los requisitos de la muerte presunta?", a:"Que el individuo haya desaparecido, que haya transcurrido un lapso de tiempo, que no se tenga noticia de su existencia, que sea declarada por sentencia judicial conforme a las normas legales."},
-  {tema:"Relaciones Jurídicas", q:"Menciona cuatro efectos jurídicos de la muerte.", a:"1) Extingue la personalidad. 2) Abre la sucesión. 3) Termina los contratos intuito personae. 4) Disuelve el matrimonio. También se extinguen ciertos derechos y se emancipan los hijos."},
-
-  {tema:"Personas Jurídicas", q:"¿Cómo define el art. 545 CC a la persona jurídica?", a:"Es una persona ficticia, capaz de ejercer derechos y contraer obligaciones civiles, y de ser representada judicial y extrajudicialmente."},
-  {tema:"Personas Jurídicas", q:"¿En qué consiste la Teoría de la Ficción Legal sobre la personalidad jurídica?", a:"Las únicas personas que actúan en el derecho son las naturales. Las personas jurídicas son creaciones artificiales de la ley, capaces de tener un patrimonio (Savigny). Doctrina aceptada en Chile por el art. 545 CC."},
-  {tema:"Personas Jurídicas", q:"¿En qué consiste la Teoría de la Realidad sobre la personalidad jurídica?", a:"Las personas jurídicas son realidades que existen en el mundo social. El Estado, al reconocer esa realidad, les otorga la calidad de sujetos de derecho."},
-  {tema:"Personas Jurídicas", q:"Menciona los cinco elementos de la persona jurídica.", a:"1) Pluralidad de personas. 2) Existencia de un fin lícito. 3) Patrimonio propio. 4) Organización determinada. 5) Autorización de la autoridad pública para existir."},
-  {tema:"Personas Jurídicas", q:"¿Cuáles son los criterios para calificar a una persona jurídica como de Derecho Público?", a:"Origen legal (creada por ley), finalidad colectiva o de utilidad pública, potestad de imperio (puede dictar normas obligatorias) y carácter de servicio público (pertenece orgánicamente a la administración del Estado)."},
-  {tema:"Personas Jurídicas", q:"¿Qué diferencia a una corporación de una fundación?", a:"La corporación es una colectividad de personas asociadas para conseguir un fin no lucrativo y común. La fundación es un establecimiento u obra creado por una persona, dotada de un patrimonio destinado a un objeto determinado."},
-  {tema:"Personas Jurídicas", q:"¿Cómo se define la sociedad según el art. 2053 CC?", a:"Es un contrato en que dos o más personas se obligan a poner algo en común con la mira de repartir entre sí los beneficios que de ello provengan."},
-  {tema:"Personas Jurídicas", q:"¿Cuál es la diferencia entre sociedad colectiva y sociedad de responsabilidad limitada?", a:"En la colectiva, los socios responden ilimitadamente con todos sus bienes. En la de responsabilidad limitada, los socios responden solo hasta el monto de sus aportes o la cantidad estipulada en el contrato social."},
-  {tema:"Personas Jurídicas", q:"¿Qué es una Empresa Individual de Responsabilidad Limitada (EIRL)?", a:"Persona jurídica formada exclusivamente por una persona natural, con patrimonio propio y distinto del titular, destinada a actividades de carácter netamente comercial."},
-  {tema:"Personas Jurídicas", q:"¿Cuándo nace y cuándo termina una persona jurídica de Derecho Privado sin fines de lucro?", a:"Nace por decreto supremo de concesión de la personalidad jurídica. Termina por decreto supremo de cancelación, o por causas establecidas en sus estatutos o por ley."},
-  {tema:"Personas Jurídicas", q:"¿Cuándo nace y cuándo termina una persona jurídica de Derecho Público?", a:"Nace por ley y termina por ley."},
-  {tema:"Personas Jurídicas", q:"¿Cuándo nace y cuándo termina una persona jurídica de Derecho Privado con fines de lucro?", a:"Nace por un contrato o pacto social contenido en escritura pública. Termina por causales previstas en los estatutos sociales o por causa legal."},
-
-  {tema:"Atributos de la Personalidad", q:"¿Qué son los atributos de la personalidad?", a:"Son las propiedades o características inherentes a toda persona. Implican ventajas y prerrogativas, pero también deberes y obligaciones. Son: capacidad de goce, nacionalidad, nombre, domicilio, estado civil, patrimonio y (para personas naturales) derechos de la personalidad."},
-  {tema:"Atributos de la Personalidad", q:"¿Qué es la capacidad de goce?", a:"Es la aptitud de una persona para adquirir derechos y contraer obligaciones. Su concepto se confunde con el de personalidad: ser persona es tener capacidad de goce. En Chile solo existen incapacidades de goce especiales, nunca absolutas."},
-  {tema:"Atributos de la Personalidad", q:"¿Qué establece el art. 1446 CC sobre la capacidad?", a:"Toda persona es legalmente capaz, excepto aquellas que la ley declara incapaces. La regla general es la capacidad; la incapacidad es la excepción y debe ser declarada expresamente."},
-  {tema:"Atributos de la Personalidad", q:"¿Quiénes son absolutamente incapaces según el art. 1447 CC?", a:"Los dementes, los impúberes (hombres menores de 14 y mujeres menores de 12 años) y los sordos o sordomudos que no pueden darse a entender claramente. Solo pueden actuar a través de sus representantes legales."},
-  {tema:"Atributos de la Personalidad", q:"¿Quiénes son relativamente incapaces según el CC?", a:"Los menores adultos (entre la pubertad y los 18 años) y los disipadores declarados en interdicción. Pueden actuar representados o personalmente con autorización de su representante legal."},
-  {tema:"Atributos de la Personalidad", q:"¿Cómo se define la nacionalidad como atributo de la personalidad?", a:"Es el vínculo jurídico que une a una persona con el Estado y que origina derechos y obligaciones recíprocos. El Estado otorga amparo legal y el particular debe respetar la institucionalidad y legalidad vigentes."},
-  {tema:"Atributos de la Personalidad", q:"¿Qué es el ius soli y cuáles son sus excepciones en Chile?", a:"Es el criterio que otorga la nacionalidad por el lugar de nacimiento. En Chile se excluyen los hijos de extranjeros en servicio de su gobierno y los hijos de extranjeros transeúntes, aunque ambos pueden optar a la nacionalidad chilena."},
-  {tema:"Atributos de la Personalidad", q:"¿Qué es el ius sanguinis como fuente de nacionalidad chilena?", a:"Es el criterio que atribuye la nacionalidad por filiación. Se aplica a hijos de padre o madre chilenos nacidos en el extranjero, siempre que algún ascendiente en línea recta de 1° o 2° grado haya adquirido la nacionalidad chilena por ius soli, carta o gracia."},
-  {tema:"Atributos de la Personalidad", q:"¿Por cuáles causales se pierde la nacionalidad chilena según el art. 11 CPR?", a:"Por renuncia voluntaria ante autoridad chilena competente; por prestar servicios durante guerra exterior a enemigos de Chile o sus aliados; por cancelación de la carta de nacionalización; por ley que revoque la nacionalización concedida por gracia."},
-  {tema:"Atributos de la Personalidad", q:"¿Qué es el nombre como atributo de la personalidad y de qué elementos consta?", a:"Es la designación que individualiza a la persona en la vida social y jurídica. Consta de: nombre propio o de pila (individualiza dentro de la familia) y apellido (señala la familia de origen)."},
-  {tema:"Atributos de la Personalidad", q:"Menciona cuatro características del nombre civil.", a:"No es comerciable ni cedible entre vivos ni transmisible por causa de muerte. Es inembargable, imprescriptible, irrenunciable, permanente, uno e indivisible."},
-  {tema:"Atributos de la Personalidad", q:"¿Cuál es la diferencia entre sobrenombre y seudónimo?", a:"El sobrenombre (apodo) carece de valor jurídico; solo es relevante para identificar delincuentes (art. 321 ACPP). El seudónimo es reconocido por la Ley de Propiedad Intelectual (art. 5 letra e, Ley 17.336) como el nombre bajo el cual el autor se oculta."},
-  {tema:"Atributos de la Personalidad", q:"¿Cómo se llama legalmente el nombre de una persona jurídica de Derecho Privado con fines de lucro?", a:"Razón Social. Se establece en la escritura social. La S.R.L. debe terminar en 'Limitada'; la S.A. debe incluir 'Sociedad Anónima' o 'S.A.'."},
-  {tema:"Atributos de la Personalidad", q:"¿Cómo define el art. 304 CC el estado civil y cuál es la crítica a esa definición?", a:"Lo define como 'la calidad de un individuo en cuanto lo habilita para ejercer ciertos derechos o contraer ciertas obligaciones civiles'. La crítica es que no explica en qué consiste dicha calidad, solo señala sus consecuencias."},
-  {tema:"Atributos de la Personalidad", q:"¿Cuál es la definición de estado civil de la cátedra?", a:"Es la calidad o posición permanente que un individuo ocupa en la sociedad, en orden a sus relaciones de familia, en cuanto le confiere o impone determinados derechos, deberes y obligaciones civiles."},
-  {tema:"Atributos de la Personalidad", q:"Menciona cuatro fuentes del estado civil.", a:"La ley (ej. el nacimiento), hechos ajenos a la voluntad (ej. la muerte), la voluntad del hombre (ej. matrimonio, adopción) y sentencias judiciales (ej. declaración de divorcio, nulidad de matrimonio)."},
-  {tema:"Atributos de la Personalidad", q:"Menciona cuatro características del estado civil.", a:"Todo individuo tiene uno; es uno e indivisible; sus leyes son de orden público; es incomerciable, imprescriptible, intransable; es un derecho personalísimo y permanente."},
-  {tema:"Atributos de la Personalidad", q:"¿Cómo se prueba el estado civil de casado/a?", a:"Con el certificado de matrimonio."},
-  {tema:"Atributos de la Personalidad", q:"¿Cómo se prueba el estado civil de viudo/a?", a:"Con el certificado de matrimonio más el certificado de defunción del cónyuge fallecido."},
-  {tema:"Atributos de la Personalidad", q:"¿Qué es el domicilio como atributo de la personalidad?", a:"Es el asiento legal de la persona; consiste en la residencia, acompañada real o presuntivamente del ánimo de permanecer en ella. Es un concepto jurídico, no de hecho."},
-  {tema:"Atributos de la Personalidad", q:"¿Cuáles son los tres niveles de vinculación jurídica de una persona con un lugar?", a:"La habitación o morada (lugar donde pernocta accidentalmente), la residencia (lugar donde habitualmente se encuentra) y el domicilio (asiento legal, concepto jurídico abstracto)."},
-  {tema:"Atributos de la Personalidad", q:"¿Cuál es la importancia del domicilio en materia sucesoria?", a:"La sucesión se abre en el último domicilio del causante y se rige por la ley del domicilio en que se abre (art. 955 CC)."},
-  {tema:"Atributos de la Personalidad", q:"¿Qué es el patrimonio en sentido contemporáneo?", a:"Es la aptitud para llegar a ser el centro de relaciones jurídicas pecuniarias. Es un concepto abstracto: el deudor responde no solo con su contenido actual sino también con su eventual contenido futuro."},
-  {tema:"Atributos de la Personalidad", q:"¿Cuáles son las consecuencias de que el patrimonio sea un atributo de la personalidad?", a:"Solo las personas pueden tener patrimonio; toda persona tiene necesariamente uno; toda persona tiene un solo patrimonio (es indivisible); el patrimonio es inseparable de la persona mientras viva."},
-  {tema:"Atributos de la Personalidad", q:"¿Cuál es la importancia del patrimonio de las personas jurídicas?", a:"Es propio e independiente del de sus miembros: los acreedores de la PJ no pueden dirigirse a los bienes personales de los miembros, ni los acreedores personales de los miembros pueden perseguir los bienes de la PJ."},
-  {tema:"Atributos de la Personalidad", q:"¿Qué son los derechos de la personalidad?", a:"Son derechos inherentes a la persona humana que la protegen en sus aspectos más esenciales. Su violación genera responsabilidad civil y penal. Se clasifican en: derechos de la individualidad física, de la personalidad civil y de la personalidad moral."},
-  {tema:"Atributos de la Personalidad", q:"¿Qué protegen los derechos de la personalidad moral?", a:"El honor, la reputación, los sentimientos y la integridad síquica de la persona, incluyendo el derecho a la vida privada y a la honra."},
+// ════════════════════════════════════════════════════════════
+//  BANCO DE PREGUNTAS  (42 preguntas)
+// ════════════════════════════════════════════════════════════
+const ALL_QUESTIONS = [
+  // ── UNIDAD 1: CONCEPTO DE DERECHO ──
+  {
+    tag:"Concepto de Derecho",
+    q:"Según Gustav Radbruch, ¿cómo define el Derecho?",
+    correct:"Una realidad cultural referida a valores, específicamente al valor de la justicia.",
+    wrong:[
+      "Un sistema de normas jerárquicamente organizadas cuya validez deriva de la Grundnorm.",
+      "El conjunto de condiciones por las cuales el arbitrio de cada uno coexiste con el de los demás.",
+      "Un hecho social identificable con independencia de cualquier valoración moral."
+    ]
+  },
+  {
+    tag:"Concepto de Derecho",
+    q:"En la definición de Kant (Metafísica de las Costumbres, 1797), el Derecho es:",
+    correct:"El conjunto de condiciones por las cuales el arbitrio de cada uno puede coexistir con el arbitrio de los demás, según una ley universal de libertad.",
+    wrong:[
+      "Una realidad cultural referida al valor de la justicia.",
+      "El ordenamiento coercitivo de la conducta humana.",
+      "La norma que emana de la voluntad del soberano."
+    ]
+  },
+  {
+    tag:"Concepto de Derecho",
+    q:"La «paradoja epistemológica del Derecho» consiste en que:",
+    correct:"El Derecho es simultáneamente el objeto de estudio y el instrumento de análisis: es el Derecho el que define qué es jurídico.",
+    wrong:[
+      "El Derecho es una ciencia exacta, como la física o la matemática.",
+      "Los juristas no pueden ponerse de acuerdo sobre ningún concepto básico.",
+      "Toda norma jurídica es incompatible con la moral."
+    ]
+  },
+  {
+    tag:"Fuentes del Derecho",
+    q:"¿Qué son las fuentes formales del Derecho?",
+    correct:"Las formas en que surgen y se expresan las normas jurídicas (Constitución, leyes, reglamentos, etc.).",
+    wrong:[
+      "Los hechos sociales que explican por qué nacen las normas.",
+      "Las normas de origen consuetudinario.",
+      "Los tratados internacionales, exclusivamente."
+    ]
+  },
+  {
+    tag:"Fuentes del Derecho",
+    q:"¿Cuál es la jerarquía normativa más alta en el ordenamiento jurídico chileno?",
+    correct:"La Constitución Política de la República.",
+    wrong:[
+      "Los tratados internacionales de derechos humanos.",
+      "Las leyes orgánicas constitucionales.",
+      "Los decretos con fuerza de ley."
+    ]
+  },
+  // ── IUSNATURALISMO / POSITIVISMO ──
+  {
+    tag:"Iusnaturalismo vs. Positivismo",
+    q:"La tesis fundamental del iusnaturalismo es:",
+    correct:"Existen normas jurídicas válidas por sí mismas, en virtud de la naturaleza humana, la razón o la voluntad divina, con independencia de la voluntad del legislador.",
+    wrong:[
+      "El Derecho es un hecho social que puede identificarse sin recurrir a la moral.",
+      "La validez de una norma depende exclusivamente del procedimiento de creación.",
+      "El juez solo puede aplicar la ley, nunca crear Derecho."
+    ]
+  },
+  {
+    tag:"Iusnaturalismo vs. Positivismo",
+    q:"Según el positivismo jurídico (Kelsen), ¿cuál es el criterio de validez de una norma?",
+    correct:"Su conformidad con el procedimiento establecido y con normas de rango superior en la jerarquía normativa, sin importar su contenido moral.",
+    wrong:[
+      "Su justicia intrínseca y conformidad con la naturaleza humana.",
+      "Su aceptación por la mayoría de la sociedad.",
+      "Su promulgación por el Estado en uso de su soberanía, con independencia del procedimiento."
+    ]
+  },
+  {
+    tag:"Iusnaturalismo vs. Positivismo",
+    q:"La diferencia en la relación Derecho–Moral entre iusnaturalismo y positivismo es:",
+    correct:"El iusnaturalismo sostiene una conexión necesaria; el positivismo exige una separación tajante.",
+    wrong:[
+      "Ambas corrientes aceptan que el Derecho injusto no es Derecho.",
+      "El positivismo sostiene que Derecho y moral son idénticos.",
+      "El iusnaturalismo solo acepta como Derecho las normas dictadas por el Estado."
+    ]
+  },
+  // ── HART ──
+  {
+    tag:"Hart",
+    q:"¿Qué es la «regla de reconocimiento» según H.L.A. Hart?",
+    correct:"Una práctica social que los funcionarios del sistema utilizan para identificar qué normas pertenecen al ordenamiento, sin necesidad de recurrir a fundamentos morales.",
+    wrong:[
+      "La norma constitucional que establece la jerarquía de las fuentes.",
+      "El principio por el cual el juez reconoce la costumbre como fuente de Derecho.",
+      "La regla que permite reconocer el carácter obligatorio de los tratados internacionales."
+    ]
+  },
+  {
+    tag:"Hart",
+    q:"La «textura abierta del lenguaje jurídico» de Hart implica que:",
+    correct:"En los casos límite, el lenguaje jurídico deja zonas de penumbra en las que el juez tiene discrecionalidad creativa y crea Derecho.",
+    wrong:[
+      "Todo el Derecho es siempre abierto a interpretación, sin excepción.",
+      "El juez nunca puede crear Derecho bajo ninguna circunstancia.",
+      "El lenguaje jurídico es perfectamente claro y no da lugar a interpretaciones."
+    ]
+  },
+  // ── DWORKIN ──
+  {
+    tag:"Dworkin",
+    q:"El «juez Hércules» de Ronald Dworkin es:",
+    correct:"Un juez ideal con capacidad y sabiduría ilimitadas que no crea Derecho, sino que descubre la respuesta moralmente correcta que el sistema jurídico ya contiene implícitamente.",
+    wrong:[
+      "Un juez que aplica mecánicamente las reglas sin considerar principios.",
+      "Un juez activista que reemplaza la ley por sus preferencias morales.",
+      "Un juez que solo resuelve casos de derecho constitucional."
+    ]
+  },
+  {
+    tag:"Dworkin",
+    q:"Según Dworkin, ¿qué diferencia hay entre reglas y principios?",
+    correct:"Las reglas se aplican en la modalidad de «todo o nada»; los principios admiten cumplimiento gradual y ponderación.",
+    wrong:[
+      "Las reglas son normas constitucionales; los principios son normas legales.",
+      "Las reglas son normas morales; los principios son normas jurídicas.",
+      "No existe diferencia: ambos son mandatos normativos equivalentes."
+    ]
+  },
+  // ── REALE ──
+  {
+    tag:"Reale",
+    q:"Las tres dimensiones de la Teoría Tridimensional del Derecho de Miguel Reale son:",
+    correct:"Norma (dimensión normativa), Hecho (dimensión fáctica) y Valor (dimensión axiológica).",
+    wrong:[
+      "Validez, eficacia y legitimidad.",
+      "Reglas, principios y directrices.",
+      "Ser, deber ser y valor."
+    ]
+  },
+  {
+    tag:"Reale",
+    q:"La dimensión «Hecho» en la teoría de Reale refiere a:",
+    correct:"El Derecho como fenómeno social e histórico: las normas emergen de hechos sociales concretos como conflictos, necesidades y relaciones de poder.",
+    wrong:[
+      "El sistema de normas que regula el comportamiento humano.",
+      "La expresión de valores como la justicia y el bien común.",
+      "La norma fundamental (Grundnorm) que valida todo el sistema."
+    ]
+  },
+  // ── KELSEN ──
+  {
+    tag:"Kelsen",
+    q:"En Kelsen, ¿a qué mundo pertenecen las normas jurídicas?",
+    correct:"Al mundo del deber ser (Sollen).",
+    wrong:[
+      "Al mundo del ser (Sein).",
+      "Al mundo de los valores morales.",
+      "Al mundo de los hechos sociales."
+    ]
+  },
+  {
+    tag:"Kelsen",
+    q:"La «lógica de la imputación» en Kelsen establece que:",
+    correct:"Dado el supuesto de hecho H, debe ser la consecuencia jurídica C. Esta conexión es normativa y puede ser modificada por el legislador.",
+    wrong:[
+      "Si se produce la causa A, necesariamente ocurre el efecto B (relación causal necesaria).",
+      "Toda norma válida es también justa y moral.",
+      "Las normas jurídicas son verdaderas o falsas según su contenido."
+    ]
+  },
+  {
+    tag:"Kelsen",
+    q:"La estructura bipartita de la norma jurídica según Kelsen comprende:",
+    correct:"Supuesto de hecho y consecuencia jurídica.",
+    wrong:[
+      "Sujeto activo y sujeto pasivo.",
+      "Norma primaria y norma secundaria.",
+      "Derechos y obligaciones."
+    ]
+  },
+  {
+    tag:"Kelsen",
+    q:"Para Kelsen, una norma es válida cuando:",
+    correct:"Fue creada por autoridad competente, siguiendo el procedimiento establecido, sin contradecir normas de rango superior.",
+    wrong:[
+      "Su contenido es justo y moral.",
+      "Es aceptada por la mayoría de la sociedad.",
+      "Es promulgada por el Presidente de la República."
+    ]
+  },
+  // ── ALEXY ──
+  {
+    tag:"Alexy",
+    q:"Según Robert Alexy, los principios son:",
+    correct:"Mandatos de optimización: ordenan realizar algo en la mayor medida posible dentro de las posibilidades fácticas y jurídicas disponibles.",
+    wrong:[
+      "Normas absolutas que se aplican sin excepción.",
+      "Reglas que operan en la modalidad de «todo o nada».",
+      "Normas exclusivamente constitucionales que limitan al legislador."
+    ]
+  },
+  {
+    tag:"Alexy",
+    q:"Cuando colisionan dos principios, la solución según Alexy es:",
+    correct:"La ponderación: en el caso concreto se determina cuál principio tiene mayor peso, sin declarar inválido al otro.",
+    wrong:[
+      "Se aplica el criterio de jerarquía: el principio superior deroga al inferior.",
+      "Se aplica el criterio de especialidad: la norma especial prevalece sobre la general.",
+      "Se aplica el criterio de temporalidad: la norma posterior deroga la anterior."
+    ]
+  },
+  {
+    tag:"Alexy",
+    q:"¿Cuál es la forma de aplicación de las reglas según Alexy?",
+    correct:"Subsunción: el caso entra o no en el supuesto de hecho; si entra, la consecuencia jurídica opera automáticamente.",
+    wrong:[
+      "Ponderación: se evalúa el peso de cada regla en el caso concreto.",
+      "Interpretación: el juez busca la respuesta moralmente correcta.",
+      "Integración analógica: se aplica la regla más similar."
+    ]
+  },
+  // ── ELEMENTOS NORMA JURÍDICA ──
+  {
+    tag:"Elementos de la norma",
+    q:"¿Qué elemento de la norma jurídica consiste en la correlación entre un sujeto obligado y un sujeto facultado?",
+    correct:"Bilateralidad.",
+    wrong:["Coercibilidad.","Heteronomía.","Exterioridad."]
+  },
+  {
+    tag:"Elementos de la norma",
+    q:"La «heteronomía» de la norma jurídica significa que:",
+    correct:"La norma es impuesta por una autoridad externa al sujeto, a diferencia de las normas morales que son autónomas.",
+    wrong:[
+      "La norma puede ser ejecutada por la fuerza pública.",
+      "La norma regula únicamente conductas externas.",
+      "La norma crea derechos y deberes correlativos."
+    ]
+  },
+  {
+    tag:"Elementos de la norma",
+    q:"La «coercibilidad» de la norma jurídica consiste en:",
+    correct:"La posibilidad de emplear la fuerza pública legítima para hacer cumplir la norma, incluso contra la voluntad del obligado.",
+    wrong:[
+      "La obligatoriedad moral de la norma para los ciudadanos.",
+      "El hecho de que la norma sea impuesta por autoridad externa.",
+      "La regulación de conductas externas, no intenciones."
+    ]
+  },
+  {
+    tag:"Elementos de la norma",
+    q:"¿Qué autor vinculó el monopolio de la violencia física legítima con el Estado?",
+    correct:"Max Weber.",
+    wrong:["Hans Kelsen.","Robert Alexy.","H.L.A. Hart."]
+  },
+  // ── CLASIFICACIÓN DEL DERECHO ──
+  {
+    tag:"Clasificación del Derecho",
+    q:"El principio rector del Derecho Público es:",
+    correct:"Legalidad: los órganos del Estado solo pueden hacer aquello que la ley expresamente les autoriza.",
+    wrong:[
+      "Autonomía de la voluntad: las partes pueden contratar libremente.",
+      "Buena fe: los actos deben ejecutarse de buena fe.",
+      "Equidad: los casos deben resolverse conforme a la equidad natural."
+    ]
+  },
+  {
+    tag:"Clasificación del Derecho",
+    q:"El Derecho Civil es el derecho privado:",
+    correct:"Común y general aplicable a todas las personas, salvo disposición especial de ley.",
+    wrong:[
+      "Especial que solo rige para los comerciantes.",
+      "Exclusivo del Estado para regular sus relaciones con particulares.",
+      "Que regula únicamente las relaciones de familia."
+    ]
+  },
+  {
+    tag:"Clasificación del Derecho",
+    q:"La Reforma Procesal Penal chilena (2000–2005) transformó el sistema:",
+    correct:"De inquisitivo escrito a acusatorio oral, separando investigación (Fiscalía) y juzgamiento (jueces).",
+    wrong:[
+      "De acusatorio oral a inquisitivo escrito.",
+      "De público a privado, entregando la persecución penal a los particulares.",
+      "De oral a escrito, para garantizar mayor certeza jurídica."
+    ]
+  },
+  {
+    tag:"Clasificación del Derecho",
+    q:"El Derecho Tributario y el Derecho Presupuestario son ramas del:",
+    correct:"Derecho Financiero.",
+    wrong:[
+      "Derecho Comercial.",
+      "Derecho Económico.",
+      "Derecho Civil."
+    ]
+  },
+  // ════════════════════════════════════════════════════════════
+  // PRINCIPIOS DEL DERECHO CIVIL
+  // ════════════════════════════════════════════════════════════
+  {
+    tag:"Principios Generales",
+    q:"¿Cuántos principios fundamentales del Derecho Civil chileno se identifican en el documento?",
+    correct:"13 principios (aunque la buena fe se desdobla en general y contractual).",
+    wrong:["10 principios.","15 principios.","7 principios."]
+  },
+  {
+    tag:"Principios Generales",
+    q:"Los cuatro principios de carácter general del Derecho Civil son:",
+    correct:"Omnipotencia de la ley, buena fe, enriquecimiento sin causa y responsabilidad.",
+    wrong:[
+      "Autonomía de la voluntad, buena fe, propiedad privada y patrimonio unitario.",
+      "Legalidad, igualdad, responsabilidad y buena fe.",
+      "Dignidad, igualdad, familia y matrimonio."
+    ]
+  },
+  {
+    tag:"Principios Generales",
+    q:"El art. 8° del Código Civil establece que «nadie podrá alegar ignorancia de la ley después que ésta haya entrado en vigencia». Este artículo es manifestación del principio de:",
+    correct:"Omnipotencia de la ley.",
+    wrong:[
+      "Buena fe.",
+      "Responsabilidad civil.",
+      "Igualdad ante la ley."
+    ]
+  },
+  {
+    tag:"Principios Generales",
+    q:"El art. 3° CC dispone que «solo el legislador puede interpretar la ley de un modo generalmente obligatorio». Esto significa que las sentencias judiciales:",
+    correct:"Tienen efecto relativo (res inter alios acta) y no sientan precedente general.",
+    wrong:[
+      "Son fuente obligatoria del Derecho para casos futuros.",
+      "Pueden modificar las leyes si son reiteradas.",
+      "Tienen efecto erga omnes cuando las dicta la Corte Suprema."
+    ]
+  },
+  {
+    tag:"Principios Generales",
+    q:"El art. 707 CC establece «la buena fe se presume, excepto en los casos en que la ley establece la presunción contraria». Este artículo contiene una presunción de:",
+    correct:"Carácter general para el Derecho Privado: el punto de partida es la buena fe; quien alega mala fe debe probarla.",
+    wrong:[
+      "Aplicación exclusiva a la materia posesoria, sin alcance general.",
+      "Presunción de derecho que no admite prueba en contrario.",
+      "Obligación de probar siempre tanto la buena fe como la mala fe."
+    ]
+  },
+  {
+    tag:"Principios Generales",
+    q:"El enriquecimiento sin causa se manifiesta en el Código Civil principalmente en materia de:",
+    correct:"Accesión (arts. 658, 663, 668, 669) y prestaciones mutuas (arts. 908–915).",
+    wrong:[
+      "Contratos de compraventa y arrendamiento.",
+      "Filiación y adopción.",
+      "Testamentos y legados."
+    ]
+  },
+  {
+    tag:"Personas y Familia",
+    q:"El art. 33 del CC, modificado por la Ley N° 19.585 (1998), establece que:",
+    correct:"La ley considera iguales a todos los hijos, suprimiendo la distinción entre hijos legítimos e ilegítimos.",
+    wrong:[
+      "El padre tiene la patria potestad exclusiva sobre los hijos.",
+      "Solo los hijos matrimoniales heredan intestadamente.",
+      "Los hijos adoptivos no tienen los mismos derechos que los biológicos."
+    ]
+  },
+  {
+    tag:"Personas y Familia",
+    q:"El art. 102 CC define el matrimonio como:",
+    correct:"Un contrato solemne por el cual un hombre y una mujer se unen actual e indisolublemente, y por toda la vida, con el fin de vivir juntos, de procrear y de auxiliarse mutuamente.",
+    wrong:[
+      "Un acuerdo de unión civil regulado por normas de Derecho Público.",
+      "Un contrato consensual que se perfecciona por el consentimiento.",
+      "Una institución de orden público que no puede ser calificada como contrato."
+    ]
+  },
+  {
+    tag:"Personas y Familia",
+    q:"La Ley N° 21.400 (2022) es relevante para el principio de protección al matrimonio porque:",
+    correct:"Extendió el matrimonio igualitario a parejas del mismo sexo en Chile.",
+    wrong:[
+      "Introdujo el divorcio vincular en Chile.",
+      "Creó los Tribunales de Familia.",
+      "Incorporó el principio del interés superior del hijo al Código Civil."
+    ]
+  },
+  {
+    tag:"Personas y Familia",
+    q:"El principio del «interés superior del hijo» fue incorporado al Código Civil por:",
+    correct:"La Ley N° 19.585 (1998), que siguió la Convención sobre los Derechos del Niño (ONU, 1990).",
+    wrong:[
+      "La Constitución de 1980 directamente.",
+      "El Código Civil original de Andrés Bello (1857).",
+      "La Ley N° 21.430 (2022)."
+    ]
+  },
+  {
+    tag:"Personas y Familia",
+    q:"Según la Ley N° 21.430, el interés superior del niño, niña y adolescente tiene una triple naturaleza:",
+    correct:"Derecho, principio y norma de procedimiento.",
+    wrong:[
+      "Principio, norma y costumbre.",
+      "Derecho, garantía y obligación del Estado.",
+      "Principio, directriz y norma constitucional."
+    ]
+  },
+  {
+    tag:"Bienes",
+    q:"El principio de «mayor protección a los bienes raíces» se traduce, entre otras cosas, en:",
+    correct:"Solemnidades adicionales para su enajenación (escritura pública + inscripción en el Conservador de Bienes Raíces) y plazos de prescripción adquisitiva más extensos.",
+    wrong:[
+      "Que los bienes raíces son inalienables e inembargables.",
+      "Que el Estado tiene derecho de tanteo sobre todos los inmuebles.",
+      "Que los bienes raíces no pueden ser hipotecados."
+    ]
+  },
+  {
+    tag:"Bienes",
+    q:"El principio de «patrimonio unitario» establece que:",
+    correct:"Toda persona tiene un único patrimonio que responde de sus obligaciones; es un atributo de la personalidad y no puede ser enajenado.",
+    wrong:[
+      "El patrimonio puede dividirse libremente entre varias personas jurídicas.",
+      "Los bienes del deudor solo responden ante acreedores hipotecarios.",
+      "El patrimonio del cónyuge es siempre compartido con el otro."
+    ]
+  },
+  {
+    tag:"Contratos",
+    q:"El subprincipio «pacta sunt servanda» (fuerza obligatoria del contrato) establece que:",
+    correct:"El contrato válidamente celebrado es ley para las partes y no puede ser invalidado sino por mutuo consentimiento o causas que la ley autoriza (art. 1545 CC).",
+    wrong:[
+      "Los contratos son siempre modificables por el juez en caso de imprevisión.",
+      "Las obligaciones contractuales se extinguen automáticamente si resultan onerosas.",
+      "Las partes no pueden crear contratos atípicos no regulados en el Código Civil."
+    ]
+  },
+  {
+    tag:"Contratos",
+    q:"La «buena fe objetiva» en materia contractual (art. 1546 CC) es:",
+    correct:"Un estándar de conducta exigible al contratante razonable y leal, distinto de la buena fe subjetiva (estado psicológico).",
+    wrong:[
+      "La presunción de que todas las partes actúan de buena fe al momento de contratar.",
+      "La buena intención personal que debe acreditar cada parte en juicio.",
+      "Un estado psicológico de ignorancia o error sobre los efectos del contrato."
+    ]
+  },
+  {
+    tag:"Contratos",
+    q:"El art. 1546 CC dispone que «los contratos obligan no solo a lo que en ellos se expresa, sino a todas las cosas que emanan precisamente de la naturaleza de la obligación, o que por la ley o la costumbre pertenecen a ella». Esto corresponde al principio de:",
+    correct:"Buena fe contractual.",
+    wrong:[
+      "Fuerza obligatoria del contrato (pacta sunt servanda).",
+      "Efecto relativo del contrato.",
+      "Consensualismo."
+    ]
+  },
+  {
+    tag:"Contratos",
+    q:"El «efecto relativo del contrato» significa que:",
+    correct:"El contrato solo genera derechos y obligaciones para las partes que lo celebraron, sin afectar a terceros.",
+    wrong:[
+      "El contrato puede ser modificado por resolución judicial.",
+      "El contrato es siempre provisional mientras no sea inscrito.",
+      "El contrato obliga a todos los habitantes de la República."
+    ]
+  },
+  {
+    tag:"Derecho Civil general",
+    q:"El Código Civil chileno fue redactado por:",
+    correct:"Andrés Bello.",
+    wrong:[
+      "Manuel Montt.",
+      "José Victorino Lastarria.",
+      "Diego Portales."
+    ]
+  },
+  {
+    tag:"Derecho Civil general",
+    q:"El art. 3° LMC (Ley de Matrimonio Civil N° 19.947) dispone que las materias de familia deberán resolverse «cuidando proteger siempre el interés superior de los hijos y del…»:",
+    correct:"Cónyuge más débil.",
+    wrong:[
+      "Cónyuge mayor de edad.",
+      "Cónyuge que tiene el cuidado personal de los hijos.",
+      "Cónyuge cuyo domicilio está en Chile."
+    ]
+  }
 ];
 
-let filtered = [...ALL_CARDS];
-let current = 0;
-let flipped = false;
-let results = {};
-let activeFilter = 'Todos';
+// ════════════════════════════════════════════════════════════
+//  ESTADO
+// ════════════════════════════════════════════════════════════
+let questions = [];
+let current   = 0;
+let answered  = 0;
+let correct   = 0;
+let answered_flags = [];
+let selected_qty = 20;
 
-const temas = ['Todos', ...new Set(ALL_CARDS.map(c => c.tema))];
+// ── helpers ──
+function shuffle(arr) {
+  let a = [...arr];
+  for (let i = a.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
 
-function buildFilters() {
-  const cont = document.getElementById('filters');
-  temas.forEach(t => {
-    const btn = document.createElement('button');
-    btn.className = 'filter-btn' + (t === 'Todos' ? ' active' : '');
-    btn.textContent = t;
-    btn.onclick = () => applyFilter(t);
-    cont.appendChild(btn);
+function buildQuestions(qty) {
+  let pool = shuffle(ALL_QUESTIONS);
+  if (qty > 0) pool = pool.slice(0, qty);
+  return pool.map(q => {
+    const opts = shuffle([
+      {text: q.correct, correct: true},
+      ...q.wrong.map(w => ({text: w, correct: false}))
+    ]);
+    return { tag: q.tag, q: q.q, opts, chosen: null };
   });
 }
 
-function applyFilter(tema) {
-  activeFilter = tema;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.filter-btn').forEach(b => { if(b.textContent === tema) b.classList.add('active'); });
-  filtered = tema === 'Todos' ? [...ALL_CARDS] : ALL_CARDS.filter(c => c.tema === tema);
-  current = 0;
-  flipped = false;
-  showCard();
-  updateStats();
+// ── render pregunta ──
+function renderQuestion() {
+  const q    = questions[current];
+  const total = questions.length;
+  const pct   = Math.round((current / total) * 100);
+
+  document.getElementById('meta-info').textContent =
+    `Pregunta ${current+1} de ${total}`;
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const scoreLive = document.getElementById('score-live');
+  scoreLive.style.display = 'inline';
+  scoreLive.textContent = `✔ ${correct} | ✘ ${answered - correct}`;
+
+  const letters = ['A','B','C','D'];
+  const optsHtml = q.opts.map((o, i) => `
+    <button class="opt-btn" id="opt-${i}" onclick="choose(${i})">
+      <span class="opt-letter">${letters[i]}</span>
+      <span>${o.text}</span>
+    </button>`).join('');
+
+  document.getElementById('q-container').innerHTML = `
+    <div class="q-card">
+      <div class="q-num">Pregunta ${current+1} / ${total}
+        <span class="tag">${q.tag}</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">${optsHtml}</div>
+      <div class="feedback-box" id="feedback"></div>
+    </div>`;
+
+  document.getElementById('btn-next').disabled = true;
+
+  // si ya respondida (al revisar), restaurar estado
+  if (q.chosen !== null) restoreAnswer();
 }
 
-function showCard() {
-  const done = document.getElementById('done-screen');
-  const game = document.getElementById('game-area');
-  const answered = filtered.filter(c => results[cardKey(c)] !== undefined).length;
+function choose(idx) {
+  const q = questions[current];
+  if (q.chosen !== null) return;
+  q.chosen = idx;
+  answered++;
+  answered_flags[current] = true;
 
-  if (answered === filtered.length && filtered.length > 0) {
-    done.classList.remove('hidden');
-    game.style.display = 'none';
-    const correct = filtered.filter(c => results[cardKey(c)] === true).length;
-    const wrong = filtered.filter(c => results[cardKey(c)] === false).length;
-    document.getElementById('done-correct').textContent = correct;
-    document.getElementById('done-wrong').textContent = wrong;
-    return;
-  }
+  const isCorrect = q.opts[idx].correct;
+  if (isCorrect) correct++;
 
-  done.classList.add('hidden');
-  game.style.display = '';
-
-  const card = filtered[current];
-  if (!card) return;
-
-  document.getElementById('front-tag').textContent = card.tema;
-  document.getElementById('card-question').textContent = card.q;
-  document.getElementById('card-answer').textContent = card.a;
-
-  const fc = document.getElementById('flashcard');
-  fc.classList.remove('flipped');
-  flipped = false;
-  document.getElementById('actions').style.display = 'none';
-
-  document.getElementById('card-counter').textContent = `Tarjeta ${current + 1} de ${filtered.length}`;
-  document.getElementById('btn-prev').disabled = current === 0;
-  document.getElementById('btn-next').disabled = current === filtered.length - 1;
-
-  const progress = ((current + 1) / filtered.length) * 100;
-  document.getElementById('progress-fill').style.width = progress + '%';
-}
-
-function cardKey(card) { return card.tema + '||' + card.q; }
-
-function flipCard() {
-  if (!flipped) {
-    document.getElementById('flashcard').classList.add('flipped');
-    flipped = true;
-    if (results[cardKey(filtered[current])] === undefined) {
-      document.getElementById('actions').style.display = 'flex';
+  // colorear opciones
+  q.opts.forEach((o, i) => {
+    const btn = document.getElementById(`opt-${i}`);
+    btn.disabled = true;
+    if (i === idx) {
+      btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    } else if (o.correct) {
+      btn.classList.add('revealed');
     }
-  }
-}
+  });
 
-function markAnswer(correct) {
-  const key = cardKey(filtered[current]);
-  results[key] = correct;
-  document.getElementById('actions').style.display = 'none';
-  updateStats();
-
-  const unanswered = filtered.findIndex((c, i) => i > current && results[cardKey(c)] === undefined);
-  if (unanswered !== -1) {
-    setTimeout(() => { current = unanswered; flipped = false; showCard(); }, 400);
+  // feedback
+  const fb = document.getElementById('feedback');
+  if (isCorrect) {
+    fb.className = 'feedback-box show ok';
+    fb.innerHTML = '✅ <strong>¡Correcto!</strong>';
   } else {
-    const any = filtered.findIndex(c => results[cardKey(c)] === undefined);
-    if (any !== -1) {
-      setTimeout(() => { current = any; flipped = false; showCard(); }, 400);
-    } else {
-      setTimeout(showCard, 400);
-    }
+    const correctText = q.opts.find(o => o.correct).text;
+    fb.className = 'feedback-box show err';
+    fb.innerHTML = `❌ <strong>Incorrecto.</strong> La respuesta correcta es: <em>${correctText}</em>`;
+  }
+
+  document.getElementById('btn-next').disabled = false;
+
+  // actualizar live score
+  const scoreLive = document.getElementById('score-live');
+  scoreLive.textContent = `✔ ${correct} | ✘ ${answered - correct}`;
+
+  // mostrar "Ver resultados" si es la última
+  if (current === questions.length - 1) {
+    document.getElementById('btn-finish').style.display = 'inline-block';
   }
 }
 
-function navigate(dir) {
-  current = Math.max(0, Math.min(filtered.length - 1, current + dir));
-  flipped = false;
-  document.getElementById('actions').style.display = 'none';
-  showCard();
+function restoreAnswer() {
+  const q = questions[current];
+  q.opts.forEach((o, i) => {
+    const btn = document.getElementById(`opt-${i}`);
+    btn.disabled = true;
+    if (i === q.chosen) {
+      btn.classList.add(q.opts[i].correct ? 'correct' : 'wrong');
+    } else if (o.correct) {
+      btn.classList.add('revealed');
+    }
+  });
+  document.getElementById('btn-next').disabled = false;
+  if (current === questions.length - 1) {
+    document.getElementById('btn-finish').style.display = 'inline-block';
+  }
 }
 
-function updateStats() {
-  const total = filtered.length;
-  const correct = filtered.filter(c => results[cardKey(c)] === true).length;
-  const wrong = filtered.filter(c => results[cardKey(c)] === false).length;
-  const pending = total - correct - wrong;
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-correct').textContent = correct;
-  document.getElementById('stat-wrong').textContent = wrong;
-  document.getElementById('stat-pending').textContent = pending;
+function next() {
+  if (current < questions.length - 1) {
+    current++;
+    renderQuestion();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  } else {
+    finish();
+  }
 }
 
-function resetSession() {
-  results = {};
-  current = 0;
-  flipped = false;
-  document.getElementById('done-screen').classList.add('hidden');
-  document.getElementById('game-area').style.display = '';
-  updateStats();
-  showCard();
+function finish() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'block';
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('meta-info').textContent = 'Prueba finalizada';
+  document.getElementById('score-live').style.display = 'none';
+
+  const total = questions.length;
+  const pct   = Math.round((correct / total) * 100);
+
+  document.getElementById('res-num').textContent = correct;
+  document.getElementById('res-den').textContent = '/ ' + total;
+
+  let nota, color, msg, sub;
+  if (pct >= 90)      { nota='7.0'; color='#1B6B3A'; msg='¡Excelente!'; sub='Dominas los contenidos de ambas unidades.'; }
+  else if (pct >= 75) { nota='6.0'; color='#2B5EA7'; msg='¡Muy bien!'; sub='Buen manejo de los conceptos principales.'; }
+  else if (pct >= 60) { nota='5.0'; color='#92640A'; msg='Aprobado'; sub='Repasa los temas donde fallaste.'; }
+  else if (pct >= 45) { nota='4.0'; color='#D4720A'; msg='Suficiente'; sub='Necesitas reforzar varios conceptos.'; }
+  else                { nota='3.0'; color='#8B1A1A'; msg='Insuficiente'; sub='Repasa el material y vuelve a intentarlo.'; }
+
+  const nb = document.getElementById('nota-badge');
+  nb.textContent = `Nota aproximada: ${nota}`;
+  nb.style.background = color + '22';
+  nb.style.color = color;
+  nb.style.border = `2px solid ${color}`;
+
+  document.getElementById('res-msg').textContent = msg + ` — ${pct}% correcto`;
+  document.getElementById('res-sub').textContent = sub;
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-buildFilters();
-showCard();
-updateStats();
+function toggleReview() {
+  const panel = document.getElementById('review-panel');
+  if (panel.style.display === 'none') {
+    buildReview();
+    panel.style.display = 'block';
+  } else {
+    panel.style.display = 'none';
+  }
+}
+
+function buildReview() {
+  const list = document.getElementById('review-list');
+  list.innerHTML = questions.map((q, i) => {
+    const chosen   = q.chosen;
+    const isOk     = chosen !== null && q.opts[chosen].correct;
+    const correct_ = q.opts.find(o => o.correct).text;
+    const chosen_  = chosen !== null ? q.opts[chosen].text : '(no respondida)';
+    return `<div class="review-item ${isOk ? 'ok-item' : 'err-item'}">
+      <div class="ri-q">${i+1}. ${q.q} <span class="tag">${q.tag}</span></div>
+      <div class="ri-a">Tu respuesta: <span class="${isOk ? 'ri-c' : 'ri-w'}">${chosen_}</span></div>
+      ${!isOk ? `<div class="ri-a">Correcta: <span class="ri-c">${correct_}</span></div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function restart() {
+  questions = buildQuestions(selected_qty);
+  current   = 0;
+  answered  = 0;
+  correct   = 0;
+  answered_flags = [];
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('review-panel').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  document.getElementById('btn-finish').style.display = 'none';
+  document.getElementById('progress-fill').style.width = '0%';
+  renderQuestion();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ── Selección cantidad ──
+document.querySelectorAll('.config-box').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.config-box').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selected_qty = parseInt(el.dataset.qty);
+  });
+});
+
+document.getElementById('btn-start').addEventListener('click', () => {
+  questions = buildQuestions(selected_qty);
+  current   = 0;
+  answered  = 0;
+  correct   = 0;
+  answered_flags = [];
+  document.getElementById('screen-start').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  document.getElementById('btn-finish').style.display = 'none';
+  document.getElementById('progress-fill').style.width = '0%';
+  renderQuestion();
+});
 </script>
 </body>
 </html>
