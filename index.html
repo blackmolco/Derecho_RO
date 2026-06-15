@@ -3,964 +3,822 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prueba de Alternativas — Introducción al Derecho & Principios del Derecho Civil</title>
+<title>Prueba de Derecho Político - Formas de Gobierno y Teoría del Estado</title>
 <style>
-  :root {
-    --dark: #1A2F5A;
-    --med: #2B5EA7;
-    --light: #D9E8F7;
-    --green: #1B6B3A;
-    --greenl: #D4EDDA;
-    --red: #8B1A1A;
-    --redl: #FDECEA;
-    --gold: #92640A;
-    --goldl: #FFF8E1;
-    --gray: #F4F4F4;
-    --white: #FFFFFF;
+  :root{
+    --primary:#1e3a5f;
+    --accent:#2c6fbb;
+    --green:#2e7d32;
+    --red:#c62828;
+    --bg:#f4f6f9;
+    --card:#ffffff;
+    --border:#dde3ea;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: Arial, sans-serif;
-    background: #EEF2F8;
-    color: #1A1A1A;
-    min-height: 100vh;
+  *{box-sizing:border-box;}
+  body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:var(--bg);
+    color:#222;
+    margin:0;
+    padding:0 0 60px 0;
   }
-  header {
-    background: linear-gradient(135deg, var(--dark) 0%, var(--med) 100%);
-    color: white;
-    padding: 28px 32px 20px;
-    text-align: center;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+  header{
+    background:linear-gradient(135deg, var(--primary), var(--accent));
+    color:#fff;
+    padding:28px 20px;
+    text-align:center;
   }
-  header h1 { font-size: 1.5em; letter-spacing: .5px; margin-bottom: 6px; }
-  header p  { font-size: .88em; opacity: .85; }
-  #meta-bar {
-    display: flex; justify-content: space-between; align-items: center;
-    background: var(--dark); color: white;
-    padding: 10px 32px; font-size: .82em;
+  header h1{margin:0 0 6px 0; font-size:1.6em;}
+  header p{margin:0; font-size:0.95em; opacity:0.9;}
+  .container{max-width:780px; margin:0 auto; padding:20px;}
+  .tabs{
+    display:flex;
+    gap:10px;
+    margin:20px auto;
+    max-width:780px;
+    padding:0 20px;
   }
-  #meta-bar span { opacity: .9; }
-  #progress-wrap { background: #dde4ef; border-radius: 4px; height: 6px; width: 200px; }
-  #progress-fill { background: #5BA8FF; height: 6px; border-radius: 4px; transition: width .4s; }
-
-  main { max-width: 820px; margin: 30px auto; padding: 0 16px 60px; }
-
-  /* ── PANTALLA INICIAL ── */
-  #screen-start { text-align: center; padding: 40px 20px; }
-  #screen-start h2 { color: var(--dark); font-size: 1.6em; margin-bottom: 12px; }
-  #screen-start p  { color: #444; margin-bottom: 8px; font-size: .95em; }
-  .config-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin: 24px 0; }
-  .config-box {
-    background: white; border: 2px solid var(--light);
-    border-radius: 10px; padding: 18px 24px; min-width: 160px;
-    cursor: pointer; transition: all .2s; text-align: center;
-    font-size: .9em; color: var(--dark);
+  .tab-btn{
+    flex:1;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#dde7f3;
+    color:var(--primary);
+    font-weight:600;
+    font-size:1em;
+    cursor:pointer;
+    transition:0.2s;
   }
-  .config-box:hover, .config-box.selected {
-    border-color: var(--med); background: var(--light); font-weight: bold;
+  .tab-btn.active{
+    background:var(--accent);
+    color:#fff;
   }
-  .config-box strong { display: block; font-size: 1.6em; margin-bottom: 4px; color: var(--dark); }
-  .badge {
-    display: inline-block; background: var(--light); color: var(--dark);
-    border: 1px solid var(--med); border-radius: 20px;
-    padding: 4px 14px; font-size: .8em; margin: 4px;
+  .tab-content{display:none;}
+  .tab-content.active{display:block;}
+  .score-bar{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px 18px;
+    margin-bottom:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
   }
-
-  /* ── TARJETA PREGUNTA ── */
-  .q-card {
-    background: white; border-radius: 14px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.08);
-    padding: 28px 30px 22px; margin-bottom: 24px;
-    border-left: 5px solid var(--med);
-    animation: fadeIn .35s ease;
+  .score-bar .score{font-weight:700; font-size:1.1em; color:var(--primary);}
+  .reshuffle-btn{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:10px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:0.9em;
+    font-weight:600;
   }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-  .q-num {
-    font-size: .78em; color: var(--med); font-weight: bold;
-    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px;
+  .reshuffle-btn:hover{background:var(--accent);}
+  .question-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px 20px;
+    margin-bottom:16px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04);
   }
-  .q-text {
-    font-size: 1.06em; color: var(--dark); font-weight: bold;
-    line-height: 1.5; margin-bottom: 20px;
+  .question-card h3{
+    margin:0 0 12px 0;
+    font-size:1.05em;
+    color:var(--primary);
   }
-  .options { display: flex; flex-direction: column; gap: 10px; }
-  .opt-btn {
-    display: flex; align-items: flex-start; gap: 14px;
-    background: var(--gray); border: 2px solid #ddd;
-    border-radius: 9px; padding: 13px 16px;
-    cursor: pointer; transition: all .18s; text-align: left;
-    font-size: .93em; color: #222; font-family: Arial, sans-serif;
-    line-height: 1.4;
+  .q-number{
+    display:inline-block;
+    background:var(--accent);
+    color:#fff;
+    border-radius:50%;
+    width:26px;
+    height:26px;
+    text-align:center;
+    line-height:26px;
+    font-size:0.85em;
+    margin-right:8px;
+    flex-shrink:0;
   }
-  .opt-btn:hover:not(:disabled) { border-color: var(--med); background: var(--light); }
-  .opt-btn:disabled { cursor: default; }
-  .opt-letter {
-    min-width: 28px; height: 28px;
-    background: white; border: 2px solid #bbb;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-weight: bold; font-size: .85em; color: #555; flex-shrink: 0;
+  .option{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:#f8f9fb;
+    border:1.5px solid var(--border);
+    border-radius:8px;
+    padding:10px 14px;
+    margin:6px 0;
+    cursor:pointer;
+    font-size:0.96em;
+    transition:0.15s;
+    color:#333;
   }
-  .opt-btn.correct   { background: var(--greenl); border-color: var(--green); color: var(--green); }
-  .opt-btn.correct   .opt-letter { background: var(--green); color: white; border-color: var(--green); }
-  .opt-btn.wrong     { background: var(--redl); border-color: var(--red); color: var(--red); }
-  .opt-btn.wrong     .opt-letter { background: var(--red); color: white; border-color: var(--red); }
-  .opt-btn.revealed  { background: #E8F5E9; border-color: var(--green); color: var(--green); }
-  .opt-btn.revealed  .opt-letter { background: var(--green); color: white; border-color: var(--green); }
-
-  .feedback-box {
-    margin-top: 14px; padding: 12px 16px;
-    border-radius: 8px; font-size: .9em; line-height: 1.5;
-    display: none;
+  .option:hover:not(.disabled){
+    border-color:var(--accent);
+    background:#eef4fb;
   }
-  .feedback-box.show { display: block; animation: fadeIn .2s; }
-  .feedback-box.ok   { background: var(--greenl); color: var(--green); border: 1px solid #b2dfdb; }
-  .feedback-box.err  { background: var(--redl);   color: var(--red);   border: 1px solid #ffcdd2; }
-
-  /* ── NAVEGACIÓN ── */
-  .nav-row { display: flex; justify-content: flex-end; margin-top: 18px; gap: 10px; }
-  .btn {
-    padding: 11px 26px; border-radius: 8px; border: none;
-    font-family: Arial, sans-serif; font-size: .92em; font-weight: bold;
-    cursor: pointer; transition: all .18s;
+  .option.correct{
+    background:#e6f4ea;
+    border-color:var(--green);
+    color:var(--green);
+    font-weight:600;
   }
-  .btn-primary { background: var(--med); color: white; }
-  .btn-primary:hover { background: var(--dark); }
-  .btn-secondary { background: white; color: var(--dark); border: 2px solid var(--med); }
-  .btn-secondary:hover { background: var(--light); }
-  .btn:disabled { opacity: .45; cursor: default; }
-
-  /* ── RESULTADOS ── */
-  #screen-result { text-align: center; }
-  .score-circle {
-    width: 140px; height: 140px; border-radius: 50%;
-    border: 8px solid var(--med);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    margin: 0 auto 20px; background: white;
+  .option.incorrect{
+    background:#fdecea;
+    border-color:var(--red);
+    color:var(--red);
+    font-weight:600;
   }
-  .score-circle .score-num { font-size: 2.4em; font-weight: bold; color: var(--dark); }
-  .score-circle .score-den { font-size: .95em; color: #666; }
-  .result-msg { font-size: 1.3em; font-weight: bold; color: var(--dark); margin-bottom: 8px; }
-  .result-sub { color: #555; font-size: .95em; margin-bottom: 28px; }
-  .nota-badge {
-    display: inline-block; padding: 10px 28px;
-    border-radius: 30px; font-size: 1.4em; font-weight: bold;
-    margin-bottom: 24px;
+  .option.disabled{cursor:default;}
+  .vf-buttons{display:flex; gap:10px; margin-top:6px;}
+  .vf-btn{
+    flex:1;
+    padding:12px;
+    border:1.5px solid var(--border);
+    border-radius:8px;
+    background:#f8f9fb;
+    cursor:pointer;
+    font-weight:600;
+    font-size:0.96em;
+    transition:0.15s;
   }
-  .review-list { text-align: left; margin-top: 20px; }
-  .review-item {
-    background: white; border-radius: 10px; padding: 14px 18px;
-    margin-bottom: 12px; border-left: 4px solid #ccc;
-    font-size: .9em;
+  .vf-btn:hover:not(.disabled){border-color:var(--accent); background:#eef4fb;}
+  .vf-btn.correct{background:#e6f4ea; border-color:var(--green); color:var(--green);}
+  .vf-btn.incorrect{background:#fdecea; border-color:var(--red); color:var(--red);}
+  .vf-btn.disabled{cursor:default;}
+  .feedback{
+    margin-top:10px;
+    padding:10px 12px;
+    border-radius:8px;
+    font-size:0.92em;
+    line-height:1.4;
   }
-  .review-item.ok-item  { border-color: var(--green); }
-  .review-item.err-item { border-color: var(--red); }
-  .review-item .ri-q   { font-weight: bold; color: var(--dark); margin-bottom: 6px; }
-  .review-item .ri-a   { color: #444; }
-  .review-item .ri-c   { color: var(--green); font-weight: bold; }
-  .review-item .ri-w   { color: var(--red); }
-
-  /* tag temático */
-  .tag {
-    display: inline-block; background: var(--light); color: var(--dark);
-    font-size: .72em; padding: 2px 8px; border-radius: 10px;
-    margin-left: 6px; font-weight: normal; vertical-align: middle;
+  .feedback.ok{background:#e6f4ea; color:var(--green);}
+  .feedback.bad{background:#fdecea; color:var(--red);}
+  .feedback .answer-line{
+    margin-top:6px;
+    font-weight:600;
+    color:#444;
   }
-
-  @media (max-width: 560px) {
-    header h1 { font-size: 1.15em; }
-    main { padding: 0 8px 40px; }
-    .q-card { padding: 18px 16px; }
-    .config-row { flex-direction: column; align-items: center; }
+  footer{
+    text-align:center;
+    color:#888;
+    font-size:0.85em;
+    margin-top:30px;
+    padding:0 20px;
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>⚖️ Prueba de Alternativas — Derecho</h1>
-  <p>Introducción al Derecho &amp; Principios Fundamentales del Derecho Civil Chileno</p>
+  <h1>Prueba de Derecho Político</h1>
+  <p>Formas de Gobierno, Régimen Político y Teoría del Estado</p>
 </header>
-<div id="meta-bar">
-  <span id="meta-info">Selecciona la cantidad de preguntas</span>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <span id="score-live" style="font-weight:bold;color:#7EC8FF;display:none;"></span>
-    <div id="progress-wrap"><div id="progress-fill" style="width:0%"></div></div>
-  </div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('mc')">Opción Múltiple</button>
+  <button class="tab-btn" onclick="showTab('vf')">Verdadero o Falso</button>
 </div>
 
-<main>
+<div class="container">
 
-<!-- ═══ PANTALLA INICIO ═══ -->
-<div id="screen-start">
-  <h2>Prueba de Conocimientos Jurídicos</h2>
-  <p>Preguntas aleatorias de las Unidades 1 y Principios del Derecho Civil.<br>Cada vez que inicies, las preguntas <strong>y</strong> las opciones cambian de orden.</p>
-  <div style="margin:20px 0;">
-    <span class="badge">📚 Norma Jurídica · Kelsen · Alexy · Hart · Dworkin · Reale</span>
-    <span class="badge">⚖️ 13 Principios Fundamentales del Derecho Civil</span>
-    <span class="badge">🇨🇱 Código Civil chileno · CPR · Leyes especiales</span>
+  <div id="mc" class="tab-content active">
+    <div class="score-bar">
+      <div class="score">Puntaje: <span id="mc-score">0</span> / <span id="mc-total">0</span></div>
+      <button class="reshuffle-btn" onclick="initMC()">🔀 Mezclar y reiniciar</button>
+    </div>
+    <div id="mc-questions"></div>
   </div>
-  <p style="margin-top:16px;font-size:.9em;color:#555;">¿Cuántas preguntas quieres responder?</p>
-  <div class="config-row" id="qty-row">
-    <div class="config-box" data-qty="10"><strong>10</strong>preguntas<br><small style="color:#777">~5 min</small></div>
-    <div class="config-box selected" data-qty="20"><strong>20</strong>preguntas<br><small style="color:#777">~10 min</small></div>
-    <div class="config-box" data-qty="30"><strong>30</strong>preguntas<br><small style="color:#777">~15 min</small></div>
-    <div class="config-box" data-qty="0"><strong>Todas</strong>las preguntas<br><small style="color:#777">42 preguntas</small></div>
+
+  <div id="vf" class="tab-content">
+    <div class="score-bar">
+      <div class="score">Puntaje: <span id="vf-score">0</span> / <span id="vf-total">0</span></div>
+      <button class="reshuffle-btn" onclick="initVF()">🔀 Mezclar y reiniciar</button>
+    </div>
+    <div id="vf-questions"></div>
   </div>
-  <button class="btn btn-primary" id="btn-start" style="margin-top:10px;font-size:1em;padding:14px 44px;">
-    🚀 Comenzar prueba
-  </button>
+
 </div>
 
-<!-- ═══ PANTALLA QUIZ ═══ -->
-<div id="screen-quiz" style="display:none;">
-  <div id="q-container"></div>
-  <div class="nav-row">
-    <button class="btn btn-secondary" id="btn-finish" style="display:none;" onclick="finish()">Ver resultados</button>
-    <button class="btn btn-primary" id="btn-next" disabled onclick="next()">Siguiente →</button>
-  </div>
-</div>
-
-<!-- ═══ PANTALLA RESULTADO ═══ -->
-<div id="screen-result" style="display:none;">
-  <h2 style="color:var(--dark);margin-bottom:20px;">📊 Resultados</h2>
-  <div class="score-circle">
-    <span class="score-num" id="res-num">0</span>
-    <span class="score-den" id="res-den">/ 20</span>
-  </div>
-  <div class="nota-badge" id="nota-badge"></div>
-  <div class="result-msg" id="res-msg"></div>
-  <div class="result-sub" id="res-sub"></div>
-  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;">
-    <button class="btn btn-primary" onclick="restart()">🔄 Nueva prueba aleatoria</button>
-    <button class="btn btn-secondary" onclick="toggleReview()">📋 Revisar respuestas</button>
-  </div>
-  <div id="review-panel" style="display:none;">
-    <div class="review-list" id="review-list"></div>
-  </div>
-</div>
-
-</main>
+<footer>
+  El orden de las preguntas (y de las alternativas) se mezcla automáticamente cada vez que se abre o reinicia este archivo.<br>
+  Si la respuesta es incorrecta, se mostrará la respuesta correcta.
+</footer>
 
 <script>
-// ════════════════════════════════════════════════════════════
-//  BANCO DE PREGUNTAS  (42 preguntas)
-// ════════════════════════════════════════════════════════════
-const ALL_QUESTIONS = [
-  // ── UNIDAD 1: CONCEPTO DE DERECHO ──
-  {
-    tag:"Concepto de Derecho",
-    q:"Según Gustav Radbruch, ¿cómo define el Derecho?",
-    correct:"Una realidad cultural referida a valores, específicamente al valor de la justicia.",
-    wrong:[
-      "Un sistema de normas jerárquicamente organizadas cuya validez deriva de la Grundnorm.",
-      "El conjunto de condiciones por las cuales el arbitrio de cada uno coexiste con el de los demás.",
-      "Un hecho social identificable con independencia de cualquier valoración moral."
-    ]
-  },
-  {
-    tag:"Concepto de Derecho",
-    q:"En la definición de Kant (Metafísica de las Costumbres, 1797), el Derecho es:",
-    correct:"El conjunto de condiciones por las cuales el arbitrio de cada uno puede coexistir con el arbitrio de los demás, según una ley universal de libertad.",
-    wrong:[
-      "Una realidad cultural referida al valor de la justicia.",
-      "El ordenamiento coercitivo de la conducta humana.",
-      "La norma que emana de la voluntad del soberano."
-    ]
-  },
-  {
-    tag:"Concepto de Derecho",
-    q:"La «paradoja epistemológica del Derecho» consiste en que:",
-    correct:"El Derecho es simultáneamente el objeto de estudio y el instrumento de análisis: es el Derecho el que define qué es jurídico.",
-    wrong:[
-      "El Derecho es una ciencia exacta, como la física o la matemática.",
-      "Los juristas no pueden ponerse de acuerdo sobre ningún concepto básico.",
-      "Toda norma jurídica es incompatible con la moral."
-    ]
-  },
-  {
-    tag:"Fuentes del Derecho",
-    q:"¿Qué son las fuentes formales del Derecho?",
-    correct:"Las formas en que surgen y se expresan las normas jurídicas (Constitución, leyes, reglamentos, etc.).",
-    wrong:[
-      "Los hechos sociales que explican por qué nacen las normas.",
-      "Las normas de origen consuetudinario.",
-      "Los tratados internacionales, exclusivamente."
-    ]
-  },
-  {
-    tag:"Fuentes del Derecho",
-    q:"¿Cuál es la jerarquía normativa más alta en el ordenamiento jurídico chileno?",
-    correct:"La Constitución Política de la República.",
-    wrong:[
-      "Los tratados internacionales de derechos humanos.",
-      "Las leyes orgánicas constitucionales.",
-      "Los decretos con fuerza de ley."
-    ]
-  },
-  // ── IUSNATURALISMO / POSITIVISMO ──
-  {
-    tag:"Iusnaturalismo vs. Positivismo",
-    q:"La tesis fundamental del iusnaturalismo es:",
-    correct:"Existen normas jurídicas válidas por sí mismas, en virtud de la naturaleza humana, la razón o la voluntad divina, con independencia de la voluntad del legislador.",
-    wrong:[
-      "El Derecho es un hecho social que puede identificarse sin recurrir a la moral.",
-      "La validez de una norma depende exclusivamente del procedimiento de creación.",
-      "El juez solo puede aplicar la ley, nunca crear Derecho."
-    ]
-  },
-  {
-    tag:"Iusnaturalismo vs. Positivismo",
-    q:"Según el positivismo jurídico (Kelsen), ¿cuál es el criterio de validez de una norma?",
-    correct:"Su conformidad con el procedimiento establecido y con normas de rango superior en la jerarquía normativa, sin importar su contenido moral.",
-    wrong:[
-      "Su justicia intrínseca y conformidad con la naturaleza humana.",
-      "Su aceptación por la mayoría de la sociedad.",
-      "Su promulgación por el Estado en uso de su soberanía, con independencia del procedimiento."
-    ]
-  },
-  {
-    tag:"Iusnaturalismo vs. Positivismo",
-    q:"La diferencia en la relación Derecho–Moral entre iusnaturalismo y positivismo es:",
-    correct:"El iusnaturalismo sostiene una conexión necesaria; el positivismo exige una separación tajante.",
-    wrong:[
-      "Ambas corrientes aceptan que el Derecho injusto no es Derecho.",
-      "El positivismo sostiene que Derecho y moral son idénticos.",
-      "El iusnaturalismo solo acepta como Derecho las normas dictadas por el Estado."
-    ]
-  },
-  // ── HART ──
-  {
-    tag:"Hart",
-    q:"¿Qué es la «regla de reconocimiento» según H.L.A. Hart?",
-    correct:"Una práctica social que los funcionarios del sistema utilizan para identificar qué normas pertenecen al ordenamiento, sin necesidad de recurrir a fundamentos morales.",
-    wrong:[
-      "La norma constitucional que establece la jerarquía de las fuentes.",
-      "El principio por el cual el juez reconoce la costumbre como fuente de Derecho.",
-      "La regla que permite reconocer el carácter obligatorio de los tratados internacionales."
-    ]
-  },
-  {
-    tag:"Hart",
-    q:"La «textura abierta del lenguaje jurídico» de Hart implica que:",
-    correct:"En los casos límite, el lenguaje jurídico deja zonas de penumbra en las que el juez tiene discrecionalidad creativa y crea Derecho.",
-    wrong:[
-      "Todo el Derecho es siempre abierto a interpretación, sin excepción.",
-      "El juez nunca puede crear Derecho bajo ninguna circunstancia.",
-      "El lenguaje jurídico es perfectamente claro y no da lugar a interpretaciones."
-    ]
-  },
-  // ── DWORKIN ──
-  {
-    tag:"Dworkin",
-    q:"El «juez Hércules» de Ronald Dworkin es:",
-    correct:"Un juez ideal con capacidad y sabiduría ilimitadas que no crea Derecho, sino que descubre la respuesta moralmente correcta que el sistema jurídico ya contiene implícitamente.",
-    wrong:[
-      "Un juez que aplica mecánicamente las reglas sin considerar principios.",
-      "Un juez activista que reemplaza la ley por sus preferencias morales.",
-      "Un juez que solo resuelve casos de derecho constitucional."
-    ]
-  },
-  {
-    tag:"Dworkin",
-    q:"Según Dworkin, ¿qué diferencia hay entre reglas y principios?",
-    correct:"Las reglas se aplican en la modalidad de «todo o nada»; los principios admiten cumplimiento gradual y ponderación.",
-    wrong:[
-      "Las reglas son normas constitucionales; los principios son normas legales.",
-      "Las reglas son normas morales; los principios son normas jurídicas.",
-      "No existe diferencia: ambos son mandatos normativos equivalentes."
-    ]
-  },
-  // ── REALE ──
-  {
-    tag:"Reale",
-    q:"Las tres dimensiones de la Teoría Tridimensional del Derecho de Miguel Reale son:",
-    correct:"Norma (dimensión normativa), Hecho (dimensión fáctica) y Valor (dimensión axiológica).",
-    wrong:[
-      "Validez, eficacia y legitimidad.",
-      "Reglas, principios y directrices.",
-      "Ser, deber ser y valor."
-    ]
-  },
-  {
-    tag:"Reale",
-    q:"La dimensión «Hecho» en la teoría de Reale refiere a:",
-    correct:"El Derecho como fenómeno social e histórico: las normas emergen de hechos sociales concretos como conflictos, necesidades y relaciones de poder.",
-    wrong:[
-      "El sistema de normas que regula el comportamiento humano.",
-      "La expresión de valores como la justicia y el bien común.",
-      "La norma fundamental (Grundnorm) que valida todo el sistema."
-    ]
-  },
-  // ── KELSEN ──
-  {
-    tag:"Kelsen",
-    q:"En Kelsen, ¿a qué mundo pertenecen las normas jurídicas?",
-    correct:"Al mundo del deber ser (Sollen).",
-    wrong:[
-      "Al mundo del ser (Sein).",
-      "Al mundo de los valores morales.",
-      "Al mundo de los hechos sociales."
-    ]
-  },
-  {
-    tag:"Kelsen",
-    q:"La «lógica de la imputación» en Kelsen establece que:",
-    correct:"Dado el supuesto de hecho H, debe ser la consecuencia jurídica C. Esta conexión es normativa y puede ser modificada por el legislador.",
-    wrong:[
-      "Si se produce la causa A, necesariamente ocurre el efecto B (relación causal necesaria).",
-      "Toda norma válida es también justa y moral.",
-      "Las normas jurídicas son verdaderas o falsas según su contenido."
-    ]
-  },
-  {
-    tag:"Kelsen",
-    q:"La estructura bipartita de la norma jurídica según Kelsen comprende:",
-    correct:"Supuesto de hecho y consecuencia jurídica.",
-    wrong:[
-      "Sujeto activo y sujeto pasivo.",
-      "Norma primaria y norma secundaria.",
-      "Derechos y obligaciones."
-    ]
-  },
-  {
-    tag:"Kelsen",
-    q:"Para Kelsen, una norma es válida cuando:",
-    correct:"Fue creada por autoridad competente, siguiendo el procedimiento establecido, sin contradecir normas de rango superior.",
-    wrong:[
-      "Su contenido es justo y moral.",
-      "Es aceptada por la mayoría de la sociedad.",
-      "Es promulgada por el Presidente de la República."
-    ]
-  },
-  // ── ALEXY ──
-  {
-    tag:"Alexy",
-    q:"Según Robert Alexy, los principios son:",
-    correct:"Mandatos de optimización: ordenan realizar algo en la mayor medida posible dentro de las posibilidades fácticas y jurídicas disponibles.",
-    wrong:[
-      "Normas absolutas que se aplican sin excepción.",
-      "Reglas que operan en la modalidad de «todo o nada».",
-      "Normas exclusivamente constitucionales que limitan al legislador."
-    ]
-  },
-  {
-    tag:"Alexy",
-    q:"Cuando colisionan dos principios, la solución según Alexy es:",
-    correct:"La ponderación: en el caso concreto se determina cuál principio tiene mayor peso, sin declarar inválido al otro.",
-    wrong:[
-      "Se aplica el criterio de jerarquía: el principio superior deroga al inferior.",
-      "Se aplica el criterio de especialidad: la norma especial prevalece sobre la general.",
-      "Se aplica el criterio de temporalidad: la norma posterior deroga la anterior."
-    ]
-  },
-  {
-    tag:"Alexy",
-    q:"¿Cuál es la forma de aplicación de las reglas según Alexy?",
-    correct:"Subsunción: el caso entra o no en el supuesto de hecho; si entra, la consecuencia jurídica opera automáticamente.",
-    wrong:[
-      "Ponderación: se evalúa el peso de cada regla en el caso concreto.",
-      "Interpretación: el juez busca la respuesta moralmente correcta.",
-      "Integración analógica: se aplica la regla más similar."
-    ]
-  },
-  // ── ELEMENTOS NORMA JURÍDICA ──
-  {
-    tag:"Elementos de la norma",
-    q:"¿Qué elemento de la norma jurídica consiste en la correlación entre un sujeto obligado y un sujeto facultado?",
-    correct:"Bilateralidad.",
-    wrong:["Coercibilidad.","Heteronomía.","Exterioridad."]
-  },
-  {
-    tag:"Elementos de la norma",
-    q:"La «heteronomía» de la norma jurídica significa que:",
-    correct:"La norma es impuesta por una autoridad externa al sujeto, a diferencia de las normas morales que son autónomas.",
-    wrong:[
-      "La norma puede ser ejecutada por la fuerza pública.",
-      "La norma regula únicamente conductas externas.",
-      "La norma crea derechos y deberes correlativos."
-    ]
-  },
-  {
-    tag:"Elementos de la norma",
-    q:"La «coercibilidad» de la norma jurídica consiste en:",
-    correct:"La posibilidad de emplear la fuerza pública legítima para hacer cumplir la norma, incluso contra la voluntad del obligado.",
-    wrong:[
-      "La obligatoriedad moral de la norma para los ciudadanos.",
-      "El hecho de que la norma sea impuesta por autoridad externa.",
-      "La regulación de conductas externas, no intenciones."
-    ]
-  },
-  {
-    tag:"Elementos de la norma",
-    q:"¿Qué autor vinculó el monopolio de la violencia física legítima con el Estado?",
-    correct:"Max Weber.",
-    wrong:["Hans Kelsen.","Robert Alexy.","H.L.A. Hart."]
-  },
-  // ── CLASIFICACIÓN DEL DERECHO ──
-  {
-    tag:"Clasificación del Derecho",
-    q:"El principio rector del Derecho Público es:",
-    correct:"Legalidad: los órganos del Estado solo pueden hacer aquello que la ley expresamente les autoriza.",
-    wrong:[
-      "Autonomía de la voluntad: las partes pueden contratar libremente.",
-      "Buena fe: los actos deben ejecutarse de buena fe.",
-      "Equidad: los casos deben resolverse conforme a la equidad natural."
-    ]
-  },
-  {
-    tag:"Clasificación del Derecho",
-    q:"El Derecho Civil es el derecho privado:",
-    correct:"Común y general aplicable a todas las personas, salvo disposición especial de ley.",
-    wrong:[
-      "Especial que solo rige para los comerciantes.",
-      "Exclusivo del Estado para regular sus relaciones con particulares.",
-      "Que regula únicamente las relaciones de familia."
-    ]
-  },
-  {
-    tag:"Clasificación del Derecho",
-    q:"La Reforma Procesal Penal chilena (2000–2005) transformó el sistema:",
-    correct:"De inquisitivo escrito a acusatorio oral, separando investigación (Fiscalía) y juzgamiento (jueces).",
-    wrong:[
-      "De acusatorio oral a inquisitivo escrito.",
-      "De público a privado, entregando la persecución penal a los particulares.",
-      "De oral a escrito, para garantizar mayor certeza jurídica."
-    ]
-  },
-  {
-    tag:"Clasificación del Derecho",
-    q:"El Derecho Tributario y el Derecho Presupuestario son ramas del:",
-    correct:"Derecho Financiero.",
-    wrong:[
-      "Derecho Comercial.",
-      "Derecho Económico.",
-      "Derecho Civil."
-    ]
-  },
-  // ════════════════════════════════════════════════════════════
-  // PRINCIPIOS DEL DERECHO CIVIL
-  // ════════════════════════════════════════════════════════════
-  {
-    tag:"Principios Generales",
-    q:"¿Cuántos principios fundamentales del Derecho Civil chileno se identifican en el documento?",
-    correct:"13 principios (aunque la buena fe se desdobla en general y contractual).",
-    wrong:["10 principios.","15 principios.","7 principios."]
-  },
-  {
-    tag:"Principios Generales",
-    q:"Los cuatro principios de carácter general del Derecho Civil son:",
-    correct:"Omnipotencia de la ley, buena fe, enriquecimiento sin causa y responsabilidad.",
-    wrong:[
-      "Autonomía de la voluntad, buena fe, propiedad privada y patrimonio unitario.",
-      "Legalidad, igualdad, responsabilidad y buena fe.",
-      "Dignidad, igualdad, familia y matrimonio."
-    ]
-  },
-  {
-    tag:"Principios Generales",
-    q:"El art. 8° del Código Civil establece que «nadie podrá alegar ignorancia de la ley después que ésta haya entrado en vigencia». Este artículo es manifestación del principio de:",
-    correct:"Omnipotencia de la ley.",
-    wrong:[
-      "Buena fe.",
-      "Responsabilidad civil.",
-      "Igualdad ante la ley."
-    ]
-  },
-  {
-    tag:"Principios Generales",
-    q:"El art. 3° CC dispone que «solo el legislador puede interpretar la ley de un modo generalmente obligatorio». Esto significa que las sentencias judiciales:",
-    correct:"Tienen efecto relativo (res inter alios acta) y no sientan precedente general.",
-    wrong:[
-      "Son fuente obligatoria del Derecho para casos futuros.",
-      "Pueden modificar las leyes si son reiteradas.",
-      "Tienen efecto erga omnes cuando las dicta la Corte Suprema."
-    ]
-  },
-  {
-    tag:"Principios Generales",
-    q:"El art. 707 CC establece «la buena fe se presume, excepto en los casos en que la ley establece la presunción contraria». Este artículo contiene una presunción de:",
-    correct:"Carácter general para el Derecho Privado: el punto de partida es la buena fe; quien alega mala fe debe probarla.",
-    wrong:[
-      "Aplicación exclusiva a la materia posesoria, sin alcance general.",
-      "Presunción de derecho que no admite prueba en contrario.",
-      "Obligación de probar siempre tanto la buena fe como la mala fe."
-    ]
-  },
-  {
-    tag:"Principios Generales",
-    q:"El enriquecimiento sin causa se manifiesta en el Código Civil principalmente en materia de:",
-    correct:"Accesión (arts. 658, 663, 668, 669) y prestaciones mutuas (arts. 908–915).",
-    wrong:[
-      "Contratos de compraventa y arrendamiento.",
-      "Filiación y adopción.",
-      "Testamentos y legados."
-    ]
-  },
-  {
-    tag:"Personas y Familia",
-    q:"El art. 33 del CC, modificado por la Ley N° 19.585 (1998), establece que:",
-    correct:"La ley considera iguales a todos los hijos, suprimiendo la distinción entre hijos legítimos e ilegítimos.",
-    wrong:[
-      "El padre tiene la patria potestad exclusiva sobre los hijos.",
-      "Solo los hijos matrimoniales heredan intestadamente.",
-      "Los hijos adoptivos no tienen los mismos derechos que los biológicos."
-    ]
-  },
-  {
-    tag:"Personas y Familia",
-    q:"El art. 102 CC define el matrimonio como:",
-    correct:"Un contrato solemne por el cual un hombre y una mujer se unen actual e indisolublemente, y por toda la vida, con el fin de vivir juntos, de procrear y de auxiliarse mutuamente.",
-    wrong:[
-      "Un acuerdo de unión civil regulado por normas de Derecho Público.",
-      "Un contrato consensual que se perfecciona por el consentimiento.",
-      "Una institución de orden público que no puede ser calificada como contrato."
-    ]
-  },
-  {
-    tag:"Personas y Familia",
-    q:"La Ley N° 21.400 (2022) es relevante para el principio de protección al matrimonio porque:",
-    correct:"Extendió el matrimonio igualitario a parejas del mismo sexo en Chile.",
-    wrong:[
-      "Introdujo el divorcio vincular en Chile.",
-      "Creó los Tribunales de Familia.",
-      "Incorporó el principio del interés superior del hijo al Código Civil."
-    ]
-  },
-  {
-    tag:"Personas y Familia",
-    q:"El principio del «interés superior del hijo» fue incorporado al Código Civil por:",
-    correct:"La Ley N° 19.585 (1998), que siguió la Convención sobre los Derechos del Niño (ONU, 1990).",
-    wrong:[
-      "La Constitución de 1980 directamente.",
-      "El Código Civil original de Andrés Bello (1857).",
-      "La Ley N° 21.430 (2022)."
-    ]
-  },
-  {
-    tag:"Personas y Familia",
-    q:"Según la Ley N° 21.430, el interés superior del niño, niña y adolescente tiene una triple naturaleza:",
-    correct:"Derecho, principio y norma de procedimiento.",
-    wrong:[
-      "Principio, norma y costumbre.",
-      "Derecho, garantía y obligación del Estado.",
-      "Principio, directriz y norma constitucional."
-    ]
-  },
-  {
-    tag:"Bienes",
-    q:"El principio de «mayor protección a los bienes raíces» se traduce, entre otras cosas, en:",
-    correct:"Solemnidades adicionales para su enajenación (escritura pública + inscripción en el Conservador de Bienes Raíces) y plazos de prescripción adquisitiva más extensos.",
-    wrong:[
-      "Que los bienes raíces son inalienables e inembargables.",
-      "Que el Estado tiene derecho de tanteo sobre todos los inmuebles.",
-      "Que los bienes raíces no pueden ser hipotecados."
-    ]
-  },
-  {
-    tag:"Bienes",
-    q:"El principio de «patrimonio unitario» establece que:",
-    correct:"Toda persona tiene un único patrimonio que responde de sus obligaciones; es un atributo de la personalidad y no puede ser enajenado.",
-    wrong:[
-      "El patrimonio puede dividirse libremente entre varias personas jurídicas.",
-      "Los bienes del deudor solo responden ante acreedores hipotecarios.",
-      "El patrimonio del cónyuge es siempre compartido con el otro."
-    ]
-  },
-  {
-    tag:"Contratos",
-    q:"El subprincipio «pacta sunt servanda» (fuerza obligatoria del contrato) establece que:",
-    correct:"El contrato válidamente celebrado es ley para las partes y no puede ser invalidado sino por mutuo consentimiento o causas que la ley autoriza (art. 1545 CC).",
-    wrong:[
-      "Los contratos son siempre modificables por el juez en caso de imprevisión.",
-      "Las obligaciones contractuales se extinguen automáticamente si resultan onerosas.",
-      "Las partes no pueden crear contratos atípicos no regulados en el Código Civil."
-    ]
-  },
-  {
-    tag:"Contratos",
-    q:"La «buena fe objetiva» en materia contractual (art. 1546 CC) es:",
-    correct:"Un estándar de conducta exigible al contratante razonable y leal, distinto de la buena fe subjetiva (estado psicológico).",
-    wrong:[
-      "La presunción de que todas las partes actúan de buena fe al momento de contratar.",
-      "La buena intención personal que debe acreditar cada parte en juicio.",
-      "Un estado psicológico de ignorancia o error sobre los efectos del contrato."
-    ]
-  },
-  {
-    tag:"Contratos",
-    q:"El art. 1546 CC dispone que «los contratos obligan no solo a lo que en ellos se expresa, sino a todas las cosas que emanan precisamente de la naturaleza de la obligación, o que por la ley o la costumbre pertenecen a ella». Esto corresponde al principio de:",
-    correct:"Buena fe contractual.",
-    wrong:[
-      "Fuerza obligatoria del contrato (pacta sunt servanda).",
-      "Efecto relativo del contrato.",
-      "Consensualismo."
-    ]
-  },
-  {
-    tag:"Contratos",
-    q:"El «efecto relativo del contrato» significa que:",
-    correct:"El contrato solo genera derechos y obligaciones para las partes que lo celebraron, sin afectar a terceros.",
-    wrong:[
-      "El contrato puede ser modificado por resolución judicial.",
-      "El contrato es siempre provisional mientras no sea inscrito.",
-      "El contrato obliga a todos los habitantes de la República."
-    ]
-  },
-  {
-    tag:"Derecho Civil general",
-    q:"El Código Civil chileno fue redactado por:",
-    correct:"Andrés Bello.",
-    wrong:[
-      "Manuel Montt.",
-      "José Victorino Lastarria.",
-      "Diego Portales."
-    ]
-  },
-  {
-    tag:"Derecho Civil general",
-    q:"El art. 3° LMC (Ley de Matrimonio Civil N° 19.947) dispone que las materias de familia deberán resolverse «cuidando proteger siempre el interés superior de los hijos y del…»:",
-    correct:"Cónyuge más débil.",
-    wrong:[
-      "Cónyuge mayor de edad.",
-      "Cónyuge que tiene el cuidado personal de los hijos.",
-      "Cónyuge cuyo domicilio está en Chile."
-    ]
-  }
+// ============ DATOS: PREGUNTAS DE OPCIÓN MÚLTIPLE ============
+const mcData = [
+{ q: "¿Cuál es la diferencia principal entre 'forma de gobierno' y 'régimen político'?",
+  options: [
+    "Forma de gobierno es la estructura formal regulada por la Constitución y las leyes; régimen político es la estructura real del ejercicio del poder",
+    "Ambos términos son completamente sinónimos",
+    "Forma de gobierno describe la realidad política; régimen político describe la norma jurídica",
+    "Forma de gobierno solo existe en las monarquías"
+  ], correct: 0 },
+{ q: "Según Aristóteles, ¿cuál de las siguientes es una FORMA POLÍTICA PURA?",
+  options: ["Tiranía", "Demagogia", "Aristocracia", "Oligarquía"], correct: 2 },
+{ q: "La Tiranía es la forma corrompida de:",
+  options: ["La Aristocracia", "La Monarquía", "La Democracia (Politeia)", "La Forma Mixta"], correct: 1 },
+{ q: "La forma de gobierno mixta de Polibio, observada en la Roma republicana, combinaba:",
+  options: [
+    "Monarquía, Aristocracia y Democracia",
+    "Tiranía, Oligarquía y Demagogia",
+    "Solo Monarquía y Aristocracia",
+    "Autocracia y Totalitarismo"
+  ], correct: 0 },
+{ q: "En la teoría cíclica de Platón y Aristóteles, ¿qué forma de gobierno surge luego de la Demagogia?",
+  options: ["La Oligarquía", "La Aristocracia", "Nuevamente la Monarquía", "El ciclo se detiene en la Demagogia"], correct: 2 },
+{ q: "Las clasificaciones MODERNAS o CONTEMPORÁNEAS de formas de gobierno son:",
+  options: [
+    "Monarquía, Aristocracia y Democracia",
+    "Democracia, Autocracias y Totalitarismos",
+    "Tiranía, Oligarquía y Demagogia",
+    "Presidencialismo, Parlamentarismo y Semipresidencialismo"
+  ], correct: 1 },
+{ q: "De la pregunta '¿Quién debe mandar?' se deriva el:",
+  options: ["Principio de Bien Común", "Principio del Gobierno del Pueblo", "Principio de Separación de Poderes", "Principio de Juridicidad"], correct: 1 },
+{ q: "La pregunta '¿Cómo debe mandar?' se relaciona principalmente con:",
+  options: [
+    "El principio del Bien Común",
+    "El principio del ejercicio del poder relegado (sujeción a la Constitución y las leyes)",
+    "La soberanía de la nación",
+    "El autogobierno colectivo"
+  ], correct: 1 },
+{ q: "Según el apunte, el Bien Común involucra tres factores:",
+  options: [
+    "Paz social, Justicia y Bienestar",
+    "Libertad, Igualdad y Fraternidad",
+    "Territorio, Pueblo y Poder",
+    "Centralización, Desconcentración y Descentralización"
+  ], correct: 0 },
+{ q: "En un Régimen Autoritario:",
+  options: [
+    "Existe plena participación del pueblo en la formación de la voluntad estatal",
+    "Un único detentador del poder (persona, asamblea, comité, junta o partido) monopoliza el poder sin participación real del pueblo",
+    "Existe una efectiva separación de poderes",
+    "Siempre coincide exactamente con un régimen totalitario"
+  ], correct: 1 },
+{ q: "Una característica propia y distintiva del Totalitarismo es:",
+  options: [
+    "La existencia de partido único, ideología única y excluyente, y control de toda la vida individual y colectiva",
+    "La falta de controles al poder, únicamente",
+    "La existencia de elecciones libres y periódicas",
+    "La descentralización administrativa amplia"
+  ], correct: 0 },
+{ q: "¿Quién utilizó por primera vez el concepto 'lo Stato' en su obra 'El Príncipe'?",
+  options: ["Thomas Hobbes", "Nicolás Maquiavelo", "Hans Kelsen", "Jean-Jacques Rousseau"], correct: 1 },
+{ q: "La CONCEPCIÓN JURÍDICA del Estado, según Jellinek, lo define como:",
+  options: [
+    "Una comunidad de individuos con finalidad permanente asentada en un territorio",
+    "Una unidad de asociación dotada de poder de dominación",
+    "Una corporación formada por un pueblo, dotada de poder de mando originario y asentada en un territorio determinado",
+    "Una estructura de dominio renovada mediante un obrar común"
+  ], correct: 2 },
+{ q: "Según Hans Kelsen, el Estado es:",
+  options: [
+    "La personificación del orden jurídico que lo constituye",
+    "Un contrato social entre individuos libres",
+    "Una agrupación humana orientada al bien común",
+    "El titular abstracto y permanente del poder del que los gobernantes son agentes pasajeros"
+  ], correct: 0 },
+{ q: "Los elementos o condiciones de existencia del Estado, según la Teoría del Estado, son:",
+  options: [
+    "Constitución, leyes y reglamentos",
+    "Grupo humano (pueblo), territorio y poder",
+    "Ejecutivo, Legislativo y Judicial",
+    "Centralización, desconcentración y descentralización"
+  ], correct: 1 },
+{ q: "La diferencia entre 'pueblo' y 'población' radica en que:",
+  options: [
+    "Son conceptos idénticos",
+    "La población es un grupo humano más abarcador (todos con derechos y obligaciones civiles); el pueblo corresponde solo a los ciudadanos (con derechos políticos)",
+    "El pueblo es más amplio que la población",
+    "La población se refiere exclusivamente a extranjeros"
+  ], correct: 1 },
+{ q: "El territorio del Estado debe ser, según el apunte:",
+  options: [
+    "Estable, excluyente y limitado",
+    "Ilimitado y compartido con otros Estados",
+    "Solo terrestre, sin considerar espacio aéreo ni marítimo",
+    "Definido únicamente por la voluntad del gobernante de turno"
+  ], correct: 0 },
+{ q: "¿Cuál de las siguientes NO es una característica del Poder Estatal según la Teoría del Estado?",
+  options: [
+    "Soberanía",
+    "Poder temporal",
+    "Monopolio legítimo de la fuerza",
+    "Poder revocable libremente por cualquier ciudadano en cualquier momento"
+  ], correct: 3 },
+{ q: "¿Cuál de los siguientes NO es uno de los 5 principios en que se materializa el Estado de Derecho?",
+  options: [
+    "Supremacía constitucional",
+    "Principio de juridicidad o legalidad",
+    "Principio de democracia directa obligatoria",
+    "Principio de separación de poderes"
+  ], correct: 2 },
+{ q: "¿Qué autor contractualista sostiene que el ser humano es 'malo' por naturaleza y que el Estado (Leviatán) surge para garantizar la supervivencia mediante un pacto?",
+  options: ["John Locke", "Thomas Hobbes", "Jean-Jacques Rousseau", "Aristóteles"], correct: 1 },
+{ q: "Para John Locke, los derechos naturales que el Estado debe resguardar son:",
+  options: [
+    "Vida, libertad y propiedad",
+    "Igualdad, fraternidad y seguridad social",
+    "Soberanía, territorio y poder",
+    "Bien común, justicia y paz"
+  ], correct: 0 },
+{ q: "Según Rousseau, la ley que rige al Estado es una manifestación de:",
+  options: ["La voluntad del monarca", "La voluntad general", "El derecho natural inmutable", "La soberanía externa"], correct: 1 },
+{ q: "El Estado que posee un solo centro de imputación política y gubernamental, un solo ordenamiento jurídico y una sola Constitución se denomina:",
+  options: ["Estado Federal", "Estado Unitario", "Estado Confederado", "Estado Regional Autónomo"], correct: 1 },
+{ q: "La DESCONCENTRACIÓN administrativa se caracteriza porque el órgano desconcentrado:",
+  options: [
+    "Tiene personalidad jurídica y patrimonio propios",
+    "Carece de personalidad jurídica propia y actúa con la personalidad jurídica del órgano central",
+    "Es completamente autónomo respecto del poder central",
+    "Solo puede existir en un Estado Federal"
+  ], correct: 1 },
+{ q: "Según Antonio Carro, el Estado Federal se define atendiendo a:",
+  options: [
+    "La soberanía: 'unión de Estados en torno a una soberanía común a todos ellos'",
+    "El orden constitucional imperante (pluralidad de ordenamientos subordinados a uno)",
+    "La necesidad de descentralización política funcional y territorial",
+    "La forma de gobierno presidencial"
+  ], correct: 0 },
+{ q: "Según Hermann Heller, el Estado es una 'estructura de dominio duraderamente renovada' a través de:",
+  options: [
+    "Un obrar común actualizado representativamente, que ordena en última instancia los actos sociales sobre un territorio determinado",
+    "Un contrato social entre hombres libres e iguales",
+    "La personificación del orden jurídico que lo constituye",
+    "Un pacto de sumisión absoluta a un soberano"
+  ], correct: 0 },
+{ q: "Para Burdeau, el Estado es:",
+  options: [
+    "El titular abstracto y permanente del PODER, del que los gobernantes son solo agentes esencialmente pasajeros",
+    "Una corporación dotada de poder de mando originario",
+    "Una agrupación humana fijada en un territorio, orientada al bien común",
+    "La personificación del orden jurídico"
+  ], correct: 0 },
+{ q: "En la analogía de Hauriou que compara al Estado con un tren, las 'vías' (rieles) representan:",
+  options: [
+    "El pueblo",
+    "La Constitución y las leyes",
+    "Los gobernantes",
+    "El territorio"
+  ], correct: 1 },
+{ q: "El Principio de Responsabilidad del Estado deriva de:",
+  options: [
+    "La personalidad jurídica del Estado (Fisco), que le permite responder patrimonialmente por los daños que cause",
+    "La soberanía externa del Estado",
+    "El monopolio legítimo de la fuerza",
+    "El principio de separación de poderes"
+  ], correct: 0 },
+{ q: "El 'Fin Objetivo' del Estado corresponde a:",
+  options: [
+    "El Bien Común",
+    "Los contenidos variables según la doctrina política de turno",
+    "La supervivencia del gobernante",
+    "El monopolio de la fuerza"
+  ], correct: 0 },
+{ q: "El 'Fin Subjetivo' del Estado se refiere a:",
+  options: [
+    "Los contenidos o propósitos variables que cada doctrina política o ideología asigna al Estado",
+    "El Bien Común, igual para todos los Estados",
+    "La paz social exclusivamente",
+    "El territorio del Estado"
+  ], correct: 0 },
+{ q: "Según García-Pelayo, el Estado Federal implica una división del poder político territorial en la que:",
+  options: [
+    "Existe un poder único para ciertas materias y una pluralidad de poderes regionales para otras",
+    "Todo el poder reside exclusivamente en los Estados miembros",
+    "No existe distribución de competencias",
+    "El poder central carece de Constitución propia"
+  ], correct: 0 },
+{ q: "Una de las características fundamentales del Estado Federal es que posee:",
+  options: [
+    "Una Constitución Federal rígida, con supremacía sobre las constituciones de los Estados miembros",
+    "Tantas constituciones nacionales como Estados miembros, sin jerarquía entre ellas",
+    "Un sistema unicameral obligatorio",
+    "Ausencia total de poder central"
+  ], correct: 0 },
+{ q: "EE.UU. y Alemania comparten la misma Forma de Estado (Federal), pero difieren en su Forma de Gobierno porque:",
+  options: [
+    "EE.UU. es presidencial y Alemania es parlamentaria",
+    "EE.UU. es unitario y Alemania es federal",
+    "Alemania no tiene Constitución escrita",
+    "EE.UU. tiene monarquía y Alemania república"
+  ], correct: 0 },
+{ q: "La Soberanía, como característica del Poder Estatal, implica una supremacía que, según el art. 5 inc. 2 de la CPR, está:",
+  options: [
+    "Limitada por los derechos esenciales que emanan de la naturaleza humana",
+    "Sin límite alguno",
+    "Limitada solo por tratados internacionales de comercio",
+    "Subordinada a la voluntad de otros Estados"
+  ], correct: 0 },
+{ q: "El 'poder temporal' del Estado, en oposición al poder 'espiritual' de la Iglesia, fue desarrollado conceptualmente por:",
+  options: ["Max Weber", "Aristóteles", "Rousseau", "Polibio"], correct: 0 },
+{ q: "El 'monopolio legítimo de la fuerza' como característica del Poder Estatal significa que:",
+  options: [
+    "Solo el Estado está autorizado para usar la fuerza coactiva conforme al ordenamiento jurídico",
+    "Cualquier ciudadano puede usar la fuerza libremente",
+    "La fuerza es ejercida exclusivamente por organismos internacionales",
+    "El Estado renuncia al uso de la fuerza"
+  ], correct: 0 },
+{ q: "Que el Poder Estatal sea 'institucionalizado' significa que:",
+  options: [
+    "El Estado es el titular del poder, y los gobernantes son solo agentes temporales que lo ejercen",
+    "El poder pertenece personalmente al gobernante de turno",
+    "El poder no tiene ningún titular",
+    "El poder se transmite por herencia obligatoriamente"
+  ], correct: 0 },
+{ q: "México y Chile comparten la misma Forma de Gobierno (presidencial), pero difieren en su Forma de Estado porque:",
+  options: [
+    "México es Federal y Chile es Unitario",
+    "México es Unitario y Chile es Federal",
+    "Ambos son monarquías",
+    "Chile no tiene Constitución"
+  ], correct: 0 },
+{ q: "Marcel Prélot define al Estado Federal en función de:",
+  options: [
+    "La pluralidad de ordenamientos constitucionales coordinados con uno de carácter principal",
+    "La inexistencia de Constitución alguna",
+    "La unión exclusivamente económica de Estados",
+    "La ausencia de poder central"
+  ], correct: 0 },
+{ q: "Según Montesquieu, la separación de poderes tiene como finalidad principal:",
+  options: [
+    "Evitar la concentración y el abuso del poder",
+    "Aumentar la eficiencia administrativa del Estado",
+    "Eliminar la existencia del Poder Judicial",
+    "Unificar todos los poderes en el Poder Ejecutivo"
+  ], correct: 0 },
+{ q: "En un régimen parlamentario, el Jefe de Gobierno:",
+  options: [
+    "Surge de la mayoría parlamentaria y puede ser removido mediante un voto de censura",
+    "Es elegido directamente por el pueblo y no responde ante el Parlamento",
+    "No existe, pues el Jefe de Estado ejerce ambas funciones",
+    "Es designado por el Poder Judicial"
+  ], correct: 0 },
+{ q: "Una de las diferencias entre el régimen presidencial y el parlamentario es que en el presidencial:",
+  options: [
+    "El Presidente es Jefe de Estado y Jefe de Gobierno a la vez, elegido por un período fijo",
+    "El Presidente puede ser censurado por el Parlamento en cualquier momento",
+    "No existe separación entre el Ejecutivo y el Legislativo",
+    "El Poder Ejecutivo depende exclusivamente del Poder Judicial"
+  ], correct: 0 },
+{ q: "El régimen semipresidencial (o mixto) se caracteriza por:",
+  options: [
+    "La coexistencia de un Presidente con legitimidad propia y un Primer Ministro responsable ante el Parlamento",
+    "La ausencia total de un Jefe de Estado",
+    "La elección del Presidente exclusivamente por el Parlamento",
+    "La fusión absoluta entre el Ejecutivo y el Judicial"
+  ], correct: 0 },
+{ q: "La Monarquía, como forma de gobierno, se distingue de la República principalmente porque:",
+  options: [
+    "En la Monarquía la Jefatura del Estado es vitalicia y normalmente hereditaria; en la República es temporal y electiva",
+    "En la Monarquía no existe Constitución",
+    "En la República el poder es vitalicio y hereditario",
+    "Ambas formas son idénticas en su origen"
+  ], correct: 0 },
+{ q: "Una Confederación de Estados se diferencia de una Federación en que:",
+  options: [
+    "En la Confederación los Estados miembros conservan su soberanía y el vínculo es de derecho internacional; en la Federación la soberanía corresponde al Estado Federal",
+    "En la Confederación existe un solo ordenamiento jurídico interno",
+    "La Federación es un vínculo meramente contractual entre Estados soberanos",
+    "No existe diferencia relevante entre ambas"
+  ], correct: 0 },
+{ q: "La soberanía popular, a diferencia de la soberanía nacional, sostiene que:",
+  options: [
+    "La titularidad de la soberanía reside en el conjunto de ciudadanos actualmente vivos, quienes la ejercen directamente",
+    "La soberanía reside en una entidad abstracta (la Nación) distinta de los individuos concretos",
+    "La soberanía no puede ejercerse jamás",
+    "Solo el monarca es titular de la soberanía"
+  ], correct: 0 },
+{ q: "Según Max Weber, la legitimidad de tipo 'carismática' se basa en:",
+  options: [
+    "Las cualidades excepcionales atribuidas a un líder",
+    "La tradición y la costumbre",
+    "La legalidad de las normas y procedimientos",
+    "La herencia familiar exclusivamente"
+  ], correct: 0 },
+{ q: "El Estado Social de Derecho, a diferencia del Estado Liberal clásico, incorpora:",
+  options: [
+    "Una función prestacional del Estado orientada a garantizar derechos económicos y sociales",
+    "La abstención absoluta del Estado en materia económica",
+    "La eliminación del principio de legalidad",
+    "La supresión de los derechos individuales"
+  ], correct: 0 },
+{ q: "Un 'gobierno de facto' es aquel que:",
+  options: [
+    "Accede o se mantiene en el poder al margen de los procedimientos constitucionales establecidos",
+    "Es elegido conforme a elecciones libres y periódicas",
+    "Cuenta siempre con plena legitimidad de origen",
+    "Es sinónimo de gobierno parlamentario"
+  ], correct: 0 },
+{ q: "Los partidos políticos cumplen, entre otras, la función de:",
+  options: [
+    "Canalizar la participación ciudadana y articular la representación política",
+    "Sustituir completamente a los órganos del Estado",
+    "Ejercer la función jurisdiccional",
+    "Eliminar el pluralismo político"
+  ], correct: 0 },
+{ q: "Los grupos de presión (o de interés) se diferencian de los partidos políticos porque:",
+  options: [
+    "Buscan influir en las decisiones del poder sin pretender ejercerlo directamente mediante la conquista de cargos públicos",
+    "Siempre participan en elecciones para obtener cargos públicos",
+    "No tienen ningún interés en la política",
+    "Son idénticos a los partidos políticos"
+  ], correct: 0 },
+{ q: "El Poder Constituyente, en contraposición a los poderes constituidos, se caracteriza por:",
+  options: [
+    "Ser el poder originario que crea o reforma la Constitución, anterior y superior a los poderes ordinarios",
+    "Estar sometido íntegramente a la Constitución vigente",
+    "Ser idéntico al Poder Judicial",
+    "No existir en los Estados democráticos"
+  ], correct: 0 },
+{ q: "El principio de 'supremacía constitucional' implica que:",
+  options: [
+    "La Constitución prevalece sobre cualquier otra norma del ordenamiento jurídico, que debe ajustarse a ella",
+    "La Constitución puede ser modificada por cualquier ley ordinaria",
+    "Las leyes prevalecen sobre la Constitución",
+    "La Constitución no tiene fuerza vinculante"
+  ], correct: 0 },
+{ q: "El sufragio universal, como expresión del Gobierno del Pueblo, supone:",
+  options: [
+    "El derecho a voto de todos los ciudadanos sin discriminaciones arbitrarias por sexo, raza, religión o condición económica",
+    "El voto reservado solo a una élite social",
+    "La obligatoriedad de votar por un único partido",
+    "La exclusión de la mujer del derecho a voto"
+  ], correct: 0 }
 ];
 
-// ════════════════════════════════════════════════════════════
-//  ESTADO
-// ════════════════════════════════════════════════════════════
-let questions = [];
-let current   = 0;
-let answered  = 0;
-let correct   = 0;
-let answered_flags = [];
-let selected_qty = 20;
+// ============ DATOS: PREGUNTAS DE VERDADERO O FALSO ============
+const vfData = [
+{ s: "El régimen político siempre coincide exactamente con la forma de gobierno establecida en la Constitución y las leyes.",
+  a: false, exp: "El régimen político (estructura real) puede coincidir o no con la regulación jurídica (forma de gobierno); de no coincidir, se habla de un gobierno ilegal o ilegítimo." },
+{ s: "Para Aristóteles, la Monarquía es una forma política pura mientras el gobernante busque el Bien Común.",
+  a: true, exp: "Las formas puras (Monarquía, Aristocracia, Politeia) tienen como finalidad el Bien Común; si se corrompen, degeneran en formas viciosas." },
+{ s: "La Demagogia es la forma corrompida de la Aristocracia.",
+  a: false, exp: "La Demagogia es la degeneración de la Democracia/Politeia. La Oligarquía es la degeneración de la Aristocracia." },
+{ s: "En la teoría cíclica de Platón y Aristóteles, la Tiranía surge de la corrupción de la Monarquía.",
+  a: true, exp: "Correcto: Monarquía → Tiranía → (golpe/revolución) → Aristocracia → Oligarquía → Democracia → Demagogia → Monarquía." },
+{ s: "La forma de gobierno mixta de Polibio se representó en Roma mediante los Cónsules (Monarquía), el Senado (Aristocracia) y los Comicios (Democracia).",
+  a: true, exp: "Así es: esos tres órganos representaron las tres formas de gobierno combinadas en la Roma republicana." },
+{ s: "Las clasificaciones modernas de formas de gobierno incluyen Monarquía, Aristocracia y Democracia.",
+  a: false, exp: "Esas son clasificaciones CLÁSICAS (Aristóteles). Las clasificaciones modernas son Democracia, Autocracias y Totalitarismos." },
+{ s: "El principio del Gobierno del Pueblo deriva de la pregunta '¿Quién debe mandar?'.",
+  a: true, exp: "Correcto. De esa pregunta se deriva el Principio del Gobierno del Pueblo (y el autogobierno del pueblo)." },
+{ s: "Según el apunte, el Bien Común es exclusivamente la suma de los bienes individuales (concepción individualista).",
+  a: false, exp: "El Bien Común no es ni puramente colectivista ni puramente individualista; involucra Paz social, Justicia y Bienestar de todos y cada uno." },
+{ s: "En un régimen autoritario existe siempre una efectiva división de poderes.",
+  a: false, exp: "En las autocracias (incluido el régimen autoritario) NO existe división de poderes; el poder se concentra en un único detentador." },
+{ s: "El Totalitarismo se caracteriza por partido único, ideología única y excluyente, y un aparato policial compulsivo.",
+  a: true, exp: "Correcto, son características propias del Régimen Totalitario." },
+{ s: "Nicolás Maquiavelo fue el primero en usar el concepto 'lo Stato' en su obra 'El Príncipe'.",
+  a: true, exp: "Correcto, en el siglo XVI, durante el Renacimiento, en Florencia." },
+{ s: "Existen más de 145 definiciones doctrinarias del concepto de Estado.",
+  a: true, exp: "Correcto, según el apunte, la determinación conceptual del Estado no está exenta de polémica y existen más de 145 definiciones." },
+{ s: "Según Jellinek, la concepción SOCIOLÓGICA del Estado lo define como una corporación dotada de poder de mando originario.",
+  a: false, exp: "Esa es la concepción JURÍDICA. La concepción sociológica define al Estado como una comunidad/unidad de asociación de hombres asentados en un territorio, con finalidad permanente." },
+{ s: "Para Kelsen, el Estado es la personificación del orden jurídico que lo constituye.",
+  a: true, exp: "Correcto, esa es la concepción jurídica de Kelsen: el Estado se identifica con el orden jurídico." },
+{ s: "El concepto de 'pueblo' es más abarcador (amplio) que el concepto de 'población'.",
+  a: false, exp: "Es al revés: la población es más abarcadora (todos con derechos y obligaciones civiles); el pueblo es solo el conjunto de ciudadanos con derechos políticos." },
+{ s: "El territorio del Estado debe ser estable, excluyente y limitado.",
+  a: true, exp: "Correcto, son las tres condiciones que debe cumplir el territorio del Estado." },
+{ s: "La soberanía interna del Estado se relaciona con su independencia respecto de otros Estados.",
+  a: false, exp: "Eso corresponde a la soberanía EXTERNA. La soberanía interna se relaciona con la dominación y la aplicación de las leyes dentro del territorio." },
+{ s: "El Estado de Derecho se materializa en 5 principios: supremacía constitucional, juridicidad, control, responsabilidad y separación de poderes.",
+  a: true, exp: "Correcto, esos son los 5 principios del Estado de Derecho según el apunte." },
+{ s: "Para Hobbes, el ser humano es bueno por naturaleza y no necesita de un Estado para vivir en paz.",
+  a: false, exp: "Para Hobbes, el ser humano es 'malo' por naturaleza y, sin un poder común, vive en un 'estado de guerra de todos contra todos'; el Leviatán surge para garantizar la paz y la supervivencia." },
+{ s: "Para Locke, los derechos naturales (vida, libertad y propiedad) son anteriores al Estado y deben ser resguardados por este.",
+  a: true, exp: "Correcto, esa es la base de la teoría contractualista de Locke." },
+{ s: "Rousseau sostiene que la ley es una manifestación de la voluntad general.",
+  a: true, exp: "Correcto, esa es la idea central del Contrato Social de Rousseau." },
+{ s: "Un Estado Unitario posee múltiples centros de imputación política y gubernamental.",
+  a: false, exp: "El Estado Unitario posee un SOLO centro de imputación política y gubernamental, un solo ordenamiento jurídico y una sola Constitución." },
+{ s: "En la Desconcentración, el órgano desconcentrado tiene personalidad jurídica y patrimonio propios.",
+  a: false, exp: "Eso es propio de la DESCENTRALIZACIÓN. El órgano desconcentrado carece de personalidad jurídica y patrimonio propios, y actúa con la personalidad jurídica del órgano central." },
+{ s: "Chile se configura constitucionalmente como un Estado Unitario y presidencialista (semipresidencial moderado, según algunos autores).",
+  a: true, exp: "Correcto, según el apunte (y el profesor Meléndez), Chile es un Estado Unitario con un presidencialismo moderado." },
+{ s: "En el Estado Federal, la soberanía es divisible entre el Estado Federal y los Estados miembros.",
+  a: false, exp: "La soberanía es INDIVISIBLE y corresponde al Estado Federal; los Estados miembros gozan de autonomía, pero no de soberanía propia." },
+{ s: "Heller define al Estado como una 'estructura de dominio duraderamente renovada a través de un obrar común actualizado representativamente'.",
+  a: true, exp: "Correcto, esa es la definición de Heller, que añade que dicho obrar ordena en última instancia los actos sociales sobre un territorio determinado." },
+{ s: "Para Burdeau, los gobernantes son los titulares permanentes del poder del Estado.",
+  a: false, exp: "Para Burdeau, el Estado es el titular ABSTRACTO y PERMANENTE del poder; los gobernantes son solo agentes esencialmente pasajeros." },
+{ s: "En la analogía de Hauriou, los 'conductores' del tren representan a los gobernantes, mientras que las vías representan la Constitución y las leyes.",
+  a: true, exp: "Correcto. El tren representa al Estado, las vías la Constitución y las leyes, y los conductores los gobernantes que se turnan en su manejo." },
+{ s: "El Principio de Responsabilidad del Estado deriva de su personalidad jurídica (Fisco), que le permite responder patrimonialmente por los daños que cause.",
+  a: true, exp: "Correcto, la personalidad jurídica del Estado fundamenta tanto el principio de responsabilidad como la existencia de un patrimonio propio." },
+{ s: "El Fin Objetivo del Estado corresponde al Bien Común, mientras que el Fin Subjetivo varía según la doctrina política.",
+  a: true, exp: "Correcto. El Bien Común es el fin objetivo (común a todo Estado); el fin subjetivo depende de la ideología o doctrina política de turno." },
+{ s: "El Fin Subjetivo del Estado es idéntico en todos los Estados, sin importar su ideología.",
+  a: false, exp: "El Fin Subjetivo es precisamente el que VARÍA según la doctrina política o ideología que oriente al Estado." },
+{ s: "Según García-Pelayo, en el Estado Federal existe un poder único para ciertas materias y una pluralidad de poderes regionales para otras.",
+  a: true, exp: "Correcto, esa es la división del poder político territorial descrita por García-Pelayo." },
+{ s: "La Constitución Federal en un Estado Federal carece de supremacía sobre las constituciones de los Estados miembros.",
+  a: false, exp: "Al contrario: la Constitución Federal es rígida y tiene supremacía sobre las constituciones de los Estados miembros." },
+{ s: "EE.UU. y Alemania son ambos Estados Federales, pero EE.UU. tiene un régimen presidencial y Alemania uno parlamentario.",
+  a: true, exp: "Correcto, comparten la Forma de Estado (Federal) pero difieren en su Forma de Gobierno." },
+{ s: "La soberanía del Estado, conforme al art. 5 inc. 2 de la CPR chilena, no reconoce límite alguno.",
+  a: false, exp: "El ejercicio de la soberanía está limitado por el respeto a los derechos esenciales que emanan de la naturaleza humana." },
+{ s: "Max Weber vinculó el concepto de 'poder temporal' del Estado a la separación entre el poder de la Iglesia y el poder del Estado.",
+  a: true, exp: "Correcto, Weber analizó esa separación entre el poder espiritual (Iglesia) y el poder temporal (Estado)." },
+{ s: "El 'monopolio legítimo de la fuerza' implica que cualquier particular puede ejercer la fuerza coactiva sin sujeción al ordenamiento jurídico.",
+  a: false, exp: "Es lo contrario: solo el Estado, conforme al ordenamiento jurídico, está legitimado para el uso de la fuerza coactiva." },
+{ s: "Que el poder estatal sea 'institucionalizado' significa que el Estado es su titular y los gobernantes son agentes esencialmente pasajeros y temporales.",
+  a: true, exp: "Correcto, esa es la idea de la institucionalización del poder." },
+{ s: "Chile y México comparten la misma Forma de Gobierno (presidencial), pero Chile es un Estado Unitario y México un Estado Federal.",
+  a: true, exp: "Correcto, ambos tienen Forma de Gobierno presidencial, pero difieren en su Forma de Estado." },
+{ s: "Según Marcel Prélot, el Estado Federal se caracteriza por la pluralidad de ordenamientos constitucionales subordinados a uno de carácter principal.",
+  a: true, exp: "Correcto, esa es la definición de Estado Federal según Prélot." },
+{ s: "Montesquieu sostuvo que la concentración de los poderes Legislativo, Ejecutivo y Judicial en una misma persona u órgano atenta contra la libertad.",
+  a: true, exp: "Correcto, esa es la base de su teoría de la separación de poderes." },
+{ s: "En un régimen parlamentario, el Jefe de Gobierno es independiente del Parlamento y no puede ser removido por este.",
+  a: false, exp: "Al contrario: el Jefe de Gobierno surge de la mayoría parlamentaria y puede ser removido mediante un voto de censura o de confianza." },
+{ s: "En el régimen presidencial, el Presidente es elegido por un período fijo y no depende de la confianza del Parlamento para mantenerse en el cargo.",
+  a: true, exp: "Correcto, esa es una característica distintiva del presidencialismo frente al parlamentarismo." },
+{ s: "El régimen semipresidencial combina elementos del presidencialismo y del parlamentarismo.",
+  a: true, exp: "Correcto, coexisten un Presidente con legitimidad propia y un Primer Ministro responsable ante el Parlamento." },
+{ s: "En la Monarquía, la Jefatura del Estado se transmite generalmente por herencia y tiene carácter vitalicio.",
+  a: true, exp: "Correcto, esa es la característica distintiva de la Monarquía frente a la República." },
+{ s: "En una República, el Jefe de Estado es designado por sucesión hereditaria y de forma vitalicia.",
+  a: false, exp: "En la República el cargo de Jefe de Estado es de origen electivo y de carácter temporal." },
+{ s: "En la Confederación de Estados, cada Estado miembro conserva su soberanía y el vínculo entre ellos se rige por el derecho internacional.",
+  a: true, exp: "Correcto, a diferencia de la Federación, en la Confederación los Estados miembros siguen siendo soberanos." },
+{ s: "En la Federación, los Estados miembros conservan la soberanía y el Estado Federal carece de ella.",
+  a: false, exp: "Es al revés: la soberanía corresponde al Estado Federal; los Estados miembros gozan de autonomía, pero no de soberanía propia." },
+{ s: "La soberanía nacional radica la titularidad de la soberanía en la Nación como entidad abstracta, distinta de la suma de individuos concretos.",
+  a: true, exp: "Correcto, a diferencia de la soberanía popular, que la radica en el conjunto de ciudadanos vivos." },
+{ s: "Según Max Weber, la legitimidad tradicional se fundamenta en la creencia en la santidad de ordenaciones y poderes señoriales heredados del pasado.",
+  a: true, exp: "Correcto, esa es la legitimidad tradicional, distinta de la carismática y la legal-racional." },
+{ s: "El Estado Liberal clásico se caracteriza por una amplia intervención del Estado en la economía y en la garantía de derechos sociales.",
+  a: false, exp: "Eso corresponde al Estado Social de Derecho. El Estado Liberal clásico se caracteriza por la abstención estatal en lo económico y social." },
+{ s: "Un gobierno de facto se caracteriza por respetar íntegramente los procedimientos constitucionales de acceso al poder.",
+  a: false, exp: "Precisamente lo contrario: un gobierno de facto accede o se mantiene en el poder al margen de tales procedimientos." },
+{ s: "Los grupos de presión, a diferencia de los partidos políticos, no buscan ejercer directamente el poder mediante la conquista de cargos públicos.",
+  a: true, exp: "Correcto, buscan influir en las decisiones del poder sin pretender ocuparlo directamente." },
+{ s: "El Poder Constituyente originario es jerárquicamente superior a los poderes constituidos, como el Legislativo, Ejecutivo y Judicial.",
+  a: true, exp: "Correcto, el Poder Constituyente crea o reforma la Constitución y es anterior y superior a los poderes ordinarios que ella misma instituye." },
+{ s: "El sufragio universal admite restricciones del derecho a voto basadas en el sexo o la condición económica del votante.",
+  a: false, exp: "El sufragio universal precisamente excluye discriminaciones arbitrarias por sexo, raza, religión o condición económica." }
+];
 
-// ── helpers ──
-function shuffle(arr) {
-  let a = [...arr];
-  for (let i = a.length-1; i>0; i--) {
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
+// ============ UTILIDADES ============
+function shuffle(array){
+  const arr = array.slice();
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return a;
+  return arr;
 }
 
-function buildQuestions(qty) {
-  let pool = shuffle(ALL_QUESTIONS);
-  if (qty > 0) pool = pool.slice(0, qty);
-  return pool.map(q => {
-    const opts = shuffle([
-      {text: q.correct, correct: true},
-      ...q.wrong.map(w => ({text: w, correct: false}))
-    ]);
-    return { tag: q.tag, q: q.q, opts, chosen: null };
+function showTab(tab){
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  document.querySelectorAll('.tab-btn')[tab === 'mc' ? 0 : 1].classList.add('active');
+}
+
+// ============ OPCIÓN MÚLTIPLE ============
+let mcScore = 0;
+
+function initMC(){
+  mcScore = 0;
+  document.getElementById('mc-score').textContent = '0';
+  document.getElementById('mc-total').textContent = mcData.length;
+  const container = document.getElementById('mc-questions');
+  container.innerHTML = '';
+
+  const shuffledQuestions = shuffle(mcData);
+
+  shuffledQuestions.forEach((item, idx) => {
+    // Mezclar opciones manteniendo referencia al texto correcto
+    const correctText = item.options[item.correct];
+    const opts = shuffle(item.options.map((text, i) => ({ text, isCorrect: i === item.correct })));
+
+    const card = document.createElement('div');
+    card.className = 'question-card';
+
+    const title = document.createElement('h3');
+    title.innerHTML = '<span class="q-number">' + (idx + 1) + '</span>' + item.q;
+    card.appendChild(title);
+
+    const optionsWrap = document.createElement('div');
+
+    opts.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option';
+      btn.textContent = opt.text;
+      btn.onclick = function(){
+        // Deshabilitar todas las opciones de esta tarjeta
+        const allOpts = optionsWrap.querySelectorAll('.option');
+        allOpts.forEach(o => o.classList.add('disabled'));
+        allOpts.forEach(o => o.onclick = null);
+
+        const feedback = document.createElement('div');
+        if(opt.isCorrect){
+          btn.classList.add('correct');
+          feedback.className = 'feedback ok';
+          feedback.textContent = '✅ ¡Correcto!';
+          mcScore++;
+        } else {
+          btn.classList.add('incorrect');
+          feedback.className = 'feedback bad';
+          feedback.innerHTML = '❌ Incorrecto.<div class="answer-line">Respuesta correcta: ' + correctText + '</div>';
+          // resaltar la opción correcta
+          allOpts.forEach(o => { if(o.textContent === correctText) o.classList.add('correct'); });
+        }
+        card.appendChild(feedback);
+        document.getElementById('mc-score').textContent = mcScore;
+      };
+      optionsWrap.appendChild(btn);
+    });
+
+    card.appendChild(optionsWrap);
+    container.appendChild(card);
   });
 }
 
-// ── render pregunta ──
-function renderQuestion() {
-  const q    = questions[current];
-  const total = questions.length;
-  const pct   = Math.round((current / total) * 100);
+// ============ VERDADERO O FALSO ============
+let vfScore = 0;
 
-  document.getElementById('meta-info').textContent =
-    `Pregunta ${current+1} de ${total}`;
-  document.getElementById('progress-fill').style.width = pct + '%';
+function initVF(){
+  vfScore = 0;
+  document.getElementById('vf-score').textContent = '0';
+  document.getElementById('vf-total').textContent = vfData.length;
+  const container = document.getElementById('vf-questions');
+  container.innerHTML = '';
 
-  const scoreLive = document.getElementById('score-live');
-  scoreLive.style.display = 'inline';
-  scoreLive.textContent = `✔ ${correct} | ✘ ${answered - correct}`;
+  const shuffledQuestions = shuffle(vfData);
 
-  const letters = ['A','B','C','D'];
-  const optsHtml = q.opts.map((o, i) => `
-    <button class="opt-btn" id="opt-${i}" onclick="choose(${i})">
-      <span class="opt-letter">${letters[i]}</span>
-      <span>${o.text}</span>
-    </button>`).join('');
+  shuffledQuestions.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
 
-  document.getElementById('q-container').innerHTML = `
-    <div class="q-card">
-      <div class="q-num">Pregunta ${current+1} / ${total}
-        <span class="tag">${q.tag}</span>
-      </div>
-      <div class="q-text">${q.q}</div>
-      <div class="options">${optsHtml}</div>
-      <div class="feedback-box" id="feedback"></div>
-    </div>`;
+    const title = document.createElement('h3');
+    title.innerHTML = '<span class="q-number">' + (idx + 1) + '</span>' + item.s;
+    card.appendChild(title);
 
-  document.getElementById('btn-next').disabled = true;
+    const btnWrap = document.createElement('div');
+    btnWrap.className = 'vf-buttons';
 
-  // si ya respondida (al revisar), restaurar estado
-  if (q.chosen !== null) restoreAnswer();
-}
+    const btnV = document.createElement('button');
+    btnV.className = 'vf-btn';
+    btnV.textContent = 'Verdadero';
 
-function choose(idx) {
-  const q = questions[current];
-  if (q.chosen !== null) return;
-  q.chosen = idx;
-  answered++;
-  answered_flags[current] = true;
+    const btnF = document.createElement('button');
+    btnF.className = 'vf-btn';
+    btnF.textContent = 'Falso';
 
-  const isCorrect = q.opts[idx].correct;
-  if (isCorrect) correct++;
+    function answer(choseTrue){
+      btnV.classList.add('disabled');
+      btnF.classList.add('disabled');
+      btnV.onclick = null;
+      btnF.onclick = null;
 
-  // colorear opciones
-  q.opts.forEach((o, i) => {
-    const btn = document.getElementById(`opt-${i}`);
-    btn.disabled = true;
-    if (i === idx) {
-      btn.classList.add(isCorrect ? 'correct' : 'wrong');
-    } else if (o.correct) {
-      btn.classList.add('revealed');
+      const correctBtn = item.a ? btnV : btnF;
+      const chosenBtn = choseTrue ? btnV : btnF;
+      const feedback = document.createElement('div');
+
+      if(choseTrue === item.a){
+        chosenBtn.classList.add('correct');
+        feedback.className = 'feedback ok';
+        feedback.innerHTML = '✅ ¡Correcto! <div class="answer-line">' + item.exp + '</div>';
+        vfScore++;
+      } else {
+        chosenBtn.classList.add('incorrect');
+        correctBtn.classList.add('correct');
+        feedback.className = 'feedback bad';
+        feedback.innerHTML = '❌ Incorrecto. La respuesta correcta es <strong>' + (item.a ? 'Verdadero' : 'Falso') + '</strong>.<div class="answer-line">' + item.exp + '</div>';
+      }
+      card.appendChild(feedback);
+      document.getElementById('vf-score').textContent = vfScore;
     }
+
+    btnV.onclick = function(){ answer(true); };
+    btnF.onclick = function(){ answer(false); };
+
+    btnWrap.appendChild(btnV);
+    btnWrap.appendChild(btnF);
+    card.appendChild(btnWrap);
+    container.appendChild(card);
   });
-
-  // feedback
-  const fb = document.getElementById('feedback');
-  if (isCorrect) {
-    fb.className = 'feedback-box show ok';
-    fb.innerHTML = '✅ <strong>¡Correcto!</strong>';
-  } else {
-    const correctText = q.opts.find(o => o.correct).text;
-    fb.className = 'feedback-box show err';
-    fb.innerHTML = `❌ <strong>Incorrecto.</strong> La respuesta correcta es: <em>${correctText}</em>`;
-  }
-
-  document.getElementById('btn-next').disabled = false;
-
-  // actualizar live score
-  const scoreLive = document.getElementById('score-live');
-  scoreLive.textContent = `✔ ${correct} | ✘ ${answered - correct}`;
-
-  // mostrar "Ver resultados" si es la última
-  if (current === questions.length - 1) {
-    document.getElementById('btn-finish').style.display = 'inline-block';
-  }
 }
 
-function restoreAnswer() {
-  const q = questions[current];
-  q.opts.forEach((o, i) => {
-    const btn = document.getElementById(`opt-${i}`);
-    btn.disabled = true;
-    if (i === q.chosen) {
-      btn.classList.add(q.opts[i].correct ? 'correct' : 'wrong');
-    } else if (o.correct) {
-      btn.classList.add('revealed');
-    }
-  });
-  document.getElementById('btn-next').disabled = false;
-  if (current === questions.length - 1) {
-    document.getElementById('btn-finish').style.display = 'inline-block';
-  }
-}
-
-function next() {
-  if (current < questions.length - 1) {
-    current++;
-    renderQuestion();
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  } else {
-    finish();
-  }
-}
-
-function finish() {
-  document.getElementById('screen-quiz').style.display = 'none';
-  document.getElementById('screen-result').style.display = 'block';
-  document.getElementById('progress-fill').style.width = '100%';
-  document.getElementById('meta-info').textContent = 'Prueba finalizada';
-  document.getElementById('score-live').style.display = 'none';
-
-  const total = questions.length;
-  const pct   = Math.round((correct / total) * 100);
-
-  document.getElementById('res-num').textContent = correct;
-  document.getElementById('res-den').textContent = '/ ' + total;
-
-  let nota, color, msg, sub;
-  if (pct >= 90)      { nota='7.0'; color='#1B6B3A'; msg='¡Excelente!'; sub='Dominas los contenidos de ambas unidades.'; }
-  else if (pct >= 75) { nota='6.0'; color='#2B5EA7'; msg='¡Muy bien!'; sub='Buen manejo de los conceptos principales.'; }
-  else if (pct >= 60) { nota='5.0'; color='#92640A'; msg='Aprobado'; sub='Repasa los temas donde fallaste.'; }
-  else if (pct >= 45) { nota='4.0'; color='#D4720A'; msg='Suficiente'; sub='Necesitas reforzar varios conceptos.'; }
-  else                { nota='3.0'; color='#8B1A1A'; msg='Insuficiente'; sub='Repasa el material y vuelve a intentarlo.'; }
-
-  const nb = document.getElementById('nota-badge');
-  nb.textContent = `Nota aproximada: ${nota}`;
-  nb.style.background = color + '22';
-  nb.style.color = color;
-  nb.style.border = `2px solid ${color}`;
-
-  document.getElementById('res-msg').textContent = msg + ` — ${pct}% correcto`;
-  document.getElementById('res-sub').textContent = sub;
-
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function toggleReview() {
-  const panel = document.getElementById('review-panel');
-  if (panel.style.display === 'none') {
-    buildReview();
-    panel.style.display = 'block';
-  } else {
-    panel.style.display = 'none';
-  }
-}
-
-function buildReview() {
-  const list = document.getElementById('review-list');
-  list.innerHTML = questions.map((q, i) => {
-    const chosen   = q.chosen;
-    const isOk     = chosen !== null && q.opts[chosen].correct;
-    const correct_ = q.opts.find(o => o.correct).text;
-    const chosen_  = chosen !== null ? q.opts[chosen].text : '(no respondida)';
-    return `<div class="review-item ${isOk ? 'ok-item' : 'err-item'}">
-      <div class="ri-q">${i+1}. ${q.q} <span class="tag">${q.tag}</span></div>
-      <div class="ri-a">Tu respuesta: <span class="${isOk ? 'ri-c' : 'ri-w'}">${chosen_}</span></div>
-      ${!isOk ? `<div class="ri-a">Correcta: <span class="ri-c">${correct_}</span></div>` : ''}
-    </div>`;
-  }).join('');
-}
-
-function restart() {
-  questions = buildQuestions(selected_qty);
-  current   = 0;
-  answered  = 0;
-  correct   = 0;
-  answered_flags = [];
-  document.getElementById('screen-result').style.display = 'none';
-  document.getElementById('review-panel').style.display = 'none';
-  document.getElementById('screen-quiz').style.display = 'block';
-  document.getElementById('btn-finish').style.display = 'none';
-  document.getElementById('progress-fill').style.width = '0%';
-  renderQuestion();
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-// ── Selección cantidad ──
-document.querySelectorAll('.config-box').forEach(el => {
-  el.addEventListener('click', () => {
-    document.querySelectorAll('.config-box').forEach(e => e.classList.remove('selected'));
-    el.classList.add('selected');
-    selected_qty = parseInt(el.dataset.qty);
-  });
-});
-
-document.getElementById('btn-start').addEventListener('click', () => {
-  questions = buildQuestions(selected_qty);
-  current   = 0;
-  answered  = 0;
-  correct   = 0;
-  answered_flags = [];
-  document.getElementById('screen-start').style.display = 'none';
-  document.getElementById('screen-quiz').style.display = 'block';
-  document.getElementById('btn-finish').style.display = 'none';
-  document.getElementById('progress-fill').style.width = '0%';
-  renderQuestion();
-});
+// ============ INICIALIZAR ============
+initMC();
+initVF();
 </script>
+
 </body>
 </html>
